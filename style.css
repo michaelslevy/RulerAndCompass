@@ -1,0 +1,110 @@
+html, body {
+	position:relative;
+	height:100%;
+}
+
+body {
+	margin:2% 2% 0 2%;
+	background:black;
+	height:95%;
+}
+
+#frame {
+	border:solid 1px #999;
+	height:calc(96% - 50px);
+	margin:0;
+	position:relative;
+	background:#eee;;
+}
+
+#nest {
+	width:100%;
+	height:100%;
+}
+
+.guideline {
+	stroke:#aaa;
+	stroke-width:1;
+}
+
+.preview_line {
+	stroke:#01D7E5;
+	stroke-width:1;
+	fill:none;
+}	
+
+.gridline {
+	stroke:#aaa;
+	stroke-width:1;
+}
+
+.centerpoint {
+	stroke-width:0;
+	fill:#333;
+}
+
+.intersection {
+	stroke-width:0;
+	fill:#aaa; 
+}
+
+#intersection_points.hidden  .intersection{
+	fill-opacity:0; 
+}
+
+.intersection:hover,
+ #intersection_points.hidden  .intersection :hover{
+	fill:blue;
+	fill-opacity:1; 
+}
+
+.principal {
+	stroke:#333;
+	stroke-width:1;
+	fill:#fff;
+}
+
+#guidecircles .guide {
+	stroke:#aaa;
+	stroke-width:1;
+	fill:none;
+}
+
+
+
+/* buttons */
+
+nav#toolbox {
+	margin-bottom:10px;
+}
+
+nav#toolbox button {
+	background:url(icons.png) #666 no-repeat 4px center;
+	width:40px;
+	height:40px;
+	display: inline-block;
+	border:solid 2px transparent;
+	border-radius:4px;
+	margin-right:5px;
+}
+
+nav#toolbox button#lineMode {
+	
+}
+
+nav#toolbox button#CircleCenterMode {
+	background-position: center center;
+}
+
+nav#toolbox button#CircleEdgeMode {
+	background-position:-65px center;
+}
+
+nav#toolbox button:hover {
+	border:solid 2px #bbb;	
+}	
+
+nav#toolbox button.active {
+	background-color:#333;
+	border:solid 2px #666;
+}
