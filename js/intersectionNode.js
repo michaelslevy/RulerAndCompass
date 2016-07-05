@@ -12,25 +12,26 @@ var IntersectionNode = function(coords,elems){
 		if(node==false){
 			drawNode();
 		} else {
-			addNodeElements(node);
+			addNodeElement(node);
 		}
 	}
 	init();
 	
 	 function nodeExists(){
 	 	var coord=self.intersectionCoords;
-	 	var l=0;
+	 	var exists=false;
 		$("#intersection_points circle").each(function(){
 			
 			var cx=Number($(this).attr('cx'));
 			var cy=Number($(this).attr('cy'));
-						
+            						
 			if(cx==coord.x && cy==coord.y){
-				return "match";l;
-			} 
+				exists =true;
+                return;
+			}
 			
 		});
-		return false;
+		return exists;
 	}
 	
 	//if not: draw node
@@ -40,7 +41,7 @@ var IntersectionNode = function(coords,elems){
 	}
 	
 	//else: add element id to node
-	var addNodeElement=function(){
+	function addNodeElement(node){
 		
 	}
 	
