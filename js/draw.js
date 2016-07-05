@@ -42,22 +42,29 @@ var DrawApp = function(){
 	//alert(keycode);
 	
 		switch (keycode){
+            //esc    
 			case 27:
 				reset_vars();
 			break;
-			
+                 
+            //m    
+            case 77:
+                changeMode();
+			break;    
+			//= (+)
 			case 187:
 				zoomIn();
 			break;
-			
+			//-
 			case 189:
 				zoomOut();
 			break;
-			
+			//0
 			case 48:
 				zoomReset();
 			break;
 			
+            //.
 			case 190:
 				hideIntersectionPoints();
 			break;	
@@ -251,6 +258,23 @@ var DrawApp = function(){
 	var zoomReset=function(){
 		
 	}
+    
+    function changeMode(){
+        $("#toolbox button").removeClass("active");
+        
+        if(mode=="circle-edge"){
+            mode="line";
+            $("#lineMode").addClass("active");
+        } 
+        else if(mode=="circle-center"){
+            mode="circle-edge";   
+            $("#CircleEdgeMode").addClass("active");
+        }
+        else if(mode=="line"){
+            mode="circle-center";   
+            $("#CircleCenterMode").addClass("active");
+        }    
+    }    
 	
 	var hideIntersectionPoints=function(){
 		if($("#intersection_points").hasClass("hidden")==true){
