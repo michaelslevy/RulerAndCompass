@@ -228,14 +228,15 @@ var DrawApp = function(){
 			$("#guidecircles").CircleDraw();
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
-			//$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection"});
+			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection"});
 			$("#guidelines").Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
 			coordDictionary.currentElement=$("line").last(); 
 			coordDictionary.find_coords(); 
 			
 			$("#guidelines").Guideline({x1:0,y1:yCoord,x2:frameWidth,y2:yCoord}).draw();
 			coordDictionary.currentElement=$("line").last();
-			coordDictionary.find_coords(); 
+			coordDictionary.find_coords();
+            $("#guidelines line").remove();
 		
 	}
 	
