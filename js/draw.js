@@ -104,6 +104,9 @@ var DrawApp = function(){
 			//ending coordinates
 			newLineCoord.x2=my_x;
 			newLineCoord.y2=my_y;
+            
+            $("line.preview_line").attr({"x2":my_x, "y2":my_y});
+            
 			var current_line; 
 
 						
@@ -192,8 +195,11 @@ var DrawApp = function(){
 		var y1v=newLineCoord.y1;
 		var x2v=newLineCoord.x2;
 		var y2v=newLineCoord.y2;
+                
 		var magnitude=$("line.preview_line").LineEquation().getMagnitude();
-
+    
+        //console.log("x1: "+x1v+"y1: "+y1v+" x2: "+x2v+"y:2 "+y2v+" magnatude:"+magnitude);
+        
 		var attrs={
 			cx:x1v,
 			cy:y1v,
