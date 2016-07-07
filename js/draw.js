@@ -36,6 +36,7 @@ var DrawApp = function(){
     //Register Keyboard Events
    $(document).keyup(function(e) {
 	  e = e || window.event; 
+       
 	  var charCode = e.charCode || e.keyCode, character = String.fromCharCode(charCode);
 	  var keycode=e.keyCode;    
 	
@@ -71,6 +72,23 @@ var DrawApp = function(){
 		}	  
 
 	});
+    
+    $(document).keydown(function(event) {
+        
+      //  alert(event.which);
+        if (event.ctrlKey==true && (event.which == '187' || event.which == '189')) {
+            event.preventDefault();
+         }
+        
+        if(event.which == '187') {
+            zoomIn();
+        }
+        
+        else if(event.which == '189') {
+            zoomOut();
+        }
+        
+    });
 	 
 	//document.getElementById("frame").addEventListener("click", function(e){
 	// document.addEventListener("click", function(e){
@@ -254,16 +272,40 @@ var DrawApp = function(){
 	}
 	
 	var zoomIn=function(){
-		
+        var scale=Number($("#nest").attr("data-scale")).toFixed(4);
+        if(typeof scale=="undefined" || scale <=0 || isNaN(scale)==true){
+            scale=1;   
+        }    
+        
+        scale=scale*1.1;
+        
+        $("#nest").attr("data-scale", scale).css("transform", "scale("+scale+","+scale+")");
+        updateZoomDimension(scale);
+        
 	}
 	
 	var zoomOut=function(){
-		
+		var scale=Number($("#nest").attr("data-scale")).toFixed(4);
+        if(typeof scale=="undefined" || scale <=0 || isNaN(scale)==true){
+            scale=1;   
+        }    
+        
+        scale=scale*.9;
+        
+        $("#nest").attr("data-scale", scale).css("transform", "scale("+scale+","+scale+")");
+         updateZoomDimension(scale);
 	}
 	
 	var zoomReset=function(){
-		
+        scale=1;
+		$("#nest").attr("data-scale", scale).css("transform", "scale("+scale+","+scale+")");
+        updateZoomDimension(scale);
 	}
+    
+    var updateZoomDimension=function(scale){
+        var nodeRadius=5/scale;
+        $("#nest #intersection_points circle").attr("r",nodeRadius);
+    }    
     
     function changeMode(){
         $("#toolbox button").removeClass("active");
