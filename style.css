@@ -14,7 +14,8 @@ body {
 	height:calc(96% - 50px);
 	margin:0;
 	position:relative;
-	background:#eee;;
+	background:#eee;
+    overflow: hidden;
 }
 
 #nest {

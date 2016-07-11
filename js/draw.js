@@ -149,6 +149,7 @@ var DrawApp = function(){
 				
 			}
 			
+            
 			coordDictionary.currentElement=current_line; 
 			coordDictionary.find_coords(); 
 		
@@ -179,6 +180,7 @@ var DrawApp = function(){
 		newLineCoord.x2="nan";
 		newLineCoord.y2="nan";
 		$('.preview_line').remove();
+        updateZoomDimension();
 	}
 	
 	function add_line(){
@@ -302,9 +304,14 @@ var DrawApp = function(){
         updateZoomDimension(scale);
 	}
     
-    var updateZoomDimension=function(scale){
-        var nodeRadius=5/scale;
+    var updateZoomDimension=function(){
+        var scale=$("#nest").attr("data-scale");
+        if(typeof scale=="undefined"){ return false; }
+        var nodeRadius=(5/scale).toFixed(2);
+        var lineWidth=(1/scale).toFixed(2);
         $("#nest #intersection_points circle").attr("r",nodeRadius);
+         $("#nest circle").css("stroke-width",lineWidth);
+         $("#nest line").css("stroke-width",lineWidth);
     }    
     
     function changeMode(){
