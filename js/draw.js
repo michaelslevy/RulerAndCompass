@@ -16,8 +16,8 @@ var DrawApp = function(){
 	  */
 	 
 	var clicknum=0; 
-	
 	var mode="line";
+    var pan=false;
 	
 	var newLineCoord = {
         x1: "nan",
@@ -33,6 +33,24 @@ var DrawApp = function(){
     self.init();
     
     
+    $(window).resize(updateWindow());
+    
+    $(document).keydown(function(e) {
+        e = e || window.event; 
+       
+	   var charCode = e.charCode || e.keyCode, character = String.fromCharCode(charCode);
+	   var keycode=e.keyCode; 
+        
+       switch (keycode){
+            //space    
+			case 32:
+               var parent_offset=jQuery('#nest').parent().offset();
+               if(pan==false){pan="newPan"};
+			break;
+       }       
+        
+    } );   
+    
     //Register Keyboard Events
    $(document).keyup(function(e) {
 	  e = e || window.event; 
@@ -47,7 +65,11 @@ var DrawApp = function(){
 			case 27:
 				reset_vars();
 			break;
-                 
+                
+            case 32:
+				pan=false;
+			break;
+                
             //m    
             case 77:
                 changeMode();
@@ -161,16 +183,36 @@ var DrawApp = function(){
 	
 	/* MOUSE MOVE */
 	document.onmousemove = function(e) { 
-		if(newLineCoord.x1!='nan' ) {
+        
+        if(pan != false){
+            if(pan=="newPan"){
+                var parent_offset=jQuery('#nest').parent().offset();
+                var  x=parseInt(e.pageX-parent_offset.left);
+			     var  y=parseInt(e.pageY-parent_offset.top);
+                pan=new Coords(x,y);
+            }    
+            panViewBox(e);
+        }    
+        
+        //draw preview line
+        if(newLineCoord.x1!='nan' ) {
+            var scale=Number($("#nest").attr("data-scale"));
+            if(typeof scale=="undefined"){ scale=1; }
+            
+            
 			$('.preview_line').remove();
 			var parent_offset=jQuery('#nest').parent().offset();
 			newLineCoord.x2=parseInt(e.pageX-parent_offset.left);
 			newLineCoord.y2=parseInt(e.pageY-parent_offset.top);
+            
 			jQuery('#preview').Guideline({css_class:"preview_line",x1: newLineCoord.x1, y1:newLineCoord.y1, x2:newLineCoord.x2, y2:newLineCoord.y2}).draw();
 			if(mode=="circle-center" || mode=="circle-edge"){
 				add_circle("preview_line");
 			}
-		} 
+            
+           
+        } 
+        
 	}
 	
 	function reset_vars(){ 
@@ -270,6 +312,8 @@ var DrawApp = function(){
 			coordDictionary.currentElement=$("line").last();
 			coordDictionary.find_coords();
             $("#guidelines line").remove();
+        
+            updateWindow();
 		
 	}
 	
@@ -312,7 +356,43 @@ var DrawApp = function(){
         $("#nest #intersection_points circle").attr("r",nodeRadius);
          $("#nest circle").css("stroke-width",lineWidth);
          $("#nest line").css("stroke-width",lineWidth);
+    }  
+    
+    function updateWindow(){
+        var w=parseInt($("#frame").width());
+        var h=parseInt($("#frame").height());
+        var l=parseInt($("#nest").attr("data-left"));
+        var t=parseInt($("#nest").attr("data-top"));
+        
+        $("#nest").attr("data-width",w).attr("data-height",h);
+        document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
+        
     }    
+    
+    var panViewBox = function(e){
+        
+        //get current mouse coordinates
+        var parent_offset=jQuery('#nest').parent().offset();
+		var curX=parseInt(e.pageX-parent_offset.left);
+		var curY=parseInt(e.pageY-parent_offset.top);
+            
+        //get difference of current and pan
+        var xDiff=pan.x-curX;
+        var yDiff=pan.y-curY;
+        
+        //add to viewport paramaeters
+        
+        var viewX=parseInt($("#nest").attr("data-left"));
+        var viewY=parseInt($("#nest").attr("data-top"));
+        
+        var w=$("#nest").attr("data-width");
+        var h=$("#nest").attr("data-height");
+        var l = viewX+xDiff;
+        var t= viewY+yDiff;
+        
+        document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
+        
+    }  
     
     function changeMode(){
         $("#toolbox button").removeClass("active");
