@@ -184,6 +184,25 @@ var DrawApp = function(){
 	/* MOUSE MOVE */
 	document.onmousemove = function(e) { 
         
+        var parent_offset=jQuery('#nest').parent().offset();
+        var followX=parseInt(e.pageX-parent_offset.left);
+		var followY=parseInt(e.pageY-parent_offset.top);
+        
+        var viewBox=document.getElementById("nest").getAttribute("viewBox");
+        var viewBox_a=viewBox.match(/-?[\d\.]+/g);
+        var pan_offset_x=parseInt(viewBox_a[0]);
+        var pan_offset_y=parseInt(viewBox_a[1]);
+        followX=followX+pan_offset_x;
+        followY=followY+pan_offset_y;
+        
+        
+        //console.log(pan_offset_x,pan_offset_y);
+        //captures scale values
+        //var matrix=$("#nest").css("transform");
+        // values = matrix.match(/-?[\d\.]+/g);
+
+        //    $(".follower").attr("cx",followX).attr("cy",followY);
+        
         if(pan != false){
             if(pan=="newPan"){
                 var parent_offset=jQuery('#nest').parent().offset();
@@ -196,14 +215,14 @@ var DrawApp = function(){
         
         //draw preview line
         if(newLineCoord.x1!='nan' ) {
-            var scale=Number($("#nest").attr("data-scale"));
-            if(typeof scale=="undefined"){ scale=1; }
-            
+            //var scale=Number($("#nest").attr("data-scale"));
+            //if(typeof scale=="undefined"){ scale=1; }
+            var panOffset=getPanOffset();
             
 			$('.preview_line').remove();
 			var parent_offset=jQuery('#nest').parent().offset();
-			newLineCoord.x2=parseInt(e.pageX-parent_offset.left);
-			newLineCoord.y2=parseInt(e.pageY-parent_offset.top);
+			newLineCoord.x2=parseInt(e.pageX-parent_offset.left)+panOffset["x"];
+			newLineCoord.y2=parseInt(e.pageY-parent_offset.top)+panOffset["y"];
             
 			jQuery('#preview').Guideline({css_class:"preview_line",x1: newLineCoord.x1, y1:newLineCoord.y1, x2:newLineCoord.x2, y2:newLineCoord.y2}).draw();
 			if(mode=="circle-center" || mode=="circle-edge"){
@@ -238,6 +257,11 @@ var DrawApp = function(){
 	function add_circle(className){
 		//define variables
 		var myClass=className;
+        var group="#guidecircles";
+        if(myClass=="preview_line"){
+            group="#preview";
+        }  
+        
 		//get circle attributes from click distance & mode
 		if(mode=="circle-center"){
 			var attrs=calculateCircleCenterAttrs();
@@ -246,8 +270,10 @@ var DrawApp = function(){
 			var attrs=calculateCircleEdgeAttrs();
 		}
 		
+          
+        
 		//draw circle
-		$("#guidecircles").CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className }); 
+		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className }); 
 
 	}
 	
@@ -373,8 +399,10 @@ var DrawApp = function(){
         
         //get current mouse coordinates
         var parent_offset=jQuery('#nest').parent().offset();
-		var curX=parseInt(e.pageX-parent_offset.left);
-		var curY=parseInt(e.pageY-parent_offset.top);
+		//var curX=parseInt(e.pageX-parent_offset.left);
+		//var curY=parseInt(e.pageY-parent_offset.top);
+        var curX=parseInt(e.pageX);
+		var curY=parseInt(e.pageY);
             
         //get difference of current and pan
         var xDiff=pan.x-curX;
@@ -389,10 +417,20 @@ var DrawApp = function(){
         var h=$("#nest").attr("data-height");
         var l = viewX+xDiff;
         var t= viewY+yDiff;
-        
+                
         document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
-        
     }  
+    
+    var getPanOffset=function(){
+        var offset=[];
+        var viewBox=document.getElementById("nest").getAttribute("viewBox");
+        var viewBox_a=viewBox.match(/-?[\d\.]+/g);
+        var pan_offset_x=parseInt(viewBox_a[0]);
+        var pan_offset_y=parseInt(viewBox_a[1]);
+        offset["x"]=pan_offset_x;
+        offset["y"]=pan_offset_y;  
+        return offset;
+    }    
     
     function changeMode(){
         $("#toolbox button").removeClass("active");
