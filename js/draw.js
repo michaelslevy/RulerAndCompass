@@ -401,8 +401,8 @@ var DrawApp = function(){
         var parent_offset=jQuery('#nest').parent().offset();
 		//var curX=parseInt(e.pageX-parent_offset.left);
 		//var curY=parseInt(e.pageY-parent_offset.top);
-        var curX=parseInt(e.pageX);
-		var curY=parseInt(e.pageY);
+        var curX=parseInt(e.pageX)-parent_offset.left;
+		var curY=parseInt(e.pageY)-parent_offset.top;
             
         //get difference of current and pan
         var xDiff=pan.x-curX;
@@ -410,7 +410,7 @@ var DrawApp = function(){
         
         //add to viewport paramaeters
         
-        console.log(pan.x, curX);
+        console.log(pan.y, curY);
         
         var viewX=parseInt($("#nest").attr("data-left"));
         var viewY=parseInt($("#nest").attr("data-top"));
