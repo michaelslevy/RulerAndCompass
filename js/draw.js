@@ -410,8 +410,6 @@ var DrawApp = function(){
         
         //add to viewport paramaeters
         
-        console.log(pan.y, curY);
-        
         var viewX=parseInt($("#nest").attr("data-left"));
         var viewY=parseInt($("#nest").attr("data-top"));
         
@@ -423,14 +421,22 @@ var DrawApp = function(){
         document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
     }  
     
-    var setPanOffset=function(){
+    var getPanOffset =function(){
         var offset=[];
         var viewBox=document.getElementById("nest").getAttribute("viewBox");
         var viewBox_a=viewBox.match(/-?[\d\.]+/g);
         var pan_offset_x=parseInt(viewBox_a[0]);
         var pan_offset_y=parseInt(viewBox_a[1]);
-        var viewX=$("#nest").attr("data-left",pan_offset_x);
-        var viewY=$("#nest").attr("data-top",pan_offset_y);
+        offset['x']=pan_offset_x;
+        offset['y']=pan_offset_y;
+        return offset;
+    }    
+    
+    var setPanOffset=function(){
+        var offset=getPanOffset();
+        
+        var viewX=$("#nest").attr("data-left",offset["x"]);
+        var viewY=$("#nest").attr("data-top",offset["y"]);
     }    
     
     function changeMode(){
