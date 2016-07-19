@@ -18,6 +18,7 @@ var DrawApp = function(){
 	var clicknum=0; 
 	var mode="line";
     var pan=false;
+    var panMode=false;
 	
 	var newLineCoord = {
         x1: "nan",
@@ -35,22 +36,6 @@ var DrawApp = function(){
     
     $(window).resize(updateWindow());
     
-    $(document).keydown(function(e) {
-        e = e || window.event; 
-       
-	   var charCode = e.charCode || e.keyCode, character = String.fromCharCode(charCode);
-	   var keycode=e.keyCode; 
-        
-       switch (keycode){
-            //space    
-			case 32:
-               var parent_offset=jQuery('#nest').parent().offset();
-               if(pan==false){pan="newPan"};
-			break;
-       }       
-        
-    } );   
-    
     //Register Keyboard Events
    $(document).keyup(function(e) {
 	  e = e || window.event; 
@@ -67,7 +52,9 @@ var DrawApp = function(){
 			break;
                 
             case 32:
-				pan=false;
+                console.log("stop");
+				panMode=false;
+                setPanOffset();
 			break;
                 
             //m    
@@ -94,7 +81,7 @@ var DrawApp = function(){
 		}	  
 
 	});
-    
+        
     $(document).keydown(function(event) {
         
       //  alert(event.which);
@@ -109,6 +96,17 @@ var DrawApp = function(){
         else if(event.which == '189') {
             zoomOut();
         }
+        
+        var keycode=event.keyCode; 
+        
+        switch (keycode){
+            //space    
+			case 32:
+                if(pan==false){pan="newPan";}
+                if(panMode==false){ panMode="start";}
+                
+			break;
+       }       
         
     });
 	 
@@ -203,12 +201,14 @@ var DrawApp = function(){
 
         //    $(".follower").attr("cx",followX).attr("cy",followY);
         
-        if(pan != false){
-            if(pan=="newPan"){
+        if(panMode != false){
+            if(panMode=="start"){
                 var parent_offset=jQuery('#nest').parent().offset();
                 var  x=parseInt(e.pageX-parent_offset.left);
 			     var  y=parseInt(e.pageY-parent_offset.top);
+               
                 pan=new Coords(x,y);
+                panMode=true;
             }    
             panViewBox(e);
         }    
@@ -410,6 +410,8 @@ var DrawApp = function(){
         
         //add to viewport paramaeters
         
+        console.log(pan.x, curX);
+        
         var viewX=parseInt($("#nest").attr("data-left"));
         var viewY=parseInt($("#nest").attr("data-top"));
         
@@ -417,19 +419,18 @@ var DrawApp = function(){
         var h=$("#nest").attr("data-height");
         var l = viewX+xDiff;
         var t= viewY+yDiff;
-                
+                        
         document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
     }  
     
-    var getPanOffset=function(){
+    var setPanOffset=function(){
         var offset=[];
         var viewBox=document.getElementById("nest").getAttribute("viewBox");
         var viewBox_a=viewBox.match(/-?[\d\.]+/g);
         var pan_offset_x=parseInt(viewBox_a[0]);
         var pan_offset_y=parseInt(viewBox_a[1]);
-        offset["x"]=pan_offset_x;
-        offset["y"]=pan_offset_y;  
-        return offset;
+        var viewX=$("#nest").attr("data-left",pan_offset_x);
+        var viewY=$("#nest").attr("data-top",pan_offset_y);
     }    
     
     function changeMode(){
