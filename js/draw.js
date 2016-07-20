@@ -194,12 +194,11 @@ var DrawApp = function(){
         followY=followY+pan_offset_y;
         
         
-        //console.log(pan_offset_x,pan_offset_y);
         //captures scale values
         //var matrix=$("#nest").css("transform");
         // values = matrix.match(/-?[\d\.]+/g);
 
-        //    $(".follower").attr("cx",followX).attr("cy",followY);
+       // $(".follower").attr("cx",followX).attr("cy",followY);
         
         if(panMode != false){
             if(panMode=="start"){
@@ -220,9 +219,9 @@ var DrawApp = function(){
             var panOffset=getPanOffset();
             
 			$('.preview_line').remove();
-			var parent_offset=jQuery('#nest').parent().offset();
-			newLineCoord.x2=parseInt(e.pageX-parent_offset.left)+panOffset["x"];
-			newLineCoord.y2=parseInt(e.pageY-parent_offset.top)+panOffset["y"];
+            var mouseCoords=scaleMouseCoords(e);
+			newLineCoord.x2=mouseCoords["x"]+panOffset["x"];
+			newLineCoord.y2=mouseCoords["y"]+panOffset["y"];
             
 			jQuery('#preview').Guideline({css_class:"preview_line",x1: newLineCoord.x1, y1:newLineCoord.y1, x2:newLineCoord.x2, y2:newLineCoord.y2}).draw();
 			if(mode=="circle-center" || mode=="circle-edge"){
@@ -269,8 +268,6 @@ var DrawApp = function(){
 		else if(mode=="circle-edge"){
 			var attrs=calculateCircleEdgeAttrs();
 		}
-		
-          
         
 		//draw circle
 		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className }); 
@@ -329,7 +326,7 @@ var DrawApp = function(){
 			$("#guidecircles").CircleDraw();
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
-			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection"});
+			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint"});
 			$("#guidelines").Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
 			coordDictionary.currentElement=$("line").last(); 
 			coordDictionary.find_coords(); 
@@ -437,6 +434,52 @@ var DrawApp = function(){
         
         var viewX=$("#nest").attr("data-left",offset["x"]);
         var viewY=$("#nest").attr("data-top",offset["y"]);
+    }    
+    
+    /* method converts window coordinate system to zoom system  */
+    var scaleMouseCoords=function(e){
+        
+        /*  Get current Mouse Position position */
+        var parent_offset=jQuery('#nest').parent().offset();
+        var x=parseInt(e.pageX-parent_offset.left);
+        var y=parseInt(e.pageY-parent_offset.top);
+        
+        /* Get scale and invert */
+        var scale=Number($("#nest").attr("data-scale"));
+        var invertedRatio=1/scale;
+        
+        var compensated = []; 
+        
+        //find compensated value
+        if(typeof scale!="undefined"){
+        
+            /* get intersection points */
+            var centerX=Number($(".intersectionPoint").attr("cx"));
+            var centerY=Number($(".intersectionPoint").attr("cy"));
+
+            /* convert to centerpoint coordinate */
+            var relX=x-centerX;
+            var relY=y-centerY;
+
+            /* Scale coordinates */
+            var scaled_x=invertedRatio*relX;
+            var scaled_y=invertedRatio*relY;
+
+            /* convert to window coordinate */
+            var absX=scaled_x+centerX;
+            var absY=scaled_y+centerY;
+
+            compensated["x"]=absX;
+            compensated["y"]=absY;   
+        
+        } else {
+            compensated["x"]=x;
+            compensated["y"]=y;  
+        }    
+         
+        /* return values */
+        return compensated;
+        
     }    
     
     function changeMode(){
