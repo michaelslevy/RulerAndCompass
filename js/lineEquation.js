@@ -1,6 +1,7 @@
 ;(function ( $, window, document, undefined ) {
 	$.fn.LineEquation = function(settings){
 		 var self=this;
+         var precision=6;
     
 		  var config = {
 			slope:"nan",
@@ -55,7 +56,7 @@
 			//find x and y
 			var x=config.x1-config.x2;
 			var y=config.y1-config.y2;
-			
+			            
 			//Pythagorean Theorem
 			config.magnitude=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 		}
@@ -82,9 +83,6 @@
 			var x=(Math.abs(config.x1-config.x2)/2)+xStart;
 			var y=(Math.abs(config.y1-config.y2)/2)+yStart;
 			
-			
-			//console.log(xStart,config.x1,config.x2, (config.x1-config.x2), Math.abs(config.x1-config.x2), Math.abs(config.x1-config.x2)/2);
-			
 			var midpoint=new Coords(x,y);
 				
 			return midpoint;
@@ -97,7 +95,6 @@
 			var yi=config.y_intercept;
 			
 			config.known_x=(ky-yi)/slope;
-			//console.log("("+kx+ ", "+config.known_y+")");
 			
 			return config.known_x;
 		}

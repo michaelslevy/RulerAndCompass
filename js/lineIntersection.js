@@ -3,6 +3,7 @@ var LineIntersections = function(){
     this.line1Id="";
     this.line2Id="";
     this.coords='';
+    var precision=6;
     
     this.line1Attributes={
 	  	x1:"",
@@ -81,7 +82,7 @@ var LineIntersections = function(){
 		var c=this.line1Attributes.yIntercept;
 		var d=this.line2Attributes.yIntercept;
 		
-		var x=(d-c)/(a-b);
+		var x=(d-c)/(a-b).toFixed();
 		var y=a*((d-c)/(a-b))+c;
 		
 		this.coords=new Coords(x,y); 

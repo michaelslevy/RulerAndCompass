@@ -6,9 +6,9 @@
 	$.fn.CircleEquation = function(settings){
 		 var self=this;  	
     		
-    	circle1=new Circle(0,0,0);
-		circle2=new Circle(0,0,0);
-		line=new Line(0,0,0,0);
+    	var circle1=new Circle(0,0,0);
+		var circle2=new Circle(0,0,0);
+		var line=new Line(0,0,0,0);
     		
 		 var config = {
 			circleToTest:'', //svg circle node to test against
@@ -106,7 +106,6 @@
 	   		}
 		}
 		
-		//TODO: figure out why intersection search fails
 		self.findCircleLineIntersection=function(){
 		
 			if(typeof circle1 ==="undefined"){

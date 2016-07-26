@@ -51,7 +51,7 @@
 
      		for(var xpos=start;xpos<=end; xpos=xpos+this.snapshot_width){
 
-         		my_y=$(this.currentElement).LineEquation({known_x:xpos}).y_from_x().toFixed(2);
+         		my_y=$(this.currentElement).LineEquation({known_x:xpos}).y_from_x();
          		this.add_y_to_dictionary(xpos,my_y );
          		this.check_for_intersections(xpos); 
 
@@ -204,27 +204,28 @@
 			var intersection_point=intersectionCoord.intersection_point();
 			var iCoord=new Coords(intersection_point.x,intersection_point.y);
 			if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
-				var iNode=new IntersectionNode(iCoord,elems);
+				addIntersectionNode(iCoord,elems);
 			}
 		}
 		
 		this.find_circle_intersections=function(){
 			var cur=this.currentElement;
 			
-			$("#guidecircles circle").not(this.currentElement).each(function(){
-				var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
-				console.log(intersects);
-				var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
+			$("#guidecircles circle").not(this.currentElement).not(".preview_line").each(function(){
+
+                var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
+
+                var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
 												
 				if(intersects[0]!=false && typeof intersects[0]!="undefined"){
 					//make intersection node
 					var iCoord=new Coords(intersects[0].x,intersects[0].y);
-					var iNode=new IntersectionNode(iCoord,elems);
+					addIntersectionNode(iCoord,elems);
 				} 
  				if(intersects[1]!=false && typeof intersects[1]!="undefined"){
  					//make intersection node
  					var iCoord=new Coords(intersects[1].x,intersects[1].y);
- 					var iNode=new IntersectionNode(iCoord,elems);
+ 					addIntersectionNode(iCoord,elems);
 				}
 
 			});
@@ -235,11 +236,11 @@
 								
 				if(intersects[0]){
 					var iCoord=new Coords(intersects[0].x,intersects[0].y);
-					var iNode=new IntersectionNode(iCoord,elems);
+					addIntersectionNode(iCoord,elems);
 				} 
  				if(intersects[1]){
 					var iCoord=new Coords(intersects[1].x,intersects[1].y);
-					var iNode=new IntersectionNode(iCoord,elems);
+					addIntersectionNode(iCoord,elems);
 				}
 			});
 			
@@ -256,14 +257,19 @@
 				if(intersects!=false ){ 
 					if(intersects[0]){
 						var iCoord=new Coords(intersects[0].x,intersects[0].y);
-						var iNode=new IntersectionNode(iCoord,elems);
+						addIntersectionNode(iCoord,elems);
 					} 
 	 				if(intersects[1]){
 						var iCoord=new Coords(intersects[1].x,intersects[1].y);
-						var iNode=new IntersectionNode(iCoord,elems);
+						addIntersectionNode(iCoord,elems);
 					}	
 				}
 			});
 		}
+        
+        var addIntersectionNode = function(iCoord,elems){
+
+            var iNode=new IntersectionNode(iCoord,elems); 
+        }    
 		
  	}

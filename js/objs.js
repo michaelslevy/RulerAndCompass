@@ -1,6 +1,6 @@
 var Coords = function(x,y){
 	this.x=x;
-	this.y=y;
+	this.y=y; 
 }
 
 var Circle = function(x,y,radius){

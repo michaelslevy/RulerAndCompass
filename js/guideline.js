@@ -64,7 +64,8 @@
 		    mLine.setAttributeNS(null,"y1",config.y1);
 		    mLine.setAttributeNS(null,"y2",config.y2);
 		    
-		    document.getElementById("guidelines").appendChild(mLine);
+           var theID=$(plugin).attr("id");
+		    document.getElementById(theID).appendChild(mLine);
 		    return plugin;
 		}
 

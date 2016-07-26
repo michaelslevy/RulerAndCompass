@@ -29,6 +29,12 @@ body {
 	stroke-width:1;
 }
 
+.erase .guideline:hover, .erase  #guidecircles .guide:hover {
+    stroke:#01D7E5;
+    fill:#ffffff;
+    opacity: .5;
+}    
+
 .preview_line {
 	stroke:#01D7E5;
 	stroke-width:1;
@@ -91,15 +97,19 @@ nav#toolbox button {
 }
 
 nav#toolbox button#lineMode {
-	
+	background-position: 1px center;
 }
 
 nav#toolbox button#CircleCenterMode {
-	background-position: center center;
+	background-position: -38px center;
 }
 
 nav#toolbox button#CircleEdgeMode {
-	background-position:-65px center;
+	background-position:-78px center;
+}
+
+nav#toolbox button#eraseMode {
+	background-position:-115px center;
 }
 
 nav#toolbox button:hover {

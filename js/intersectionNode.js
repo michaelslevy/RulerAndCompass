@@ -8,8 +8,8 @@ var IntersectionNode = function(coords,elems){
 	//check if exists
 	var init=function(){
 		var node=nodeExists();
-		console.log(node);
-		if(node==false){
+
+        if(node==false){
 			drawNode();
 		} else {
 			addNodeElement(node);

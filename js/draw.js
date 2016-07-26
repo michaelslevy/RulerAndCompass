@@ -19,7 +19,7 @@ var DrawApp = function(){
 	var mode="line";
     var pan=false;
     var panMode=false;
-	
+    
 	var newLineCoord = {
         x1: "nan",
         y1: "nan",
@@ -52,15 +52,26 @@ var DrawApp = function(){
 			break;
                 
             case 32:
-                console.log("stop");
 				panMode=false;
                 setPanOffset();
 			break;
                 
-            //m    
+            case 69:
+                mode="erase";
+                $("#toolbox button").removeClass("active");
+                $("#eraseMode").addClass("active");
+				updateNestClass();
+			break;
+            
+            //c
+            case 67:
+                changeCircleMode();
+            break;    
+            /*//m    
             case 77:
                 changeMode();
-			break;    
+			break;    */
+                
 			//= (+)
 			case 187:
 				zoomIn();
@@ -212,24 +223,29 @@ var DrawApp = function(){
             panViewBox(e);
         }    
         
-        //draw preview line
-        if(newLineCoord.x1!='nan' ) {
-            //var scale=Number($("#nest").attr("data-scale"));
-            //if(typeof scale=="undefined"){ scale=1; }
-            var panOffset=getPanOffset();
-            
-			$('.preview_line').remove();
-            var mouseCoords=scaleMouseCoords(e);
-			newLineCoord.x2=mouseCoords["x"]+panOffset["x"];
-			newLineCoord.y2=mouseCoords["y"]+panOffset["y"];
-            
-			jQuery('#preview').Guideline({css_class:"preview_line",x1: newLineCoord.x1, y1:newLineCoord.y1, x2:newLineCoord.x2, y2:newLineCoord.y2}).draw();
-			if(mode=="circle-center" || mode=="circle-edge"){
-				add_circle("preview_line");
-			}
-            
-           
-        } 
+        if(isDrawMode()==true){
+            //draw preview line
+            if(newLineCoord.x1!='nan' ) {
+                //var scale=Number($("#nest").attr("data-scale"));
+                //if(typeof scale=="undefined"){ scale=1; }
+                var panOffset=getPanOffset();
+
+                $('.preview_line').remove();
+                var mouseCoords=scaleMouseCoords(e);
+                newLineCoord.x2=mouseCoords["x"]+panOffset["x"];
+                newLineCoord.y2=mouseCoords["y"]+panOffset["y"];
+
+                jQuery('#preview').Guideline({css_class:"preview_line",x1: newLineCoord.x1, y1:newLineCoord.y1, x2:newLineCoord.x2, y2:newLineCoord.y2}).draw();
+                if(mode=="circle-center" || mode=="circle-edge"){
+                    add_circle("preview_line");
+                }
+                
+                 var lineWidth= getLineWidth();
+                $("#nest #preview line").css("stroke-width",lineWidth);
+                $("#nest #preview circle").css("stroke-width",lineWidth);
+
+            } 
+        }    
         
 	}
 	
@@ -316,7 +332,16 @@ var DrawApp = function(){
 		$("#toolbox button").removeClass("active");
 		mode=$(this).attr('data-mode');
 		$(this).addClass("active").blur();
+        
+        updateNestClass();
+        
 	});
+    
+    var updateNestClass =function(){
+        $("#nest").removeClass("line").removeClass("erase").removeClass("circle-edge").removeClass("circle-center");
+        
+        $("#nest").addClass(mode);
+    }    
 	
 	function setUpCanvas(){
 		
@@ -375,11 +400,20 @@ var DrawApp = function(){
         var scale=$("#nest").attr("data-scale");
         if(typeof scale=="undefined"){ return false; }
         var nodeRadius=(5/scale).toFixed(2);
-        var lineWidth=(1/scale).toFixed(2);
+        var lineWidth= getLineWidth();
         $("#nest #intersection_points circle").attr("r",nodeRadius);
          $("#nest circle").css("stroke-width",lineWidth);
          $("#nest line").css("stroke-width",lineWidth);
+       
     }  
+    
+    var getLineWidth=function(){
+         var scale=$("#nest").attr("data-scale");
+        if(typeof scale=="undefined"){ return false; }
+        var nodeRadius=(5/scale).toFixed(2);
+        var lineWidth=(1/scale).toFixed(2);
+        return lineWidth;
+    }    
     
     function updateWindow(){
         var w=parseInt($("#frame").width());
@@ -400,10 +434,13 @@ var DrawApp = function(){
 		//var curY=parseInt(e.pageY-parent_offset.top);
         var curX=parseInt(e.pageX)-parent_offset.left;
 		var curY=parseInt(e.pageY)-parent_offset.top;
-            
+        
+        //get curent scale
+        var scale=Number($("#nest").attr("data-scale"));
+        
         //get difference of current and pan
-        var xDiff=pan.x-curX;
-        var yDiff=pan.y-curY;
+        var xDiff=(pan.x-curX)/scale;
+        var yDiff=(pan.y-curY)/scale;
         
         //add to viewport paramaeters
         
@@ -482,21 +519,23 @@ var DrawApp = function(){
         
     }    
     
-    function changeMode(){
+    function changeCircleMode(){
         $("#toolbox button").removeClass("active");
         
         if(mode=="circle-edge"){
-            mode="line";
-            $("#lineMode").addClass("active");
+            mode="circle-center";   
+            $("#CircleCenterMode").addClass("active");
         } 
         else if(mode=="circle-center"){
             mode="circle-edge";   
             $("#CircleEdgeMode").addClass("active");
         }
-        else if(mode=="line"){
-            mode="circle-center";   
+        else {
+           mode="circle-center";   
             $("#CircleCenterMode").addClass("active");
         }    
+        
+        updateNestClass();
     }    
 	
 	var hideIntersectionPoints=function(){
@@ -506,5 +545,28 @@ var DrawApp = function(){
 			$("#intersection_points").addClass("hidden");
 		}
 	}
+            
+    $(document).on("click","circle",function(){
+        //console.log($(this).css("stroke-width"));
+        if(mode=="erase"){
+          $(this).remove();
+        }    
+    });
+    
+    $(document).on("click","line",function(){
+        //console.log($(this).css("stroke-width"));
+        if(mode=="erase"){
+          $(this).remove();
+        }    
+    });
+    
+    var isDrawMode = function(){
+        if(mode=="circle-center" || mode=="circle-edge" || mode=="line"){
+            return true;   
+        }   
+        else {
+            return false
+        }
+    }    
 	
   }
