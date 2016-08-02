@@ -3,7 +3,7 @@ var LineIntersections = function(){
     this.line1Id="";
     this.line2Id="";
     this.coords='';
-    var precision=6;
+    var precision=6;//decimal precision of calculations
     
     this.line1Attributes={
 	  	x1:"",
@@ -31,9 +31,15 @@ var LineIntersections = function(){
 			this.setCoordinates();
 			this.defineSlopesAndIntercepts();
 			this.calculateXYcoordinates();
-			if(this.insideLines()==false){
+           
+			if(this.insideLines()==false ){
 				return false;
-			} else {
+                console.log("outside");
+			} else if(isNaN(this.coords.x)==true){
+                console.log("nan");
+                return false;
+            }    else {
+                console.log(this.coords);
 				return this.coords;
 			}
 		}
@@ -51,7 +57,7 @@ var LineIntersections = function(){
 		this.line2Attributes['y1']=$("line[data-identifier='"+this.line2Id+"']").attr("y1");
 		this.line2Attributes['x2']=$("line[data-identifier='"+this.line2Id+"']").attr("x2");
 		this.line2Attributes['y2']=$("line[data-identifier='"+this.line2Id+"']").attr("y2");
-		
+        		
 	}
 	
 	//get slopes and y intercepts for each line
@@ -60,8 +66,9 @@ var LineIntersections = function(){
 		this.line1Attributes.slope=$("line[data-identifier='"+this.line1Id+"']").LineEquation({x1:this.l1x1,x2:this.l1x2,y1:this.l1y1,y2:this.l1y2}).getSlope();
 	 	this.line1Attributes.yIntercept=$("line[data-identifier='"+this.line1Id+"']").LineEquation({x1:this.l1x1,x2:this.l1x2,y1:this.l1y1,y2:this.l1y2}).getYintercept();
 	 	
-	 	this.line2Attributes.slope=$("line[data-identifier='"+this.line2Id+"']").LineEquation({x1:this.l2x1,x2:this.l2x2,y1:this.l2y1,y2:this.l2y2}).getSlope();;
+	 	this.line2Attributes.slope=$("line[data-identifier='"+this.line2Id+"']").LineEquation({x1:this.l2x1,x2:this.l2x2,y1:this.l2y1,y2:this.l2y2}).getSlope();
 	 	this.line2Attributes.yIntercept=$("line[data-identifier='"+this.line2Id+"']").LineEquation({x1:this.l2x1,x2:this.l2x2,y1:this.l2y1,y2:this.l2y2}).getYintercept();
+
 	}
 	
 	/*
@@ -81,12 +88,17 @@ var LineIntersections = function(){
 		var b=this.line2Attributes.slope;
 		var c=this.line1Attributes.yIntercept;
 		var d=this.line2Attributes.yIntercept;
+        
+        if(typeof a=="undefined" || typeof b=="undefined" || typeof c=="undefined" || typeof d=="undefined"){
+         return false;   
+        }    
 		
 		var x=(d-c)/(a-b).toFixed();
 		var y=a*((d-c)/(a-b))+c;
 		
+        console.log(a,b,c,d,x,y,this.line1Attributes,this.line2Attributes);
+        
 		this.coords=new Coords(x,y); 
-		
 	}
 	
 	//determine whether coordinates lie inside the bounds of the line

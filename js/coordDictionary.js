@@ -200,8 +200,10 @@
 			var intersectionCoord=new LineIntersections(); 
 			intersectionCoord.line1Id=elems[0];
 			intersectionCoord.line2Id=elems[1];
-
+            
 			var intersection_point=intersectionCoord.intersection_point();
+            
+            
 			var iCoord=new Coords(intersection_point.x,intersection_point.y);
 			if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
 				addIntersectionNode(iCoord,elems);
