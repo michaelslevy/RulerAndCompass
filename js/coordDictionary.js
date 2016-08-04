@@ -1,10 +1,15 @@
-	var CoordDictionary = function(settings){
+/* 
+uses sweep line algorithim to efficiently detect intersection points
+https://www.youtube.com/watch?v=_j1Qd9suN0s
+*/
+
+var CoordDictionary = function(settings){
 	  
         var self=this;
-    	this.snapshot_width=10;
-    	this.Dictionary=[];
-    	this.currentElement='';
-    	this.currentElementID='';
+    	self.snapshot_width=10; //x positions are checked at this increment
+    	self.Dictionary=[];
+    	self.currentElement='';
+    	self.currentElementID='';
     	var lastComparison=[];//last comparison list
 	      
         this.find_coords=function(){
@@ -13,8 +18,8 @@
      	 *  It is initially fast, but gets exponentially larger with each line
      	 *  Sweep Line has better worst case with very fast best case scenarios
      	 
-			var ce=this.currentElement;
-			$('line').not(this.currentElement).each(function(){
+			var ce=self.currentElement;
+			$('line').not(self.currentElement).each(function(){
 				var coord=new LineIntersections(); 
 				coord.line1Id=$(ce).attr("data-identifier");
 				coord.line2Id=$(this).attr("data-identifier");
@@ -25,14 +30,14 @@
 			});
 			*/
 						
-			if(this.currentElement.is("circle")==true ) {
+			if(self.currentElement.is("circle")==true ) {
 				this.find_circle_intersections();
 				return;
 			} 
      		
-     		var myX1=parseInt($(this.currentElement).attr("x1"));
-     		var myX2=parseInt($(this.currentElement).attr("x2"));
-     		this.currentElementID=$(this.currentElement).attr("data-identifier");
+     		var myX1=parseInt($(self.currentElement).attr("x1"));
+     		var myX2=parseInt($(self.currentElement).attr("x2"));
+     		self.currentElementID=$(self.currentElement).attr("data-identifier");
      		
      		//check intersections with circles
 			this.findLineCircleIntersections();
@@ -45,13 +50,13 @@
      			min_x=myX1;
      		}  
      		
-     		var start=this.find_start(min_x)-(this.snapshot_width*2); 
-     		var end=max_x+(this.snapshot_width*2);
+     		var start=this.find_start(min_x)-(self.snapshot_width*2); 
+     		var end=max_x+(self.snapshot_width*2);
      		var my_y="nan";
 
-     		for(var xpos=start;xpos<=end; xpos=xpos+this.snapshot_width){
+     		for(var xpos=start;xpos<=end; xpos=xpos+self.snapshot_width){
 
-         		my_y=$(this.currentElement).LineEquation({known_x:xpos}).y_from_x().toFixed(2);
+         		my_y=$(self.currentElement).LineEquation({known_x:xpos}).y_from_x();
          		this.add_y_to_dictionary(xpos,my_y );
          		this.check_for_intersections(xpos); 
 
@@ -60,11 +65,12 @@
          	//reset comparison array
          	lastComparison=[];
          	
-         	if(typeof this.intersections !="undefined"){
+         	//if(typeof this.intersections !="undefined"){
          		//console.log(this.intersections);
-         	}
+         	//}
+            //console.log(self.Dictionary);
          	
-         
+          
      	}
          	
          /*
@@ -74,25 +80,25 @@
 
          /* find the starting snapshot for an element */
          this.find_start=function(min_x){
-         	var mstart =Math.floor(min_x / this.snapshot_width) * this.snapshot_width; 
+         	var mstart =Math.floor(min_x / self.snapshot_width) * self.snapshot_width; 
          	return mstart;
          }
          
          /* Add a Y value to the dictionary paired with the shape id */
 		 this.add_y_to_dictionary=function(my_x,my_y){
-			el_id=$(this.currentElement).attr('data-identifier');
+			el_id=$(self.currentElement).attr('data-identifier');
 	
 			var entry=[];
 			entry.y=my_y;
 			entry.id=el_id;
 			
-			if(typeof this.Dictionary[my_x] === 'undefined') {
-			    this.Dictionary[my_x]=[];
+			if(typeof self.Dictionary[my_x] === 'undefined') {
+			    self.Dictionary[my_x]=[];
 			}
 			
-			this.Dictionary[my_x].push(entry);
-			var enrtySorted=sort_entry(this.Dictionary[my_x]);
-			this.Dictionary[my_x]=enrtySorted;
+			self.Dictionary[my_x].push(entry);
+			var enrtySorted=sort_entry(self.Dictionary[my_x]);
+			self.Dictionary[my_x]=enrtySorted;
 			
 		} 	
 		
@@ -120,17 +126,15 @@
 			
 			//find previous position by subtracting snapshot distance from current X position
 			var current_x=current_x;
-			var last_x=current_x-this.snapshot_width;
-			
-			//$('#guidelines').Guideline({x:current_x,css_class:"gridline"}).draw_guideline_vertical();
-			
+			var last_x=current_x-self.snapshot_width;
+						
 			/*
 			 * Compare order of ID to other element in each array. 
 			 * If there is a change add elements into intersectingElements[]
 			 */
 			 			
 			//locate dictionary for current X 
-			var current_x_list=this.Dictionary[current_x];
+			var current_x_list=self.Dictionary[current_x];
 			//reuse last comparison list
 			var last_x_list=lastComparison;
 			
@@ -164,13 +168,14 @@
 			}	
 		}
 		
+        //checks for differences in sort order between lists
 		this.append_intersection_list=function(current_comparisons,lastComparison ){
 			//console.log(current_comparisons,lastComparison);
 			if(current_comparisons.length>0 && lastComparison.length>0){
 				
 				for(index in current_comparisons ){
 					if(current_comparisons[index]!=lastComparison[index]){
-						elems=[index,this.currentElementID];
+						elems=[index,self.currentElementID];
 						this.find_intersection_points(elems);
 					}
 				} 
@@ -183,7 +188,7 @@
 				var compare='smaller';
 				for(var it=0; it<list.length; it++ ){
 					var li=list[it];
-					if(li.id==this.currentElementID){
+					if(li.id==self.currentElementID){
 						compare="subject";
 						comparison_list[li.id]=compare; 
 						compare="bigger";
@@ -204,27 +209,28 @@
 			var intersection_point=intersectionCoord.intersection_point();
 			var iCoord=new Coords(intersection_point.x,intersection_point.y);
 			if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
-				var iNode=new IntersectionNode(iCoord,elems);
+				addIntersectionNode(iCoord,elems);
 			}
 		}
 		
 		this.find_circle_intersections=function(){
-			var cur=this.currentElement;
+			var cur=self.currentElement;
 			
-			$("#guidecircles circle").not(this.currentElement).each(function(){
-				var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
-				console.log(intersects);
-				var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
+			$("#guidecircles circle").not(self.currentElement).not(".preview_line").each(function(){
+
+                var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
+
+                var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
 												
 				if(intersects[0]!=false && typeof intersects[0]!="undefined"){
 					//make intersection node
 					var iCoord=new Coords(intersects[0].x,intersects[0].y);
-					var iNode=new IntersectionNode(iCoord,elems);
+					addIntersectionNode(iCoord,elems);
 				} 
  				if(intersects[1]!=false && typeof intersects[1]!="undefined"){
  					//make intersection node
  					var iCoord=new Coords(intersects[1].x,intersects[1].y);
- 					var iNode=new IntersectionNode(iCoord,elems);
+ 					addIntersectionNode(iCoord,elems);
 				}
 
 			});
@@ -235,18 +241,18 @@
 								
 				if(intersects[0]){
 					var iCoord=new Coords(intersects[0].x,intersects[0].y);
-					var iNode=new IntersectionNode(iCoord,elems);
+					addIntersectionNode(iCoord,elems);
 				} 
  				if(intersects[1]){
 					var iCoord=new Coords(intersects[1].x,intersects[1].y);
-					var iNode=new IntersectionNode(iCoord,elems);
+					addIntersectionNode(iCoord,elems);
 				}
 			});
 			
 		}
 		
 		this.findLineCircleIntersections=function(){
-			var cur=this.currentElement;
+			var cur=self.currentElement;
 			
 			$("#guidecircles circle").each(function(){
 				var intersects=$(this).CircleEquation({lineToTest:cur}).findCircleLineIntersection();
@@ -256,14 +262,60 @@
 				if(intersects!=false ){ 
 					if(intersects[0]){
 						var iCoord=new Coords(intersects[0].x,intersects[0].y);
-						var iNode=new IntersectionNode(iCoord,elems);
+						addIntersectionNode(iCoord,elems);
 					} 
 	 				if(intersects[1]){
 						var iCoord=new Coords(intersects[1].x,intersects[1].y);
-						var iNode=new IntersectionNode(iCoord,elems);
+						addIntersectionNode(iCoord,elems);
 					}	
 				}
 			});
 		}
+        
+        var addIntersectionNode = function(iCoord,elems){
+
+            var iNode=new IntersectionNode(iCoord,elems); 
+        }    
+        
+       this.removeIntersection=function(myId){
+           $("[data-identifier='"+myId+"']").remove();
+           this.removePositionsById(myId);
+           //removeEmptyPositions();
+          
+       }   
+       
+       this.removePositionsById=function(myId){
+            //loop through dictionary by X positions remove positions with a given id
+           
+           for(var x=0; x<self.Dictionary.length; x=x+self.snapshot_width){
+               
+                if(typeof self.Dictionary[Number(x)] != "undefined" ){
+                    //loop through x position
+                   for(var i=0; i<self.Dictionary[x].length; i++){
+                       if(self.Dictionary[x][i]!=="undefined"){
+                           //compare id's
+                           if(self.Dictionary[x][i].id==myId){
+                               //remove if id's match
+                               self.Dictionary[x].splice(i, 1);
+                           } //end id comparison  
+                       }//end if  self.Dictionary[x][i] exists  
+                   } 
+                } //end if  self.Dictionary[i] !=="undefined" 
+           }     
+           
+           removeEmptyPositions();
+       }   
+        
+       var removeEmptyPositions=function(){
+           console.log('removing: '+self.Dictionary.length);
+            for(var x=0; x < self.Dictionary.length; x=x+1){
+                if(typeof self.Dictionary[x]!="undefined"){
+                    if(self.Dictionary[x].length==0){
+                        self.Dictionary.splice(x, 1);
+                    }   
+                }    
+            } 
+           console.log(self.Dictionary);
+       }   
 		
  	}
