@@ -8,6 +8,7 @@ var CoordDictionary = function(settings){
         var self=this;
     	self.snapshot_width=10; //x positions are checked at this increment
     	self.Dictionary=[];
+        self.DictionaryVerticals=[];
     	self.currentElement='';
     	self.currentElementID='';
     	var lastComparison=[];//last comparison list
@@ -33,15 +34,85 @@ var CoordDictionary = function(settings){
 			if(self.currentElement.is("circle")==true ) {
 				this.find_circle_intersections();
 				return;
-			} 
-     		
-     		var myX1=parseInt($(self.currentElement).attr("x1"));
-     		var myX2=parseInt($(self.currentElement).attr("x2"));
-     		self.currentElementID=$(self.currentElement).attr("data-identifier");
+			}  else {
+                this.checkLineIntersections();   
+            }    
+        }
+        
+        //run line and circle intersetcion checks
+        this.checkLineIntersections=function(){
+            self.currentElementID=$(self.currentElement).attr("data-identifier");
      		
      		//check intersections with circles
 			this.findLineCircleIntersections();
-     		     		     		     		
+            
+            //check intersections with lines
+            this.runSweepLineCheck();
+        }    
+        
+        //if the line is straight up and down track seperately
+        this.runSweepLineCheck=function(){
+     		
+            var myX1=parseInt($(self.currentElement).attr("x1"));
+     		var myX2=parseInt($(self.currentElement).attr("x2"));
+            
+            if(myX1==myX2){
+                this.verticalsSweepline();
+            } else {
+                this.normalSweepLine();
+            }    
+            
+        }
+        
+        //used if line is straight up and down
+        this.verticalsSweepline=function(){
+            var x=parseInt($(self.currentElement).attr("x1"));
+     		
+            //add a new position
+            if(typeof self.DictionaryVerticals[x]=="undefined" ){
+                self.DictionaryVerticals[x]=[self.currentElementID]
+            } 
+            
+            //add a new id to a position
+            else {
+                self.DictionaryVerticals[x].push(self.currentElementID);
+            }    
+            
+            this.checkVerticalNormalIntersections();
+            
+        }    
+        
+        //checks vertical line after adding
+        this.checkVerticalNormalIntersections=function(){
+            var xToCheck=parseInt($(self.currentElement).attr("x1"));
+            var min=xToCheck-self.snapshot_width;
+            var max=xToCheck+self.snapshot_width;
+            for (var x in self.Dictionary){
+                if(x > min && x < max){
+                    var checklist=[];
+                    for(el in self.Dictionary[x]){
+                        var newId=self.Dictionary[x][el].id;
+                        //if($.inArray(newId,checklist)==false){
+                            checklist.push(newId);
+                        //}    
+                    }    
+                    
+                    for(el in checklist){
+                        var normal=el;
+                        var vertical=self.currentElementID;
+                        findVerticalNormalintersection_points(vertical, normal);
+                    }    
+                }    
+            }    
+
+        }    
+        
+        
+        //used for all other lines
+        this.normalSweepLine=function(){
+            var myX1=parseInt($(self.currentElement).attr("x1"));
+     		var myX2=parseInt($(self.currentElement).attr("x2"));
+            
      		if(myX1>myX2){
      			min_x=myX2;
      			max_x=myX1;
@@ -65,12 +136,6 @@ var CoordDictionary = function(settings){
          	//reset comparison array
          	lastComparison=[];
          	
-         	//if(typeof this.intersections !="undefined"){
-         		//console.log(this.intersections);
-         	//}
-            //console.log(self.Dictionary);
-         	
-          
      	}
          	
          /*
@@ -112,6 +177,31 @@ var CoordDictionary = function(settings){
 			return entry;
 			
 		}
+    
+        var findVerticalNormalintersection_points=function(vertical, normal) {
+            
+            //vertical coords
+            var vLine=$("#line"+vertical);
+            var vX1=parseInt(vLine.attr("x1"));
+     		var vX2=parseInt(vLine.attr("x2"));
+            var vY1=parseInt(vLine.attr("y1"));
+     		var vY2=parseInt(vLine.attr("y2"));
+            
+            //normal coords
+            var nLine=$("#line"+vertical);
+            var nX1=parseInt(nLine.attr("x1"));
+     		var nX2=parseInt(nLine.attr("x2"));
+            var nyY1=parseInt(nLine.attr("y1"));
+     		var nyY2=parseInt(nLine.attr("y2"));
+            
+            //is inside range
+            
+            //TODO: detect if line is in range
+            //if()
+             
+            
+            //if is in range: intersection=y on normal
+        }
 		
 		this.check_for_intersections=function(current_x){
 			

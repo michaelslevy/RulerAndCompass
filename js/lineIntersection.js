@@ -53,7 +53,7 @@ var LineIntersections = function(){
 		self.line2Attributes['y1']=$("line[data-identifier='"+self.line2Id+"']").attr("y1");
 		self.line2Attributes['x2']=$("line[data-identifier='"+self.line2Id+"']").attr("x2");
 		self.line2Attributes['y2']=$("line[data-identifier='"+self.line2Id+"']").attr("y2");
-        		
+                		
 	}
 	
 	//get slopes and y intercepts for each line
