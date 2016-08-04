@@ -287,7 +287,7 @@ var CoordDictionary = function(settings){
        this.removePositionsById=function(myId){
             //loop through dictionary by X positions remove positions with a given id
            
-           for(var x=0; x<self.Dictionary.length; x=x+self.snapshot_width){
+           for(var x in self.Dictionary){
                
                 if(typeof self.Dictionary[Number(x)] != "undefined" ){
                     //loop through x position
@@ -307,7 +307,6 @@ var CoordDictionary = function(settings){
        }   
         
        var removeEmptyPositions=function(){
-           console.log('removing: '+self.Dictionary.length);
             for(var x=0; x < self.Dictionary.length; x=x+1){
                 if(typeof self.Dictionary[x]!="undefined"){
                     if(self.Dictionary[x].length==0){
@@ -315,7 +314,6 @@ var CoordDictionary = function(settings){
                     }   
                 }    
             } 
-           console.log(self.Dictionary);
        }   
 		
  	}
