@@ -359,7 +359,10 @@ var DrawApp = function(){
 			$("#guidelines").Guideline({x1:0,y1:yCoord,x2:frameWidth,y2:yCoord}).draw();
 			coordDictionary.currentElement=$("line").last();
 			coordDictionary.find_coords();
-            $("#guidelines line").remove();
+            $("#guidelines line").each(function(){
+                var myId=$(this).attr("data-identifier");
+                coordDictionary.removeIntersection(myId);
+            });
         
             updateWindow();
 		

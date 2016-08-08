@@ -1,5 +1,4 @@
 var IntersectionNode = function(coords,elems){
-	
 	self=this;
 	self.intersectionCoords=coords;
 	self.elem1=elems[0];
@@ -8,7 +7,10 @@ var IntersectionNode = function(coords,elems){
 	//check if exists
 	var init=function(){
 		var node=nodeExists();
+<<<<<<< HEAD
 
+=======
+>>>>>>> lineIntersectionFix
         if(node==false){
 			drawNode();
 		} else {

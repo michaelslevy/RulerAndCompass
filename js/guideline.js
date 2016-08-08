@@ -2,7 +2,7 @@
 	$.fn.Guideline = function(settings){
 	  
 		 var plugin=this;
-		 var line_id=$("svg line").length;
+		 var line_id=$("svg line").length+1;
     
 		  var config = {
 		  	"x":"nan",
