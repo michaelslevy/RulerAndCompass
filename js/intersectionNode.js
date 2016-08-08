@@ -1,5 +1,4 @@
 var IntersectionNode = function(coords,elems){
-	
 	self=this;
 	self.intersectionCoords=coords;
 	self.elem1=elems[0];

@@ -88,17 +88,18 @@ var CoordDictionary = function(settings){
             var min=xToCheck-self.snapshot_width;
             var max=xToCheck+self.snapshot_width;
             for (var x in self.Dictionary){
+                
+            //find snapshots in rage of vertical line
                 if(x > min && x < max){
                     var checklist=[];
                     for(el in self.Dictionary[x]){
                         var newId=self.Dictionary[x][el].id;
-                        //if($.inArray(newId,checklist)==false){
-                            checklist.push(newId);
-                        //}    
+                        checklist.push(newId);
                     }    
-                    
+                                        
                     for(el in checklist){
-                        var normal=el;
+                        var normal=checklist[el];
+                        
                         var vertical=self.currentElementID;
                         findVerticalNormalintersection_points(vertical, normal);
                     }    
@@ -106,7 +107,6 @@ var CoordDictionary = function(settings){
             }    
 
         }    
-        
         
         //used for all other lines
         this.normalSweepLine=function(){
@@ -181,27 +181,35 @@ var CoordDictionary = function(settings){
         var findVerticalNormalintersection_points=function(vertical, normal) {
             
             //vertical coords
-            var vLine=$("#line"+vertical);
-            var vX1=parseInt(vLine.attr("x1"));
-     		var vX2=parseInt(vLine.attr("x2"));
-            var vY1=parseInt(vLine.attr("y1"));
-     		var vY2=parseInt(vLine.attr("y2"));
-            
+           
+            var vLine=$("line[data-identifier='"+vertical+"']");
+            var vX=Number(vLine.attr("x1"));
+            var vY1=Number(vLine.attr("y1"));
+     		var vY2=Number(vLine.attr("y2"));
+            // console.log(normal);
             //normal coords
-            var nLine=$("#line"+vertical);
-            var nX1=parseInt(nLine.attr("x1"));
-     		var nX2=parseInt(nLine.attr("x2"));
-            var nyY1=parseInt(nLine.attr("y1"));
-     		var nyY2=parseInt(nLine.attr("y2"));
+            var nLine=$("line[data-identifier='"+normal+"']");
+            var nX1=Number(nLine.attr("x1"));
+     		var nX2=Number(nLine.attr("x2"));
+            var nyY1=Number(nLine.attr("y1"));
+     		var nyY2=Number(nLine.attr("y2"));
             
             //is inside range
             
-            //TODO: detect if line is in range
-            //if()
+            if( (nX1 >vX && nX2<vX) || (nX1 < vX && nX2 > vX)) {
+                //find y at X
+                var iY=nLine.LineEquation({known_x:vX}).y_from_x();//y
+                var coords=new Coords(vX,iY );
+                var elem=[vertical, normal];
+                addIntersectionNode(coords, elem);
+            } 
+        
              
             
             //if is in range: intersection=y on normal
         }
+        
+          
 		
 		this.check_for_intersections=function(current_x){
 			
