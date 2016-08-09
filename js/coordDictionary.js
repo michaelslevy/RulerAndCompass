@@ -52,7 +52,6 @@ var CoordDictionary = function(settings){
         
         //if the line is straight up and down track seperately
         this.runSweepLineCheck=function(){
-     		
             var myX1=parseInt($(self.currentElement).attr("x1"));
      		var myX2=parseInt($(self.currentElement).attr("x2"));
             
@@ -88,7 +87,7 @@ var CoordDictionary = function(settings){
             var min=xToCheck-self.snapshot_width;
             var max=xToCheck+self.snapshot_width;
             for (var x in self.Dictionary){
-                
+            
             //find snapshots in rage of vertical line
                 if(x > min && x < max){
                     var checklist=[];
@@ -99,7 +98,6 @@ var CoordDictionary = function(settings){
                                         
                     for(el in checklist){
                         var normal=checklist[el];
-                        
                         var vertical=self.currentElementID;
                         findVerticalNormalintersection_points(vertical, normal);
                     }    
@@ -127,11 +125,7 @@ var CoordDictionary = function(settings){
 
      		for(var xpos=start;xpos<=end; xpos=xpos+self.snapshot_width){
 
-<<<<<<< HEAD
-         		my_y=$(this.currentElement).LineEquation({known_x:xpos}).y_from_x();
-=======
          		my_y=$(self.currentElement).LineEquation({known_x:xpos}).y_from_x();
->>>>>>> lineIntersectionFix
          		this.add_y_to_dictionary(xpos,my_y );
          		this.check_for_intersections(xpos); 
 
@@ -184,13 +178,12 @@ var CoordDictionary = function(settings){
     
         var findVerticalNormalintersection_points=function(vertical, normal) {
             
-            //vertical coords
-           
+            //vertical coords       
             var vLine=$("line[data-identifier='"+vertical+"']");
             var vX=Number(vLine.attr("x1"));
             var vY1=Number(vLine.attr("y1"));
      		var vY2=Number(vLine.attr("y2"));
-            // console.log(normal);
+
             //normal coords
             var nLine=$("line[data-identifier='"+normal+"']");
             var nX1=Number(nLine.attr("x1"));
@@ -199,8 +192,8 @@ var CoordDictionary = function(settings){
      		var nyY2=Number(nLine.attr("y2"));
             
             //is inside range
-            
             if( (nX1 >vX && nX2<vX) || (nX1 < vX && nX2 > vX)) {
+                
                 //find y at X
                 var iY=nLine.LineEquation({known_x:vX}).y_from_x();//y
                 var coords=new Coords(vX,iY );
@@ -320,11 +313,7 @@ var CoordDictionary = function(settings){
 		this.find_circle_intersections=function(){
 			var cur=self.currentElement;
 			
-<<<<<<< HEAD
-			$("#guidecircles circle").not(this.currentElement).not(".preview_line").each(function(){
-=======
 			$("#guidecircles circle").not(self.currentElement).not(".preview_line").each(function(){
->>>>>>> lineIntersectionFix
 
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
 
@@ -384,8 +373,6 @@ var CoordDictionary = function(settings){
 
             var iNode=new IntersectionNode(iCoord,elems); 
         }    
-<<<<<<< HEAD
-=======
         
        this.removeIntersection=function(myId){
            $("[data-identifier='"+myId+"']").remove();
@@ -425,6 +412,5 @@ var CoordDictionary = function(settings){
                 }    
             } 
        }   
->>>>>>> lineIntersectionFix
 		
  	}
