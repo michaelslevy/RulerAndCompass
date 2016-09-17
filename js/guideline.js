@@ -2,6 +2,7 @@
 	$.fn.Guideline = function(settings){
 	  
 		 var plugin=this;
+         var groupID=$(this).attr('id');
 		 var line_id=$("svg line").length+1;
     
 		  var config = {
@@ -62,9 +63,9 @@
 		    mLine.setAttributeNS(null,"x1",config.x1);
 		    mLine.setAttributeNS(null,"x2",config.x2);
 		    mLine.setAttributeNS(null,"y1",config.y1);
-		    mLine.setAttributeNS(null,"y2",config.y2);
+		    mLine.setAttributeNS(null,"y2",config.y2); 
 		    
-		    document.getElementById("guidelines").appendChild(mLine);
+		    document.getElementById(groupID).appendChild(mLine);
 		    return plugin;
 		}
 

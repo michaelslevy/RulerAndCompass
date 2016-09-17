@@ -29,6 +29,10 @@ body {
 	stroke-width:1;
 }
 
+#musicallines .guideline {
+    stroke:#000000;   
+}    
+
 .erase .guideline:hover, .erase  #guidecircles .guide:hover {
     stroke:#01D7E5;
     fill:#ffffff;
