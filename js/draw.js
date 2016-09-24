@@ -73,6 +73,10 @@ var DrawApp = function(){
                 mode="musical";
 			break;    
                 
+            case 80:
+               $("body").Musical().play();
+			break;    
+                
 			//= (+)
 			case 187:
 				zoomIn();
@@ -172,7 +176,10 @@ var DrawApp = function(){
                 case "musical":
 				//add new line
 				    add_line("#musicallines");
-				    var current_line=$(".guideline").last(); 
+				    var current_line=$("#musicallines line").last(); 
+                    var baseLength=$("#guidecircles circle").first().attr("r");
+                    var magnitude=current_line.LineEquation().getMagnitude();
+                    $("body").Musical({baseLineLength:baseLength, currentLineLength:magnitude }).playTone();
 
 				break;
 				
