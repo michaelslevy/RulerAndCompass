@@ -2,17 +2,13 @@ var Musical = function(){
   
     var self=this;
     
-    self.oscilator=false;
     self.basePitch= 420;
     self.currentPitch=420;
     self.baseLineLength=100;
     self.currentLineLength=100;
     self.duration=.2;
     
-/* Playing a tone */
-    self.playTone=function(){
-        
-        try {
+     try {
             if (! window.AudioContext) {
                 if (! window.webkitAudioContext) {
                     self.bad_browser();
@@ -25,24 +21,31 @@ var Musical = function(){
         }
         catch(e) {
             console.log('Web Audio API is not supported in this browser');
-        }
-       
+    }
+    
+/* Playing a tone */
+    self.playTone=function(){
+               
         self.setCurrentPitch();
 
          // create the oscillator
-        self.oscillator = audioContext.createOscillator();
+        var oscillator = audioContext.createOscillator();        
         // set the type of the oscillator
-        self.oscillator.type = 'sine'; // sine, triangle, sawtooth
+        oscillator.type = 'sine'; // sine, triangle, sawtooth
         // set the frequency based on our stored values
-        self.oscillator.frequency.value = self.currentPitch;
+        oscillator.frequency.value = self.currentPitch;
         // connect it to the output
-        self.oscillator.connect(audioContext.destination);
+        oscillator.connect(audioContext.destination);
         // start the note
-        self.oscillator.start(0);
+        oscillator.start(0);
         
-         if(typeof self.oscillator !="undefined"){
-            self.oscillator.stop(self.duration);
-        }
+        setTimeout(function(){
+             oscillator.stop(0);
+        }, self.duration*1000);
+
+       /* if(typeof oscillator !="undefined"){
+           
+        }*/
         
         return self;
         

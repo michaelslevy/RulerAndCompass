@@ -19,6 +19,7 @@ var DrawApp = function(){
 	var mode="line";
     var pan=false;
     var panMode=false;
+    var musicPlayer=new Musical();
     
 	var newLineCoord = {
         x1: "nan",
@@ -179,10 +180,9 @@ var DrawApp = function(){
 				    var current_line=$("#musicallines line").last(); 
                     var baseLength=$("#guidecircles circle").first().attr("r");
                     var magnitude=current_line.LineEquation().getMagnitude();
-                    var musical=new Musical();
-                    musical.baseLineLength=baseLength;
-                    musical.currentLineLength=magnitude;
-                    musical.playTone();
+                    musicPlayer.baseLineLength=baseLength;
+                    musicPlayer.currentLineLength=magnitude;
+                    musicPlayer.playTone();
 
 				break;
 				
