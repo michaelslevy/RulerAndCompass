@@ -74,7 +74,7 @@ var DrawApp = function(){
 			break;    
                 
             case 80:
-               $("body").Musical().play();
+               //$("body").Musical().play();
 			break;    
                 
 			//= (+)
@@ -179,7 +179,10 @@ var DrawApp = function(){
 				    var current_line=$("#musicallines line").last(); 
                     var baseLength=$("#guidecircles circle").first().attr("r");
                     var magnitude=current_line.LineEquation().getMagnitude();
-                    $("body").Musical({baseLineLength:baseLength, currentLineLength:magnitude }).playTone();
+                    var musical=new Musical();
+                    musical.baseLineLength=baseLength;
+                    musical.currentLineLength=magnitude;
+                    musical.playTone();
 
 				break;
 				
