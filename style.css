@@ -31,7 +31,11 @@ body {
 
 #musicallines .guideline {
     stroke:#000000;   
-}    
+}   
+
+#musicallines .guideline.playing {
+    stroke:#d600a6;
+}  
 
 .erase .guideline:hover, .erase  #guidecircles .guide:hover {
     stroke:#01D7E5;

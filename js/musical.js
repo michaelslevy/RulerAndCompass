@@ -4,9 +4,11 @@ var Musical = function(){
     
     self.basePitch= 420;
     self.currentPitch=420;
-    self.baseLineLength=100;
+    self.baseLineLength=$("#guidecircles circle").first().attr("r");
     self.currentLineLength=100;
-    self.duration=.2;
+    self.duration=.2; //time in seconds
+    self.playPosition=0;
+    self.playTimer=false;
     
      try {
             if (! window.AudioContext) {
@@ -23,6 +25,16 @@ var Musical = function(){
             console.log('Web Audio API is not supported in this browser');
     }
     
+  
+    
+    var channels = 2;
+
+    // Create an empty two second stereo buffer at the
+    // sample rate of the AudioContext
+    var frameCount = audioContext.sampleRate * 2.0;
+    var myArrayBuffer = audioContext.createBuffer(2, frameCount, audioContext.sampleRate);
+
+    
 /* Playing a tone */
     self.playTone=function(){
                
@@ -33,15 +45,18 @@ var Musical = function(){
         // set the type of the oscillator
         oscillator.type = 'sine'; // sine, triangle, sawtooth
         // set the frequency based on our stored values
-        oscillator.frequency.value = self.currentPitch;
-        // connect it to the output
-        oscillator.connect(audioContext.destination);
-        // start the note
-        oscillator.start(0);
-        
-        setTimeout(function(){
-             oscillator.stop(0);
-        }, self.duration*1000);
+        console.log(self.currentPitch);
+        if(isFinite(self.currentPitch)==true){
+            oscillator.frequency.value = self.currentPitch;
+            // connect it to the output
+            oscillator.connect(audioContext.destination);
+            // start the note
+            oscillator.start(0);
+
+            setTimeout(function(){
+                 oscillator.stop(0);
+            }, self.duration*1000);
+        }
 
        /* if(typeof oscillator !="undefined"){
            
@@ -57,28 +72,35 @@ var Musical = function(){
         var ratio=parseFloat(self.baseLineLength/self.currentLineLength);
         /* apply ratio to base pitch and set the current pitch */
         self.currentPitch=self.basePitch*ratio;
+        console.log(self.baseLineLength,self.currentLineLength,"ratio:"+ratio);
     }
     
     /* play music */
     self.play=function(){
-
-        var line=$("#musicallines line").first();
-        self.playline(line);
-        window.setTimeout(self.playNext,200); 
-                           
+        
+        self.playTimer=setInterval(function(){ playNext() }, self.duration*1000);
+        
         return self;
     }  
-
-    self.playNext=function(line){
-        var next=line.next();
-        self.playline(next);
+    
+    var playNext=function(){
+     
+        var toneLine=$("#musicallines line").eq(self.playPosition);
+        $("#musicallines line").removeClass('playing');
+        toneLine.addClass('playing');
+        if(self.playPosition>($("#musicallines line").size()-1)){
+            clearInterval(self.playTimer);
+            self.playPosition=0;
+        }   else { 
+            
+        self.playPosition++;
+        self.currentLineLength=toneLine.LineEquation().getMagnitude();
+        self.playTone();
+        
+        }
     }    
 
-    self.playline=function(line){
-        var baseLength=$("#guidecircles circle").first().attr("r");
-        var magnitude=$(this).LineEquation().getMagnitude();
-        $("body").Musical({baseLineLength:baseLength, currentLineLength:magnitude }).playTone();
-    }
+    
     
     self.bad_browser=function(){
         alert("Your browser does not support web audio");   

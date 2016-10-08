@@ -35,9 +35,9 @@
         
          $(document).on('mousedown', function(e) {
          
-        if(oscillator){
+       /* if(oscillator){
             oscillator.stop();
-        }
+        }*/
              
         if(direction=="up"){
             pitch=pitch/1.618;
@@ -51,7 +51,9 @@
             direction="down";
         }    
              
-            
+        if(oscillator){    
+            oscillator.frequency.value = pitch;
+        } else {    
         // create the oscillator
         oscillator = context.createOscillator();
         // set the type of the oscillator
@@ -63,6 +65,7 @@
         // start the note
         oscillator.start();
         //oscillator.stop(.2);
+        }  
             
       });
 

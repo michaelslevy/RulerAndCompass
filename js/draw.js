@@ -75,7 +75,7 @@ var DrawApp = function(){
 			break;    
                 
             case 80:
-               //$("body").Musical().play();
+              musicPlayer.play();
 			break;    
                 
 			//= (+)
