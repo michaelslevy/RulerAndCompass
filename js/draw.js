@@ -559,6 +559,16 @@ var DrawApp = function(){
     $(document).on("click","line",function(){
         //console.log($(this).css("stroke-width"));
         if(mode=="erase"){
+        	var myID=$(this).attr("data-identifier");
+        	coordDictionary.removeIntersection(myID);
+          $(this).remove();
+        }    
+    });
+    
+    $(document).on("mouseover","line",function(){
+        if(mode=="erase"){
+        	var myID=$(this).attr("data-identifier");
+        	coordDictionary.removeIntersection(myID);
           $(this).remove();
         }    
     });

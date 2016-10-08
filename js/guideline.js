@@ -55,6 +55,9 @@
                 return;
             }   
             
+            var scaleAttr=$("#nest").attr('data-scale');
+            var scale=1/parseFloat(scaleAttr);
+         
 			var svgNS = "http://www.w3.org/2000/svg"; 
 			var mLine = document.createElementNS(svgNS,"line"); 
 		    mLine.setAttributeNS(null,"class",config.css_class);
@@ -63,6 +66,7 @@
 		    mLine.setAttributeNS(null,"x2",config.x2);
 		    mLine.setAttributeNS(null,"y1",config.y1);
 		    mLine.setAttributeNS(null,"y2",config.y2);
+		    mLine.setAttributeNS(null,"style","stroke-width:"+scale);
 		    
 		    document.getElementById("guidelines").appendChild(mLine);
 		    return plugin;
