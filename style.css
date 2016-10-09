@@ -29,6 +29,14 @@ body {
 	stroke-width:1;
 }
 
+#musicallines .guideline {
+    stroke:#000000;   
+}   
+
+#musicallines .guideline.playing {
+    stroke:#d600a6;
+}  
+
 .erase .guideline:hover, .erase  #guidecircles .guide:hover {
     stroke:#01D7E5;
     fill:#ffffff;
@@ -101,16 +109,21 @@ nav#toolbox button#lineMode {
 }
 
 nav#toolbox button#CircleCenterMode {
-	background-position: -38px center;
+	background-position: -36px center;
 }
 
 nav#toolbox button#CircleEdgeMode {
-	background-position:-78px center;
+	background-position:-73px center;
 }
 
 nav#toolbox button#eraseMode {
-	background-position:-115px center;
+	background-position:-110px center;
 }
+
+nav#toolbox button#musical {
+	background-position:-148px center;
+}
+
 
 nav#toolbox button:hover {
 	border:solid 2px #bbb;	

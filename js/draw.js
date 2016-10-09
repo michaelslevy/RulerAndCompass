@@ -19,6 +19,7 @@ var DrawApp = function(){
 	var mode="line";
     var pan=false;
     var panMode=false;
+    var musicPlayer=new Musical();
     
 	var newLineCoord = {
         x1: "nan",
@@ -66,11 +67,16 @@ var DrawApp = function(){
             //c
             case 67:
                 changeCircleMode();
-            break;    
-            /*//m    
+            break; 
+                
+            //(m)usical   
             case 77:
-                changeMode();
-			break;    */
+                mode="musical";
+			break;    
+                
+            case 80:
+              musicPlayer.play();
+			break;    
                 
 			//= (+)
 			case 187:
@@ -163,8 +169,20 @@ var DrawApp = function(){
 				
 				case "line":
 					//add new line
-					add_line();
+					add_line('#guidelines');
 					var current_line=$(".guideline").last(); 
+
+				break;
+                    
+                case "musical":
+				//add new line
+				    add_line("#musicallines");
+				    var current_line=$("#musicallines line").last(); 
+                    var baseLength=$("#guidecircles circle").first().attr("r");
+                    var magnitude=current_line.LineEquation().getMagnitude();
+                    musicPlayer.baseLineLength=baseLength;
+                    musicPlayer.currentLineLength=magnitude;
+                    musicPlayer.playTone();
 
 				break;
 				
@@ -259,13 +277,13 @@ var DrawApp = function(){
         updateZoomDimension();
 	}
 	
-	function add_line(){
+	function add_line(id){
 		x1v=newLineCoord.x1;
 		y1v=newLineCoord.y1;
 		x2v=newLineCoord.x2;
 		y2v=newLineCoord.y2;
 		
-		jQuery('#guidelines').Guideline({x1: x1v, y1:y1v, x2:x2v, y2:y2v}).draw();
+		jQuery(id).Guideline({x1: x1v, y1:y1v, x2:x2v, y2:y2v}).draw();
 		 
 	}
 	
@@ -574,7 +592,7 @@ var DrawApp = function(){
     });
     
     var isDrawMode = function(){
-        if(mode=="circle-center" || mode=="circle-edge" || mode=="line"){
+        if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical"){
             return true;   
         }   
         else {

@@ -32,7 +32,8 @@ var LineIntersections = function(){
 			this.setCoordinates();
 			this.defineSlopesAndIntercepts();
 			this.calculateXYcoordinates();
-			if(this.insideLines()==false){
+           
+			if(this.insideLines()==false ){
 				return false;
 			} else {
 				return self.coords;
@@ -53,7 +54,8 @@ var LineIntersections = function(){
 		self.line2Attributes['y1']=$("line[data-identifier='"+self.line2Id+"']").attr("y1");
 		self.line2Attributes['x2']=$("line[data-identifier='"+self.line2Id+"']").attr("x2");
 		self.line2Attributes['y2']=$("line[data-identifier='"+self.line2Id+"']").attr("y2");
-        		
+                		
+
 	}
 	
 	//get slopes and y intercepts for each line
@@ -79,6 +81,7 @@ var LineIntersections = function(){
 	 */
 	
 	this.calculateXYcoordinates=function(){
+
 		var a=self.line1Attributes.slope;
 		var b=self.line2Attributes.slope;
 		var c=self.line1Attributes.yIntercept;
@@ -87,7 +90,6 @@ var LineIntersections = function(){
 		var x=(d-c)/(a-b).toFixed(precision);
 		var y=a*((d-c)/(a-b))+c;
         
-		
 		self.coords=new Coords(x,y); 
 		
 	}

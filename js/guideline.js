@@ -2,7 +2,8 @@
 	$.fn.Guideline = function(settings){
 	  
 		 var plugin=this;
-		 var line_id=$("svg line").length;
+         var groupID=$(this).attr('id');
+		 var line_id=$("svg line").length+1;
     
 		  var config = {
 		  	"x":"nan",
@@ -67,8 +68,9 @@
 		    mLine.setAttributeNS(null,"y1",config.y1);
 		    mLine.setAttributeNS(null,"y2",config.y2);
 		    mLine.setAttributeNS(null,"style","stroke-width:"+scale);
+		  /*  mLine.setAttributeNS(null,"y2",config.y2);*/ 
 		    
-		    document.getElementById("guidelines").appendChild(mLine);
+		    document.getElementById(groupID).appendChild(mLine);
 		    return plugin;
 		}
 
