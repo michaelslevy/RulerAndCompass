@@ -6,63 +6,10 @@
       <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script> 
   </head>
   <body>
-
-<script>
-   
-        
-        var audioContext = new(AudioContext || webkitAudioContext)();
-
-var frequencyOffset = 0
-  // Our sound source is a simple triangle oscillator
-var oscillator = audioContext.createOscillator(); // Create sound source  
-oscillator.type = 'triangle';
-
-// Adding a gain node just to lower the volume a bit and to make the
-// sound less ear-piercing. It will also allow us to mute and replay
-// our sound on demand
-var gainNode = audioContext.createGain();
-oscillator.connect(gainNode);
-gainNode.connect(audioContext.destination);
-    
-var  direction='up';
-gainNode.gain.value = 0;
-var pitch=200;    
-oscillator.frequency.value = pitch;
-oscillator.start(0);
-
-function boop() {
-    
-  gainNode.gain.value = 0.2;
-  // The sound should last for 250ms
-  setTimeout(function() {
-      
-    var now = audioContext.currentTime;  
-    gainNode.gain.linearRampToValueAtTime(0,now+.05);
-      
-   if(direction=="up"){
-        pitch=pitch/1.618;
-    }  else {
-        pitch=pitch*1.618;
-    }    
-
-    if(pitch>2000){
-        direction="up";   
-    } else if(pitch<60){
-        direction="down";
-    }    
-    
-    oscillator.frequency.setValueAtTime(pitch, now+.05);
-     // oscillator.frequency.value=pitch;
-      
-  }, 250);
-  oscillator.frequency.value++;
-}
-
-$(document).click(function(){
-    boop();
-});
-        
-        </script>
+<script src="sound.js"></script>
+ <script>
+     var sound=new Musical;
+</script>     
   </body>
 </html>
 
