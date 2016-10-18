@@ -32,10 +32,10 @@ var DrawApp = function(){
     	setUpCanvas();
     	return self;
     }
+    
     self.init();
     
-    
-    $(window).resize(updateWindow());
+    $(window).resize(function(){updateWindow()});
     
     //Register Keyboard Events
    $(document).keyup(function(e) {
@@ -433,6 +433,7 @@ var DrawApp = function(){
     }    
     
     function updateWindow(){
+    	console.log('updating');
         var w=parseInt($("#frame").width());
         var h=parseInt($("#frame").height());
         var l=parseInt($("#nest").attr("data-left"));

@@ -13,9 +13,8 @@
             "y1":"nan", 
             "y2":"nan",
             "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
-            "css_class":"guideline",
-            //onSomeEvent: function() {}
-        }
+            "css_class":"guideline"
+          }
 		  
 		if (settings) {
             $.extend(config, settings);
