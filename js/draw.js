@@ -431,8 +431,9 @@ var DrawApp = function(){
     var getLineWidth=function(){
          var scale=$("#nest").attr("data-scale");
         if(typeof scale=="undefined"){ return false; }
-        var nodeRadius=(5/scale).toFixed(2);
-        var lineWidth=(1/scale).toFixed(2);
+        var nodeRadius=(5/scale);
+        var lineWidth=(1/scale);
+        console.log(scale, lineWidth);
         return lineWidth;
     }    
     
