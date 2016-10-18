@@ -12,6 +12,7 @@
             "x2":"nan",
             "y1":"nan", 
             "y2":"nan",
+            "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
             "css_class":"guideline",
             //onSomeEvent: function() {}
         }
@@ -63,6 +64,7 @@
 			var mLine = document.createElementNS(svgNS,"line"); 
 		    mLine.setAttributeNS(null,"class",config.css_class);
 		    mLine.setAttributeNS(null,"data-identifier",line_id);
+		    mLine.setAttributeNS(null,"data-lineWidth",config.lineWidth); //set absolute line width
 		    mLine.setAttributeNS(null,"x1",config.x1);
 		    mLine.setAttributeNS(null,"x2",config.x2);
 		    mLine.setAttributeNS(null,"y1",config.y1);

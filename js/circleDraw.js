@@ -11,8 +11,8 @@ $.fn.CircleDraw = function(settings){
         "radius": 100,
         "cx": win_width/2,
         "cy":win_height/2,
-        "css_class":'guide'
-        //onSomeEvent: function() {}
+        "css_class":'guide',
+        "lineWidth":1 //Variable remembers  value at scale 1. Line width will change according to zoom. 
     }
 
     if (settings) {
@@ -42,6 +42,7 @@ $.fn.CircleDraw = function(settings){
         var svgNS = "http://www.w3.org/2000/svg"; 
         var identifier="C"+($("circle").length++);
         var mLine = document.createElementNS(svgNS,"circle"); 
+        mLine.setAttributeNS(null,"data-lineWidth",config.lineWidth); //set absolute line width
         mLine.setAttributeNS(null,"class",config.css_class);
         mLine.setAttributeNS(null,"r",config.radius);
         mLine.setAttributeNS(null,"cx",config.cx);
