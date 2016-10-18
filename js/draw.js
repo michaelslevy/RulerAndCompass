@@ -135,25 +135,21 @@ var DrawApp = function(){
   		var my_x=this.getAttribute("cx");
 		
 		var my_y=this.getAttribute("cy");
+				
 		/* get mouse positions */
 		
 		/*//get values
 		var parent_offset=$("#nest").parent().offset(); 
 		var my_x=parseInt(e.pageX-parent_offset.left);
 		var my_y=parseInt(e.pageY-parent_offset.top);*/
-		
-		//only register clicks inside the drawing canvas
-		if(my_x <0|| my_y <0){
-			return false; 
-		}
-		
+				
 		clicknum++;
 		
 		if(clicknum == 1){
 			//starting coordinates
 			newLineCoord.x1=my_x;
 			newLineCoord.y1=my_y;
-			
+						
 		} else if (clicknum == 2){ 
 			
 			//ending coordinates
@@ -163,7 +159,6 @@ var DrawApp = function(){
             $("line.preview_line").attr({"x2":my_x, "y2":my_y});
             
 			var current_line; 
-
 						
 			switch (mode){
 				
@@ -243,6 +238,7 @@ var DrawApp = function(){
         
         if(isDrawMode()==true){
             //draw preview line
+
             if(newLineCoord.x1!='nan' ) {
                 //var scale=Number($("#nest").attr("data-scale"));
                 //if(typeof scale=="undefined"){ scale=1; }
@@ -433,7 +429,6 @@ var DrawApp = function(){
         if(typeof scale=="undefined"){ return false; }
         var nodeRadius=(5/scale);
         var lineWidth=(1/scale);
-        console.log(scale, lineWidth);
         return lineWidth;
     }    
     
