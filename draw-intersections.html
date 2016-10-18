@@ -15,12 +15,20 @@
 <body>
 	
 	<nav id="toolbox">
-		<button id="lineMode" class="active" data-mode="line"></button>
-		<button id="CircleCenterMode" data-mode="circle-center"></button>
-		<button id="CircleEdgeMode" data-mode="circle-edge"></button>
-        <button id="eraseMode" data-mode="erase"></button>
-        <button id="musical" data-mode="musical"></button>
-	</nav>	
+		<div class='guides'>
+			<button id="lineMode" class="active" data-mode="line" title="(l) guideline"></button>
+			<button id="CircleCenterMode" data-mode="circle-center" title="(c) circle guide - from radius"></button>
+			<button id="CircleEdgeMode" data-mode="circle-edge" title="(c) circle guide - from edge"></button>
+		</div>	
+		
+		<div class='editing'>
+	        <button id="eraseMode" data-mode="erase" title="(e) erase"></button>
+	       </div>
+	       
+	      <div class='drawing'> 
+         		<button id="musical" data-mode="musical" title="(m) musical line"></button>
+         </div>
+ 	</nav>
 	
 	<div id='frame'>	
 		
