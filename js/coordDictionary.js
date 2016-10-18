@@ -30,7 +30,8 @@ var CoordDictionary = function(settings){
 				}
 			});
 			*/
-									if(self.currentElement.is("circle")==true ) {
+			
+			if(self.currentElement.is("circle")==true ) {
 				this.find_circle_intersections();
 				return;
 			}  else {

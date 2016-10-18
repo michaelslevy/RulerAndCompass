@@ -48,6 +48,17 @@ var Musical = function(){
      
     }
     
+    self.playPreviewTone=function(){
+    	 var current_line=$("#musicallines line").last(); 
+         var magnitude=current_line.LineEquation().getMagnitude();
+         self.currentLineLength=magnitude;
+         self.playTone();
+         
+         terminal =true;
+         return self;
+    }
+   
+    
     self.setCurrentPitch=function(){
     	
     	if(typeof self.baseLineLength == "undefined") {

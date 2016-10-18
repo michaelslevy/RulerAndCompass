@@ -137,11 +137,6 @@ var DrawApp = function(){
 		var my_y=this.getAttribute("cy");
 				
 		/* get mouse positions */
-		
-		/*//get values
-		var parent_offset=$("#nest").parent().offset(); 
-		var my_x=parseInt(e.pageX-parent_offset.left);
-		var my_y=parseInt(e.pageY-parent_offset.top);*/
 				
 		clicknum++;
 		
@@ -173,11 +168,7 @@ var DrawApp = function(){
 				//add new line
 				    add_line("#musicallines");
 				    var current_line=$("#musicallines line").last(); 
-                    var baseLength=$("#guidecircles circle").first().attr("r");
-                    var magnitude=current_line.LineEquation().getMagnitude();
-                    musicPlayer.baseLineLength=baseLength;
-                    musicPlayer.currentLineLength=magnitude;
-                    musicPlayer.playTone();
+                    musicPlayer.playPreviewTone();
 
 				break;
 				
@@ -216,13 +207,6 @@ var DrawApp = function(){
         var pan_offset_y=parseInt(viewBox_a[1]);
         followX=followX+pan_offset_x;
         followY=followY+pan_offset_y;
-        
-        
-        //captures scale values
-        //var matrix=$("#nest").css("transform");
-        // values = matrix.match(/-?[\d\.]+/g);
-
-       // $(".follower").attr("cx",followX).attr("cy",followY);
         
         if(panMode != false){
             if(panMode=="start"){
@@ -433,7 +417,7 @@ var DrawApp = function(){
     }    
     
     function updateWindow(){
-    	console.log('updating');
+
         var w=parseInt($("#frame").width());
         var h=parseInt($("#frame").height());
         var l=parseInt($("#nest").attr("data-left"));
@@ -596,5 +580,5 @@ var DrawApp = function(){
             return false
         }
     }    
-	
+    
   }
