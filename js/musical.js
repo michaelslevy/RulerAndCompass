@@ -34,20 +34,23 @@ var Musical = function(){
       var now = audioContext.currentTime;
       self.setCurrentPitch();      
       self.oscillator.frequency.linearRampToValueAtTime(self.currentPitch,now);
-      gainNode.gain.linearRampToValueAtTime(.2,now+.005);
+      gainNode.gain.linearRampToValueAtTime(.2,now+.0008);
       // The sound should last for 250ms
       setTimeout(function() {
         var now = audioContext.currentTime;
-        gainNode.gain.linearRampToValueAtTime(0,now+.005);
+        gainNode.gain.linearRampToValueAtTime(0,now+.0008);
           
-        self.oscillator.frequency.setValueAtTime(self.currentPitch, now+.005);
+        self.oscillator.frequency.setValueAtTime(self.currentPitch, now+.0008);
 
       }, 300);
      
     }
     
     self.setCurrentPitch=function(){
-    
+    	
+    	if(typeof self.baseLineLength == "undefined") {
+    		self.baseLineLength=$("#guidecircles circle").first().attr("r");
+    	}
          /* find ratio of current line length to base line length */
         var ratio=parseFloat(self.baseLineLength/self.currentLineLength);
         /* apply ratio to base pitch and set the current pitch */
