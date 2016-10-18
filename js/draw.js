@@ -64,7 +64,14 @@ var DrawApp = function(){
 				updateNestClass();
 			break;
             
-            //c
+            //(l)ine
+            case 76:
+                mode="line";
+                 $("#toolbox button").removeClass("active");
+                $("#lineMode").addClass("active");
+            break; 
+            
+            //(c)ircle
             case 67:
                 changeCircleMode();
             break; 
@@ -72,6 +79,8 @@ var DrawApp = function(){
             //(m)usical   
             case 77:
                 mode="musical";
+                 $("#toolbox button").removeClass("active");
+                $("#musical").addClass("active");
 			break;    
                 
             case 80:
