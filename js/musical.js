@@ -1,5 +1,5 @@
 var Musical = function(){
-  
+    
     var self=this;
     
     self.basePitch= 420;
@@ -7,78 +7,59 @@ var Musical = function(){
     self.baseLineLength=$("#guidecircles circle").first().attr("r");
     self.currentLineLength=100;
     self.duration=.2; //time in seconds
+    self.durationMicroSeconds=self.duration*1000
     self.playPosition=0;
-    self.playTimer=false;
+    self.playTimer=false;    
     
-     try {
-            if (! window.AudioContext) {
-                if (! window.webkitAudioContext) {
-                    self.bad_browser();
-                    return;
-                }
-                window.AudioContext = window.webkitAudioContext;
-            }
+    var audioContext = new(AudioContext || webkitAudioContext)();
 
-            var audioContext = new AudioContext();
-        }
-        catch(e) {
-            console.log('Web Audio API is not supported in this browser');
+    self.frequencyOffset = 0
+      // Our sound source is a simple triangle oscillator
+    self.oscillator = audioContext.createOscillator(); // Create sound source  
+    self.oscillator.type = 'triangle';
+
+    // Adding a gain node just to lower the volume a bit and to make the
+    // sound less ear-piercing. It will also allow us to mute and replay
+    // our sound on demand
+    var gainNode = audioContext.createGain();
+    self.oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    gainNode.gain.value = 0;
+    self.oscillator.start(0);
+    
+
+    self.playTone =function() {
+    
+      var now = audioContext.currentTime;
+      self.setCurrentPitch();      
+      self.oscillator.frequency.linearRampToValueAtTime(self.currentPitch,now);
+      gainNode.gain.linearRampToValueAtTime(.2,now+.005);
+      // The sound should last for 250ms
+      setTimeout(function() {
+        var now = audioContext.currentTime;
+        gainNode.gain.linearRampToValueAtTime(0,now+.005);
+          
+        self.oscillator.frequency.setValueAtTime(self.currentPitch, now+.005);
+
+      }, 300);
+     
     }
     
-  
-    
-    var channels = 2;
-
-    // Create an empty two second stereo buffer at the
-    // sample rate of the AudioContext
-    var frameCount = audioContext.sampleRate * 2.0;
-    var myArrayBuffer = audioContext.createBuffer(2, frameCount, audioContext.sampleRate);
-
-    
-/* Playing a tone */
-    self.playTone=function(){
-               
-        self.setCurrentPitch();
-
-         // create the oscillator
-        var oscillator = audioContext.createOscillator();        
-        // set the type of the oscillator
-        oscillator.type = 'sine'; // sine, triangle, sawtooth
-        // set the frequency based on our stored values
-        console.log(self.currentPitch);
-        if(isFinite(self.currentPitch)==true){
-            oscillator.frequency.value = self.currentPitch;
-            // connect it to the output
-            oscillator.connect(audioContext.destination);
-            // start the note
-            oscillator.start(0);
-
-            setTimeout(function(){
-                 oscillator.stop(0);
-            }, self.duration*1000);
-        }
-
-       /* if(typeof oscillator !="undefined"){
-           
-        }*/
-        
-        return self;
-        
-    }    
-    
-    /* Get current pitch */
     self.setCurrentPitch=function(){
-        /* find ratio of current line length to base line length */
+    
+         /* find ratio of current line length to base line length */
         var ratio=parseFloat(self.baseLineLength/self.currentLineLength);
         /* apply ratio to base pitch and set the current pitch */
         self.currentPitch=self.basePitch*ratio;
         console.log(self.baseLineLength,self.currentLineLength,"ratio:"+ratio);
+        
     }
     
-    /* play music */
+     /* play music */
     self.play=function(){
         
-        self.playTimer=setInterval(function(){ playNext() }, self.duration*1000);
+        self.playTimer=setInterval(function(){ playNext() }, self.durationMicroSeconds);
         
         return self;
     }  
@@ -99,7 +80,6 @@ var Musical = function(){
         
         }
     }    
-
     
     
     self.bad_browser=function(){
@@ -107,4 +87,7 @@ var Musical = function(){
     }    
     
    return self;
-}
+
+   
+    
+}    
