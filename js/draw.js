@@ -17,10 +17,10 @@ var DrawApp = function(){
 	 
 	var clicknum=0; 
 	var mode="line";
-    var pan=false;
-    var panMode=false;
+    
     var musicPlayer=new Musical();
     var windowZoom=new WindowZoom();
+    var windowPan=new WindowPan();
     
 	var newLineCoord = {
         x1: "nan",
@@ -52,10 +52,11 @@ var DrawApp = function(){
 			case 27:
 				reset_vars();
 			break;
-                
+               
+              //space  
             case 32:
-				panMode=false;
-                setPanOffset();
+				windowPan.panMode=false;
+                windowPan.setPanOffset();
 			break;
                 
             case 69:
@@ -129,21 +130,16 @@ var DrawApp = function(){
         switch (keycode){
             //space    
 			case 32:
-                if(pan==false){pan="newPan";}
-                if(panMode==false){ panMode="start";}
-                
+                if(windowPan.pan==false){windowPan.pan="newPan";}
+                if(windowPan.panMode==false){ windowPan.panMode="start";}
 			break;
        }       
         
     });
 	 
-	//document.getElementById("frame").addEventListener("click", function(e){
-	// document.addEventListener("click", function(e){
-		
 	$(document).on('click',".intersection",function(){
 		
   		var my_x=this.getAttribute("cx");
-		
 		var my_y=this.getAttribute("cy");
 				
 		/* get mouse positions */
@@ -179,7 +175,6 @@ var DrawApp = function(){
 				    add_line("#musicallines");
 				    var current_line=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone();
-
 				break;
 				
 				case "circle-center":
@@ -206,36 +201,14 @@ var DrawApp = function(){
 	/* MOUSE MOVE */
 	document.onmousemove = function(e) { 
         
-        var parent_offset=jQuery('#nest').parent().offset();
-        var followX=parseInt(e.pageX-parent_offset.left);
-		var followY=parseInt(e.pageY-parent_offset.top);
-        
-        var viewBox=document.getElementById("nest").getAttribute("viewBox");
-        var viewBox_a=viewBox.match(/-?[\d\.]+/g);
-        var pan_offset_x=parseInt(viewBox_a[0]);
-        var pan_offset_y=parseInt(viewBox_a[1]);
-        followX=followX+pan_offset_x;
-        followY=followY+pan_offset_y;
-        
-        if(panMode != false){
-            if(panMode=="start"){
-                var parent_offset=jQuery('#nest').parent().offset();
-                var  x=parseInt(e.pageX-parent_offset.left);
-			     var  y=parseInt(e.pageY-parent_offset.top);
-               
-                pan=new Coords(x,y);
-                panMode=true;
-            }    
-            panViewBox(e);
-        }    
+        windowPan.checkPan(e);
         
         if(isDrawMode()==true){
             //draw preview line
 
             if(newLineCoord.x1!='nan' ) {
-                //var scale=Number($("#nest").attr("data-scale"));
-                //if(typeof scale=="undefined"){ scale=1; }
-                var panOffset=getPanOffset();
+
+                var panOffset=windowPan.getPanOffset();
 
                 $('.preview_line').remove();
                 var mouseCoords=windowZoom.scaleMouseCoords(e);
@@ -374,53 +347,6 @@ var DrawApp = function(){
             windowZoom.updateWindow();
 		
 	}
-    
-    var panViewBox = function(e){
-        
-        //get current mouse coordinates
-        var parent_offset=jQuery('#nest').parent().offset();
-		//var curX=parseInt(e.pageX-parent_offset.left);
-		//var curY=parseInt(e.pageY-parent_offset.top);
-        var curX=parseInt(e.pageX)-parent_offset.left;
-		var curY=parseInt(e.pageY)-parent_offset.top;
-        
-        //get curent scale
-        var scale=Number($("#nest").attr("data-scale"));
-        
-        //get difference of current and pan
-        var xDiff=(pan.x-curX)/scale;
-        var yDiff=(pan.y-curY)/scale;
-        
-        //add to viewport paramaeters
-        
-        var viewX=parseInt($("#nest").attr("data-left"));
-        var viewY=parseInt($("#nest").attr("data-top"));
-        
-        var w=$("#nest").attr("data-width");
-        var h=$("#nest").attr("data-height");
-        var l = viewX+xDiff;
-        var t= viewY+yDiff;
-                        
-        document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
-    }  
-    
-    var getPanOffset =function(){
-        var offset=[];
-        var viewBox=document.getElementById("nest").getAttribute("viewBox");
-        var viewBox_a=viewBox.match(/-?[\d\.]+/g);
-        var pan_offset_x=parseInt(viewBox_a[0]);
-        var pan_offset_y=parseInt(viewBox_a[1]);
-        offset['x']=pan_offset_x;
-        offset['y']=pan_offset_y;
-        return offset;
-    }    
-    
-    var setPanOffset=function(){
-        var offset=getPanOffset();
-        
-        var viewX=$("#nest").attr("data-left",offset["x"]);
-        var viewY=$("#nest").attr("data-top",offset["y"]);
-    }    
     
     function changeCircleMode(){
         $("#toolbox button").removeClass("active");
