@@ -68,7 +68,9 @@ var NodeClicks=function(){
 					//add new line
 					add_line('#guidelines');
 					var current_line=$(".guideline").last(); 
-
+                    
+                    coordDictionary.currentElement=current_line; 
+			        coordDictionary.find_coords(); 
 				break;
                     
                 case "musical":
@@ -81,17 +83,23 @@ var NodeClicks=function(){
 				case "circle-center":
 					add_circle("guide");
 					current_line=$(".guide").last(); 
+                    
+                    coordDictionary.currentElement=current_line; 
+			        coordDictionary.find_coords(); 
 				break;
 				
 				case "circle-edge":
 					add_circle("guide");
 					current_line=$(".guide").last(); 
+                    
+                    coordDictionary.currentElement=current_line; 
+			        coordDictionary.find_coords(); 
 				break;
 				
 			}
             
-			coordDictionary.currentElement=current_line; 
-			coordDictionary.find_coords(); 
+            
+			
 		
 			//remove the preview line
 			self.reset_vars();
