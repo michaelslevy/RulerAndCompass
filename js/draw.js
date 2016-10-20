@@ -20,6 +20,7 @@ var DrawApp = function(){
     var pan=false;
     var panMode=false;
     var musicPlayer=new Musical();
+    var windowZoom=new WindowZoom();
     
 	var newLineCoord = {
         x1: "nan",
@@ -89,15 +90,15 @@ var DrawApp = function(){
                 
 			//= (+)
 			case 187:
-				zoomIn();
+				windowZoom.zoomIn();
 			break;
 			//-
 			case 189:
-				zoomOut();
+				windowZoom.zoomOut();
 			break;
 			//0
 			case 48:
-				zoomReset();
+				windowZoom.zoomReset();
 			break;
 			
             //.
@@ -116,11 +117,11 @@ var DrawApp = function(){
          }
         
         if(event.which == '187') {
-            zoomIn();
+            windowZoom.zoomIn();
         }
         
         else if(event.which == '189') {
-            zoomOut();
+            windowZoom.zoomOut();
         }
         
         var keycode=event.keyCode; 
@@ -192,7 +193,6 @@ var DrawApp = function(){
 				break;
 				
 			}
-			
             
 			coordDictionary.currentElement=current_line; 
 			coordDictionary.find_coords(); 
@@ -238,7 +238,7 @@ var DrawApp = function(){
                 var panOffset=getPanOffset();
 
                 $('.preview_line').remove();
-                var mouseCoords=scaleMouseCoords(e);
+                var mouseCoords=windowZoom.scaleMouseCoords(e);
                 newLineCoord.x2=mouseCoords["x"]+panOffset["x"];
                 newLineCoord.y2=mouseCoords["y"]+panOffset["y"];
 
@@ -247,7 +247,7 @@ var DrawApp = function(){
                     add_circle("preview_line");
                 }
                 
-                 var lineWidth= getLineWidth();
+                 var lineWidth= windowZoom.getLineWidth();
                 $("#nest #preview line").css("stroke-width",lineWidth);
                 $("#nest #preview circle").css("stroke-width",lineWidth);
 
@@ -263,7 +263,7 @@ var DrawApp = function(){
 		newLineCoord.x2="nan";
 		newLineCoord.y2="nan";
 		$('.preview_line').remove();
-        updateZoomDimension();
+        windowZoom.updateZoomDimension();
 	}
 	
 	function add_line(id){
@@ -371,71 +371,9 @@ var DrawApp = function(){
                 coordDictionary.removeIntersection(myId);
             });
         
-            updateWindow();
+            windowZoom.updateWindow();
 		
 	}
-	
-	var zoomIn=function(){
-        var scale=Number($("#nest").attr("data-scale")).toFixed(4);
-        if(typeof scale=="undefined" || scale <=0 || isNaN(scale)==true){
-            scale=1;   
-        }    
-        
-        scale=scale*1.1;
-        
-        $("#nest").attr("data-scale", scale).css("transform", "scale("+scale+","+scale+")");
-        updateZoomDimension(scale);
-        
-	}
-	
-	var zoomOut=function(){
-		var scale=Number($("#nest").attr("data-scale")).toFixed(4);
-        if(typeof scale=="undefined" || scale <=0 || isNaN(scale)==true){
-            scale=1;   
-        }    
-        
-        scale=scale*.9;
-        
-        $("#nest").attr("data-scale", scale).css("transform", "scale("+scale+","+scale+")");
-         updateZoomDimension(scale);
-	}
-	
-	var zoomReset=function(){
-        scale=1;
-		$("#nest").attr("data-scale", scale).css("transform", "scale("+scale+","+scale+")");
-        updateZoomDimension(scale);
-	}
-    
-    var updateZoomDimension=function(){
-        var scale=$("#nest").attr("data-scale");
-        if(typeof scale=="undefined"){ return false; }
-        var nodeRadius=(5/scale).toFixed(2);
-        var lineWidth= getLineWidth();
-        $("#nest #intersection_points circle").attr("r",nodeRadius);
-         $("#nest circle").css("stroke-width",lineWidth);
-         $("#nest line").css("stroke-width",lineWidth);
-       
-    }  
-    
-    var getLineWidth=function(){
-         var scale=$("#nest").attr("data-scale");
-        if(typeof scale=="undefined"){ return false; }
-        var nodeRadius=(5/scale);
-        var lineWidth=(1/scale);
-        return lineWidth;
-    }    
-    
-    function updateWindow(){
-
-        var w=parseInt($("#frame").width());
-        var h=parseInt($("#frame").height());
-        var l=parseInt($("#nest").attr("data-left"));
-        var t=parseInt($("#nest").attr("data-top"));
-        
-        $("#nest").attr("data-width",w).attr("data-height",h);
-        document.getElementById("nest").setAttribute("viewBox", l+" "+t+" "+w+" "+h);
-        
-    }    
     
     var panViewBox = function(e){
         
@@ -482,52 +420,6 @@ var DrawApp = function(){
         
         var viewX=$("#nest").attr("data-left",offset["x"]);
         var viewY=$("#nest").attr("data-top",offset["y"]);
-    }    
-    
-    /* method converts window coordinate system to zoom system  */
-    var scaleMouseCoords=function(e){
-        
-        /*  Get current Mouse Position position */
-        var parent_offset=jQuery('#nest').parent().offset();
-        var x=parseInt(e.pageX-parent_offset.left);
-        var y=parseInt(e.pageY-parent_offset.top);
-        
-        /* Get scale and invert */
-        var scale=Number($("#nest").attr("data-scale"));
-        var invertedRatio=1/scale;
-        
-        var compensated = []; 
-        
-        //find compensated value
-        if(typeof scale!="undefined"){
-        
-            /* get intersection points */
-            var centerX=Number($(".intersectionPoint").attr("cx"));
-            var centerY=Number($(".intersectionPoint").attr("cy"));
-
-            /* convert to centerpoint coordinate */
-            var relX=x-centerX;
-            var relY=y-centerY;
-
-            /* Scale coordinates */
-            var scaled_x=invertedRatio*relX;
-            var scaled_y=invertedRatio*relY;
-
-            /* convert to window coordinate */
-            var absX=scaled_x+centerX;
-            var absY=scaled_y+centerY;
-
-            compensated["x"]=absX;
-            compensated["y"]=absY;   
-        
-        } else {
-            compensated["x"]=x;
-            compensated["y"]=y;  
-        }    
-         
-        /* return values */
-        return compensated;
-        
     }    
     
     function changeCircleMode(){
