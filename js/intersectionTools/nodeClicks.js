@@ -240,6 +240,14 @@ var NodeClicks=function(){
 		return attrs;
 	}
 	
+	$(document).on("mouseover","line",function(){
+        if(mode=="erase"){
+        	var myID=$(this).attr("data-identifier");
+        	coordDictionary.removeIntersection(myID);
+          $(this).remove();
+        }    
+    });
+	
 	self.init();
 	return self;
 }

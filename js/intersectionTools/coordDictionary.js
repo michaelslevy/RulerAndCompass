@@ -13,58 +13,43 @@ var CoordDictionary = function(settings){
     	self.currentElementID='';
     	var lastComparison=[];//last comparison list
 	      
-        this.find_coords=function(){
-     		
-     	/*	Brute force test algorithm 
-     	 *  It is initially fast, but gets exponentially larger with each line
-     	 *  Sweep Line has better worst case with very fast best case scenarios
-     	 
-			var ce=self.currentElement;
-			$('line').not(self.currentElement).each(function(){
-				var coord=new LineIntersections(); 
-				coord.line1Id=$(ce).attr("data-identifier");
-				coord.line2Id=$(this).attr("data-identifier");
-				var intersection_point=coord.intersection_point();
-				if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
-					$("#intersection_points").CircleDraw({cx:intersection_point.x,cy:intersection_point.y,radius:5, css_class:"intersection" });
-				}
-			});
-			*/
+        self.find_coords=function(){
 			
 			if(self.currentElement.is("circle")==true ) {
-				this.find_circle_intersections();
+				self.find_circle_intersections();
 				return;
 			}  else {
-                this.checkLineIntersections();   
+                self.checkLineIntersections();   
             }    
         }
         
         //run line and circle intersetcion checks
-        this.checkLineIntersections=function(){
+        self.checkLineIntersections=function(){
             self.currentElementID=$(self.currentElement).attr("data-identifier");
      		
      		//check intersections with circles
-			this.findLineCircleIntersections();
+			self.findLineCircleIntersections();
             
             //check intersections with lines
-            this.runSweepLineCheck();
+            self.runSweepLineCheck();
         }    
         
         //if the line is straight up and down track seperately
-        this.runSweepLineCheck=function(){
+        self.runSweepLineCheck=function(){
             var myX1=parseInt($(self.currentElement).attr("x1"));
      		var myX2=parseInt($(self.currentElement).attr("x2"));
             
             if(myX1==myX2){
-                this.verticalsSweepline();
+                self.verticalsSweepline();
             } else {
-                this.normalSweepLine();
+                self.normalSweepLine();
+                self.checkNormalVerticalIntersections();//check against verticals
             }    
             
         }
         
         //used if line is straight up and down
-        this.verticalsSweepline=function(){
+        self.verticalsSweepline=function(){
             var x=parseInt($(self.currentElement).attr("x1"));
      		
             //add a new position
@@ -77,12 +62,11 @@ var CoordDictionary = function(settings){
                 self.DictionaryVerticals[x].push(self.currentElementID);
             }    
             
-            this.checkVerticalNormalIntersections();
-            
+            self.checkVerticalNormalIntersections();
         }    
         
         //checks vertical line after adding
-        this.checkVerticalNormalIntersections=function(){
+        self.checkVerticalNormalIntersections=function(){
             var xToCheck=parseInt($(self.currentElement).attr("x1"));
             var min=xToCheck-self.snapshot_width;
             var max=xToCheck+self.snapshot_width;
@@ -106,8 +90,39 @@ var CoordDictionary = function(settings){
 
         }    
         
+         //checks new line against vertical lines
+        self.checkNormalVerticalIntersections=function(){
+        	
+        	
+            var min=parseInt($(self.currentElement).attr("x1"));
+            var max =parseInt($(self.currentElement).attr("x2"));
+            
+            
+            //look in veritical dictionary for match
+            for (var x in self.DictionaryVerticals){
+                        
+            //find snapshots in range of vertical line
+                if(x > min && x < max){
+                    var checklist=[];
+                    
+                    for(el in self.DictionaryVerticals[x]){
+                        var newId=self.DictionaryVerticals[x][el];
+                        checklist.push(newId);
+                    }    
+                     
+                 //calculate intersection points for elements in list
+                    for(el in checklist){
+                        var vertical=checklist[el];
+                        var normal=self.currentElementID;
+                        findVerticalNormalintersection_points(vertical, normal);
+                    }    
+                }    
+            }    
+
+        }    
+        
         //used for all other lines
-        this.normalSweepLine=function(){
+        self.normalSweepLine=function(){
             var myX1=parseInt($(self.currentElement).attr("x1"));
      		var myX2=parseInt($(self.currentElement).attr("x2"));
             
@@ -119,15 +134,15 @@ var CoordDictionary = function(settings){
      			min_x=myX1;
      		}  
      		
-     		var start=this.find_start(min_x)-(self.snapshot_width*2); 
+     		var start=self.find_start(min_x)-(self.snapshot_width*2); 
      		var end=max_x+(self.snapshot_width*2);
      		var my_y="nan";
 
      		for(var xpos=start;xpos<=end; xpos=xpos+self.snapshot_width){
 
          		my_y=$(self.currentElement).LineEquation({known_x:xpos}).y_from_x();
-         		this.add_y_to_dictionary(xpos,my_y );
-         		this.check_for_intersections(xpos); 
+         		self.add_y_to_dictionary(xpos,my_y );
+         		self.check_for_intersections(xpos); 
 
          	}
          	         	
@@ -142,13 +157,13 @@ var CoordDictionary = function(settings){
           */
 
          /* find the starting snapshot for an element */
-         this.find_start=function(min_x){
+         self.find_start=function(min_x){
          	var mstart =Math.floor(min_x / self.snapshot_width) * self.snapshot_width; 
          	return mstart;
          }
          
          /* Add a Y value to the dictionary paired with the shape id */
-		 this.add_y_to_dictionary=function(my_x,my_y){
+		 self.add_y_to_dictionary=function(my_x,my_y){
 			el_id=$(self.currentElement).attr('data-identifier');
 	
 			var entry=[];
@@ -206,7 +221,7 @@ var CoordDictionary = function(settings){
         
           
 		
-		this.check_for_intersections=function(current_x){
+		self.check_for_intersections=function(current_x){
 			
 			/*
 			 * Sweep Line Check
@@ -236,7 +251,7 @@ var CoordDictionary = function(settings){
 				
 				//make sure there is at least two to compare
 					if(current_x_list.length>1){
-						last_comparisons=this.make_comparison_list(current_x_list);
+						last_comparisons=self.make_comparison_list(current_x_list);
 					}
 				return;
 			} 
@@ -244,7 +259,7 @@ var CoordDictionary = function(settings){
 			else if(typeof current_x_list!="undefined"  ){ 
 				//make sure there is at least two to compare
 				if(current_x_list.length>1){
-					current_comparisons=this.make_comparison_list(current_x_list);
+					current_comparisons=self.make_comparison_list(current_x_list);
 				}
 												
 			}
@@ -252,7 +267,7 @@ var CoordDictionary = function(settings){
 			//Now compare the two. Crossing of size will indicate an intersection
 			if(typeof current_comparisons !="undefined" && typeof lastComparison !="undefined"){
 				//console.log(current_comparisons,lastComparison);
-				this.append_intersection_list(current_comparisons,lastComparison );
+				self.append_intersection_list(current_comparisons,lastComparison );
 			}
 							
 			 //Prepare for the next go around	
@@ -262,21 +277,21 @@ var CoordDictionary = function(settings){
 		}
 		
         //checks for differences in sort order between lists
-		this.append_intersection_list=function(current_comparisons,lastComparison ){
+		self.append_intersection_list=function(current_comparisons,lastComparison ){
 			//console.log(current_comparisons,lastComparison);
 			if(current_comparisons.length>0 && lastComparison.length>0){
 				
 				for(index in current_comparisons ){
 					if(current_comparisons[index]!=lastComparison[index]){
 						elems=[index,self.currentElementID];
-						this.find_intersection_points(elems);
+						self.find_intersection_points(elems);
 					}
 				} 
 				
 			}
 		}
 		
-		this.make_comparison_list=function(list){
+		self.make_comparison_list=function(list){
 				var comparison_list=[];
 				var compare='smaller';
 				for(var it=0; it<list.length; it++ ){
@@ -294,7 +309,7 @@ var CoordDictionary = function(settings){
 		
        	//The grand finale
 		//Find intersection points and add them to the list
-		this.find_intersection_points=function(elems){
+		self.find_intersection_points=function(elems){
 			var intersectionCoord=new LineIntersections(); 
 			intersectionCoord.line1Id=elems[0];
 			intersectionCoord.line2Id=elems[1];
@@ -308,7 +323,7 @@ var CoordDictionary = function(settings){
 			}
 		}
 		
-		this.find_circle_intersections=function(){
+		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
 			
 			$("#guidecircles circle").not(self.currentElement).not(".preview_line").each(function(){
@@ -346,7 +361,7 @@ var CoordDictionary = function(settings){
 			
 		}
 		
-		this.findLineCircleIntersections=function(){
+		self.findLineCircleIntersections=function(){
 			var cur=self.currentElement;
 			
 			$("#guidecircles circle").each(function(){
@@ -372,14 +387,14 @@ var CoordDictionary = function(settings){
             var iNode=new IntersectionNode(iCoord,elems); 
         }    
         
-       this.removeIntersection=function(myId){
+       self.removeIntersection=function(myId){
            $("[data-identifier='"+myId+"']").remove();
-           this.removePositionsById(myId);
+           self.removePositionsById(myId);
            //removeEmptyPositions();
           
        }   
        
-       this.removePositionsById=function(myId){
+       self.removePositionsById=function(myId){
             //loop through dictionary by X positions remove positions with a given id
            
            for(var x in self.Dictionary){
@@ -457,27 +472,29 @@ var CoordDictionary = function(settings){
             self.currentElementID=$(self.currentElement).attr("data-identifier");
      		
      		//check intersections with circles
-			this.findLineCircleIntersections();
+			self.findLineCircleIntersections();
             
             //check intersections with lines
-            this.runSweepLineCheck();
+            self.runSweepLineCheck();
         }    
         
         //if the line is straight up and down track seperately
-        this.runSweepLineCheck=function(){
+        self.runSweepLineCheck=function(){
             var myX1=parseInt($(self.currentElement).attr("x1"));
      		var myX2=parseInt($(self.currentElement).attr("x2"));
             
             if(myX1==myX2){
-                this.verticalsSweepline();
+                self.verticalsSweepline(); 
             } else {
-                this.normalSweepLine();
+                self.normalSweepLine();
             }    
             
         }
         
         //used if line is straight up and down
-        this.verticalsSweepline=function(){
+        self.verticalsSweepline=function(){
+        	
+        	console.log( "sweeping" );
             var x=parseInt($(self.currentElement).attr("x1"));
      		
             //add a new position
@@ -490,12 +507,14 @@ var CoordDictionary = function(settings){
                 self.DictionaryVerticals[x].push(self.currentElementID);
             }    
             
-            this.checkVerticalNormalIntersections();
+            console.log(self.DictionaryVerticals);
+            
+            self.checkVerticalNormalIntersections();
             
         }    
         
         //checks vertical line after adding
-        this.checkVerticalNormalIntersections=function(){
+        self.checkVerticalNormalIntersections=function(){
             var xToCheck=parseInt($(self.currentElement).attr("x1"));
             var min=xToCheck-self.snapshot_width;
             var max=xToCheck+self.snapshot_width;
@@ -520,7 +539,7 @@ var CoordDictionary = function(settings){
         }    
         
         //used for all other lines
-        this.normalSweepLine=function(){
+        self.normalSweepLine=function(){
             var myX1=parseInt($(self.currentElement).attr("x1"));
      		var myX2=parseInt($(self.currentElement).attr("x2"));
             
@@ -532,15 +551,15 @@ var CoordDictionary = function(settings){
      			min_x=myX1;
      		}  
      		
-     		var start=this.find_start(min_x)-(self.snapshot_width*2); 
+     		var start=self.find_start(min_x)-(self.snapshot_width*2); 
      		var end=max_x+(self.snapshot_width*2);
      		var my_y="nan";
 
      		for(var xpos=start;xpos<=end; xpos=xpos+self.snapshot_width){
 
          		my_y=$(self.currentElement).LineEquation({known_x:xpos}).y_from_x();
-         		this.add_y_to_dictionary(xpos,my_y );
-         		this.check_for_intersections(xpos); 
+         		self.add_y_to_dictionary(xpos,my_y );
+         		self.check_for_intersections(xpos); 
 
          	}
          	         	
@@ -555,13 +574,13 @@ var CoordDictionary = function(settings){
           */
 
          /* find the starting snapshot for an element */
-         this.find_start=function(min_x){
+         self.find_start=function(min_x){
          	var mstart =Math.floor(min_x / self.snapshot_width) * self.snapshot_width; 
          	return mstart;
          }
          
          /* Add a Y value to the dictionary paired with the shape id */
-		 this.add_y_to_dictionary=function(my_x,my_y){
+		 self.add_y_to_dictionary=function(my_x,my_y){
 			el_id=$(self.currentElement).attr('data-identifier');
 	
 			var entry=[];
@@ -621,7 +640,7 @@ var CoordDictionary = function(settings){
         
           
 		
-		this.check_for_intersections=function(current_x){
+		self.check_for_intersections=function(current_x){
 			
 			/*
 			 * Sweep Line Check
@@ -651,7 +670,7 @@ var CoordDictionary = function(settings){
 				
 				//make sure there is at least two to compare
 					if(current_x_list.length>1){
-						last_comparisons=this.make_comparison_list(current_x_list);
+						last_comparisons=self.make_comparison_list(current_x_list);
 					}
 				return;
 			} 
@@ -659,7 +678,7 @@ var CoordDictionary = function(settings){
 			else if(typeof current_x_list!="undefined"  ){ 
 				//make sure there is at least two to compare
 				if(current_x_list.length>1){
-					current_comparisons=this.make_comparison_list(current_x_list);
+					current_comparisons=self.make_comparison_list(current_x_list);
 				}
 												
 			}
@@ -667,7 +686,7 @@ var CoordDictionary = function(settings){
 			//Now compare the two. Crossing of size will indicate an intersection
 			if(typeof current_comparisons !="undefined" && typeof lastComparison !="undefined"){
 				//console.log(current_comparisons,lastComparison);
-				this.append_intersection_list(current_comparisons,lastComparison );
+				self.append_intersection_list(current_comparisons,lastComparison );
 			}
 							
 			 //Prepare for the next go around	
@@ -677,21 +696,21 @@ var CoordDictionary = function(settings){
 		}
 		
         //checks for differences in sort order between lists
-		this.append_intersection_list=function(current_comparisons,lastComparison ){
+		self.append_intersection_list=function(current_comparisons,lastComparison ){
 			//console.log(current_comparisons,lastComparison);
 			if(current_comparisons.length>0 && lastComparison.length>0){
 				
 				for(index in current_comparisons ){
 					if(current_comparisons[index]!=lastComparison[index]){
 						elems=[index,self.currentElementID];
-						this.find_intersection_points(elems);
+						self.find_intersection_points(elems);
 					}
 				} 
 				
 			}
 		}
 		
-		this.make_comparison_list=function(list){
+		self.make_comparison_list=function(list){
 				var comparison_list=[];
 				var compare='smaller';
 				for(var it=0; it<list.length; it++ ){
@@ -709,7 +728,7 @@ var CoordDictionary = function(settings){
 		
        	//The grand finale
 		//Find intersection points and add them to the list
-		this.find_intersection_points=function(elems){
+		self.find_intersection_points=function(elems){
 			var intersectionCoord=new LineIntersections(); 
 			intersectionCoord.line1Id=elems[0];
 			intersectionCoord.line2Id=elems[1];
@@ -723,7 +742,7 @@ var CoordDictionary = function(settings){
 			}
 		}
 		
-		this.find_circle_intersections=function(){
+		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
 			
 			$("#guidecircles circle").not(self.currentElement).not(".preview_line").each(function(){
@@ -761,7 +780,7 @@ var CoordDictionary = function(settings){
 			
 		}
 		
-		this.findLineCircleIntersections=function(){
+		self.findLineCircleIntersections=function(){
 			var cur=self.currentElement;
 			
 			$("#guidecircles circle").each(function(){
@@ -787,14 +806,14 @@ var CoordDictionary = function(settings){
             var iNode=new IntersectionNode(iCoord,elems); 
         }    
         
-       this.removeIntersection=function(myId){
+       self.removeIntersection=function(myId){
            $("[data-identifier='"+myId+"']").remove();
            this.removePositionsById(myId);
            //removeEmptyPositions();
           
        }   
        
-       this.removePositionsById=function(myId){
+       self.removePositionsById=function(myId){
             //loop through dictionary by X positions remove positions with a given id
            
            for(var x in self.Dictionary){
