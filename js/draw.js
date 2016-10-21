@@ -135,10 +135,11 @@ var DrawApp = function(){
 	document.onmousemove = function(e) { 
         
         windowPan.checkPan(e);
-        if(isDrawMode()==true){
+        
+        if(isDrawMode()==true){ 
             //draw preview line
-			 var panOffset=windowPan.getPanOffset();
-			 var mouseCoords=windowZoom.scaleMouseCoords(e);
+            var panOffset=windowPan.getPanOffset();
+            var mouseCoords=windowZoom.scaleMouseCoords(e);
 			nodeClicks.drawPreviewLine(panOffset, mouseCoords, mode);
         }    
         
@@ -214,7 +215,7 @@ var DrawApp = function(){
     
     
     var isDrawMode = function(){
-        if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical"){
+        if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical" || mode=="draw-straight" || mode=="draw-curved"){
             return true;   
         }   
         else {

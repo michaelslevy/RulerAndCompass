@@ -86,7 +86,10 @@ body {
 	fill:none;
 }
 
-
+path {
+	stroke:#000;
+	stroke-width:1;
+}
 
 /* buttons */
 
