@@ -71,6 +71,8 @@ var NodeClicks=function(){
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                    //restore defaults
+			         self.reset_vars();
 				break;
                     
                 case "musical":
@@ -78,6 +80,8 @@ var NodeClicks=function(){
 				    add_line("#musicallines");
 				    var current_line=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone();
+                    //restore defaults
+			         self.reset_vars();
 				break;
 				
 				case "circle-center":
@@ -86,6 +90,8 @@ var NodeClicks=function(){
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                    //restore defaults
+			         self.reset_vars();
 				break;
 				
 				case "circle-edge":
@@ -94,16 +100,21 @@ var NodeClicks=function(){
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                    
+                    //restore defaults
+			         self.reset_vars();
 				break;
 				
+                case "draw-curved":
+                    var pathClick=new PathClick(mode);
+                break;    
+                    
+                case "draw-straight":
+                    var pathClick=new PathClick(mode);
+                break;    
+                    
 			}
-            
-            
-			
-		
-			//remove the preview line
-			self.reset_vars();
-		
+            				
 		}		
 	});
 	
