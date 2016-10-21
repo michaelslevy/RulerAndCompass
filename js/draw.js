@@ -21,7 +21,7 @@ var DrawApp = function(){
     
     self.init();
     
-    $(window).resize(function(){updateWindow()});
+    $(window).resize(function(){windowZoom.updateWindow()});
     
       /*****************************************
       ******** Register Key Up Events**********
@@ -52,6 +52,7 @@ var DrawApp = function(){
                 $("#toolbox button").removeClass("active");
                 $("#eraseMode").addClass("active");
 				updateNestClass();
+				nodeClicks.reset_vars();
 			break;
             
             //(l)ine
