@@ -91,6 +91,12 @@ path {
 	stroke-width:1;
 }
 
+path.selected {
+	stroke:#000;
+	stroke-width:1;
+    fill:none;
+}
+
 /* buttons */
 
 nav#toolbox {
