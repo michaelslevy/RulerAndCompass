@@ -23,42 +23,62 @@ var NodeClicks=function(){
 	self.setShapeMode=function(m){
 		mode=m;
 	}
-	
+    
+    /* RESET VARIABLES
+    *  After line finishes make ready for new line or path segment
+    */
 	self.reset_vars=function(){
         
-        if( $("path.selected").length >0){
-            pathSelected = true;
-        } else {
-            pathSelected = false;   
-        }   
+        //checks to see if there is an active open path
+        var pathSelected = isPathSelected();
         
-        console.log(pathSelected);
-        
-        
+        //if normal draw mode reset variables
         if((mode!="draw-straight" && mode != "draw-curved" )|| pathSelected!=true ){
             newLineCoord.x1="nan";
             newLineCoord.y1="nan";
             newLineCoord.x2="nan";
             newLineCoord.y2="nan";
+            newLineCoord.xQ="nan";
+            newLineCoord.yQ="nan";
 
             clicknum=0;
             
-            console.log("normal");
-        } else {
-            console.log("path drawing");
+        } 
+        
+        //enables continuity of path line
+        else if((mode=="draw-straight" || mode == "draw-curved" ) && pathSelected==true ){
+            //passes points along to next segment
             newLineCoord.x1=newLineCoord.x2;
             newLineCoord.y1=newLineCoord.y2;
+            newLineCoord.x2="nan";
+            newLineCoord.y2="nan";
+            newLineCoord.xQ="nan";
+            newLineCoord.yQ="nan";
           
             clicknum=1;
         }    
             
 		$('.preview_line').remove();
 		
+        //updates line widths 
 		var windowZoom=new WindowZoom();
         windowZoom.updateZoomDimension();
         
 	}
-		
+    
+    //checks for an active path in the DOM
+    var isPathSelected=function(){
+        
+        var pathSelected;
+        if( $("path.selected").length >0){
+            pathSelected = true;
+        } else {
+            pathSelected = false;   
+        }   
+        return pathSelected;
+    }    
+    
+	//Determines behaviors when an intersection node is clicked.	
 	$(document).on('click',".intersection",function(){
   		var my_x=this.getAttribute("cx");
 		var my_y=this.getAttribute("cy");
@@ -74,85 +94,120 @@ var NodeClicks=function(){
 						
 		} else if (clicknum == 2){ 
 			
-			//ending coordinates
-			newLineCoord.x2=my_x;
-			newLineCoord.y2=my_y;
-            
-            $("line.preview_line").attr({"x2":my_x, "y2":my_y});
+            //set enpoints
+            if(mode!="draw-curved"){
+                //ending coordinates
+                newLineCoord.x2=my_x;
+                newLineCoord.y2=my_y;
+            } 
             
 			var current_line; 
 						
 			switch (mode){
 				
 				case "line":
+                    $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					//add new line
 					add_line('#guidelines');
 					var current_line=$(".guideline").last(); 
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                    
+                    //restore defaults
+                    self.reset_vars();                    
 				break;
                     
                 case "musical":
+                    $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 				//add new line
 				    add_line("#musicallines");
 				    var current_line=$("#musicallines line").last(); 
-                    musicPlayer.playPreviewTone();
+                    musicPlayer.playPreviewTone(); //plays a preview tone
+                    
+                    //restore defaults
+                    self.reset_vars();                    
 				break;
 				
 				case "circle-center":
+                    $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                    
+                    //restore defaults
+                    self.reset_vars();                    
                    
 				break;
 				
 				case "circle-edge":
+                    $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                    
+                    //restore defaults
+                    self.reset_vars();                    
                    
 				break;
-				
-                case "draw-curved":
-                    var pathClick=new PathClick(mode,newLineCoord);
-                break;    
                     
                 case "draw-straight":
+                    $("line.preview_line").attr({"x2":my_x, "y2":my_y});
                     var pathClick=new PathClick(mode,newLineCoord);
+                    //restore defaults
+                    self.reset_vars();
+                break;   
+                    
+                case "draw-curved":
+                   
+                    //set curve control point
+                    newLineCoord.xQ=my_x;
+                    newLineCoord.yQ=my_y;
+                
                 break;    
                     
 			}
+            //end switch
+             
             
-            //restore defaults
-            self.reset_vars();
-            				
-		}		
+		}	
+        //set endpoint for curved segments
+        else if (clicknum == 3){            
+            switch (mode){
+                case "draw-curved":
+                    //ending coordinates
+                    newLineCoord.x2=my_x;
+                    newLineCoord.y2=my_y;
+                    var pathClick=new PathClick(mode,newLineCoord);
+                    self.reset_vars();
+                break; 
+            }            
+        }   	
+         
 	});
 	
+    /* draw a straight preview line */
 	self.drawPreviewLine=function(panOffset, mouseCoords){
-				
-		if(typeof newLineCoord=="undefined"){
+        
+        //Does new line coordinates exist?
+        if(typeof newLineCoord=="undefined"){
 			return false;
-		}  else if (typeof newLineCoord.x1=="undefined") {
+		}  
+        //Does new line coordinates X1 exist?
+        else if (typeof newLineCoord.x1=="undefined" || newLineCoord.x1=='nan') {
 			return false;
-		} else if(newLineCoord.x1=='nan' ) {
-			return false;
-		} 
+		}
 				
         $('.preview_line').remove();
-        newLineCoord.x2=mouseCoords["x"]+panOffset["x"];
-        newLineCoord.y2=mouseCoords["y"]+panOffset["y"];
+        var mX2=mouseCoords["x"]+panOffset["x"];
+        var mY2=mouseCoords["y"]+panOffset["y"];
         
         var mX1=newLineCoord.x1;
         var mY1=newLineCoord.y1;
-        
-        var mX2=newLineCoord.x2;
-        var mY2=newLineCoord.y2;
 
         jQuery('#preview').Guideline({css_class:"preview_line",x1: mX1, y1:mY1, x2:mX2, y2:mY2}).draw();
         if(mode=="circle-center" || mode=="circle-edge"){
@@ -164,7 +219,46 @@ var NodeClicks=function(){
         $("#nest #preview line").css("stroke-width",lineWidth);
         $("#nest #preview circle").css("stroke-width",lineWidth);
 
-	}
+	} 
+    
+    /* draw preview line for a curved path */
+    self.drawPreviewCurve=function(panOffset, mouseCoords){
+
+        //don't draw a line before first click
+        if(typeof newLineCoord=="undefined" || newLineCoord.x1=='nan' || typeof newLineCoord.x1=="undefined"){
+			return false;console.log("nothing yet");
+		}  
+        
+        //draw a straight line after first click
+        else if(newLineCoord.xQ=='nan' || typeof newLineCoord.xQ=='undefined' ) {
+           self.drawPreviewLine(panOffset, mouseCoords);
+        }    
+        
+        //draw preview curve after second click
+        else if(newLineCoord.xQ!='nan' && typeof newLineCoord.xQ!='undefined' ) {
+
+           var x1 = newLineCoord.x1;//start coord
+           var y1 = newLineCoord.y1;//start coord
+           var xQ = newLineCoord.xQ;//curve control
+           var yQ = newLineCoord.yQ;//curve control
+           var x2=mouseCoords["x"]+panOffset["x"]; //end coord
+           var y2=mouseCoords["y"]+panOffset["y"]; //end coord    
+            
+            drawPreviewCurvePath(x1,y1,xQ,yQ,x2,y2);
+        }  
+        
+    }    
+    
+    //draws a curved preview line
+     var drawPreviewCurvePath=function(x1,y1,xQ,yQ,x2,y2){
+        $(".preview_line").remove();
+        var dimensions="M "+x1+" "+y1+ " Q "+xQ+ " "+ yQ+ " "+x2+" "+y2 ;
+        var svgNS = "http://www.w3.org/2000/svg"; 
+        var mPath = document.createElementNS(svgNS,"path"); 
+        mPath.setAttributeNS(null,"d",dimensions);
+        mPath.setAttributeNS(null,"class","preview_line");
+        document.getElementById("preview").appendChild(mPath);
+    }    
 	
 	self.newCanvasPolygons=function(){
 		

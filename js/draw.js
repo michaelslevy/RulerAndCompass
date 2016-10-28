@@ -140,12 +140,15 @@ var DrawApp = function(){
 	document.onmousemove = function(e) { 
         
         windowPan.checkPan(e);
+        var panOffset=windowPan.getPanOffset();
+        var mouseCoords=windowZoom.scaleMouseCoords(e);
         
         if(isDrawMode()=="line"){ 
             //draw preview line
-            var panOffset=windowPan.getPanOffset();
-            var mouseCoords=windowZoom.scaleMouseCoords(e);
 			nodeClicks.drawPreviewLine(panOffset, mouseCoords, mode);
+        } else if(isDrawMode()=="curve"){
+         //draw preview curve
+			nodeClicks.drawPreviewCurve(panOffset, mouseCoords, mode);
         }    
         
 	}

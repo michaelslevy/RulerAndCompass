@@ -9,6 +9,8 @@ var PathClick=function(mode,current_line){
     var x2=self.current_line.x2;
     var y1=self.current_line.y1;
     var y2=self.current_line.y2;
+    var xQ=self.current_line.xQ;//curve control points
+    var yQ=self.current_line.yQ;//curve control points
     
     var clickType='point';//point or handle
     
@@ -22,8 +24,6 @@ var PathClick=function(mode,current_line){
         }    
         
     }
-    
-   
     
     var drawStraight=function(){
      
@@ -46,15 +46,17 @@ var PathClick=function(mode,current_line){
     
     //draw a new path
     var newPath=function(){
-        var dimensions="M "+x1+" "+y1+" L "+x2+ " "+ y2;
         
-        var pathClass="";
-        if(mode=="draw-curved"){ pathClass=" newCurve"; }
+        if(xQ=="nan" || typeof xQ == "undefined"){
+            var dimensions="M "+x1+" "+y1+" L "+x2+ " "+ y2;
+        } else {
+            var dimensions="M "+x1+" "+y1+" Q "+xQ+ " "+ yQ+" "+x2+ " "+ y2;
+        }
         
         var svgNS = "http://www.w3.org/2000/svg"; 
         var mPath = document.createElementNS(svgNS,"path"); 
         mPath.setAttributeNS(null,"d",dimensions);
-        mPath.setAttributeNS(null,"class","selected"+pathClass);
+        mPath.setAttributeNS(null,"class","selected");
         document.getElementById("drawinglayer").appendChild(mPath);
     }    
     
@@ -85,22 +87,14 @@ var PathClick=function(mode,current_line){
         } else {
             if(isEndpoint()==true){
                 var dimensions=$(selectedPath).attr("d");
-                dimensions=dimensions +" Z";
+                dimensions=dimensions +"Q " +xQ+" "+yQ+" "+x2 +" "+y2+" Z";
                 $(selectedPath).attr("d",dimensions).removeClass("selected");
             } else {
                 
                 var dimensions=$(selectedPath).attr("d");
                 var type=findType();
                 
-                var firstCurve=$(selectedPath).hasClass("newCurve");
-                          
-                if (type[0]=="L" && firstCurve==true ){
-                    console.log("converting");
-                   var dimensions=$(selectedPath).attr("d")+" "+x2+ " "+ y2;
-                   dimensions=dimensions.replace("L", "Q"); //Convert the line to a curve    
-                }  else if (type=="Q") {
-                    var dimensions=$(selectedPath).attr("d")+" "+x2+ " "+ y2;
-                }    
+                var dimensions=$(selectedPath).attr("d")+" Q "+xQ+"  "+yQ+" "+x2+ " "+ y2;
                 
                 $(selectedPath).attr("d",dimensions);
             }    
