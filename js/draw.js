@@ -198,8 +198,8 @@ var DrawApp = function(){
     
     var changePathMode=function(){
          $("#toolbox button").removeClass("active");
-        
-        if(mode=="draw-line"){
+        console.log(mode);
+        if(mode=="draw-straight"){
             setMode("draw-curved");   
             $("#draw-curved").addClass("active");
         } 
