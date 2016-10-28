@@ -55,6 +55,11 @@ var DrawApp = function(){
 				nodeClicks.reset_vars();
 			break;
             
+            //(d)raw    
+            case 68:
+                changePathMode();
+			break;
+            
             //(l)ine
             case 76:
                 setMode("line");
@@ -136,7 +141,7 @@ var DrawApp = function(){
         
         windowPan.checkPan(e);
         
-        if(isDrawMode()==true){ 
+        if(isDrawMode()=="line"){ 
             //draw preview line
             var panOffset=windowPan.getPanOffset();
             var mouseCoords=windowZoom.scaleMouseCoords(e);
@@ -186,6 +191,22 @@ var DrawApp = function(){
         }    
         
         updateNestClass();
+    }   
+    
+    var changePathMode=function(){
+         $("#toolbox button").removeClass("active");
+        
+        if(mode=="draw-line"){
+            setMode("draw-curved");   
+            $("#draw-curved").addClass("active");
+        } 
+        else {
+            setMode("draw-straight");   
+            $("#draw-straight").addClass("active");
+        }
+        
+        
+        updateNestClass();
     }    
 	
 	var hideIntersectionPoints=function(){
@@ -215,9 +236,11 @@ var DrawApp = function(){
     
     
     var isDrawMode = function(){
-        if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical" || mode=="draw-straight" || mode=="draw-curved"){
-            return true;   
-        }   
+        if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical" || mode=="draw-straight"){
+            return "line";   
+        }   else if(mode=="draw-curved"){
+            return "curve";
+        }    
         else {
             return false
         }

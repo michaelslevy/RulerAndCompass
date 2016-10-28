@@ -25,13 +25,33 @@ var NodeClicks=function(){
 	}
 	
 	self.reset_vars=function(){
-		
-		newLineCoord.x1="nan";
-		newLineCoord.y1="nan";
-		newLineCoord.x2="nan";
-		newLineCoord.y2="nan";
-		
-		clicknum=0;
+        
+        if( $("path.selected").length >0){
+            pathSelected = true;
+        } else {
+            pathSelected = false;   
+        }   
+        
+        console.log(pathSelected);
+        
+        
+        if((mode!="draw-straight" && mode != "draw-curved" )|| pathSelected!=true ){
+            newLineCoord.x1="nan";
+            newLineCoord.y1="nan";
+            newLineCoord.x2="nan";
+            newLineCoord.y2="nan";
+
+            clicknum=0;
+            
+            console.log("normal");
+        } else {
+            console.log("path drawing");
+            newLineCoord.x1=newLineCoord.x2;
+            newLineCoord.y1=newLineCoord.y2;
+          
+            clicknum=1;
+        }    
+            
 		$('.preview_line').remove();
 		
 		var windowZoom=new WindowZoom();
@@ -240,6 +260,12 @@ var NodeClicks=function(){
         if(mode=="erase"){
         	var myID=$(this).attr("data-identifier");
         	coordDictionary.removeIntersection(myID);
+          $(this).remove();
+        }    
+    });
+    
+    $(document).on("mouseover","path",function(){
+        if(mode=="erase"){
           $(this).remove();
         }    
     });

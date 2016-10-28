@@ -23,6 +23,8 @@ var PathClick=function(mode,current_line){
         
     }
     
+   
+    
     var drawStraight=function(){
      
         //is first click 
