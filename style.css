@@ -88,11 +88,12 @@ body {
 
 path {
 	stroke:#000;
-	stroke-width:1;
+	stroke-width:2;
+	fill:none;
 }
 
 path.selected {
-	stroke:#000;
+	stroke:#01D7E5;
 	stroke-width:1;
     fill:none;
 }

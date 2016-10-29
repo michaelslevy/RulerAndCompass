@@ -24,6 +24,19 @@ var NodeClicks=function(){
 		mode=m;
 	}
     
+      /*****************************************
+      ********  Record Mouse Status **********
+      ****************************************/ 
+        var mouseDown=false;//keep track of whether mouse is up or down;
+
+     $(document).mousedown(function() {
+     		mouseDown=true;
+     });
+      $(document).mouseup(function() {
+     		mouseDown=false;
+     });
+    
+    
     /* RESET VARIABLES
     *  After line finishes make ready for new line or path segment
     */
@@ -383,7 +396,8 @@ var NodeClicks=function(){
 		return attrs;
 	}
 	
-	$(document).on("mouseover","line",function(){
+ /* ERASE*/
+    $(document).on("click","line",function(){
         if(mode=="erase"){
         	var myID=$(this).attr("data-identifier");
         	coordDictionary.removeIntersection(myID);
@@ -391,11 +405,20 @@ var NodeClicks=function(){
         }    
     });
     
-    $(document).on("mouseover","path",function(){
-        if(mode=="erase"){
+    	$(document).on("mouseover","line",function(){
+        if(mode=="erase" && mouseDown==true){
+        	var myID=$(this).attr("data-identifier");
+        	coordDictionary.removeIntersection(myID);
           $(this).remove();
         }    
     });
+    
+    $(document).on("mouseover","path",function(){
+        if(mode=="erase" && mouseDown==true){
+          $(this).remove();
+        }    
+    });
+    
 	
 	self.init();
 	return self;

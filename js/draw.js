@@ -23,6 +23,7 @@ var DrawApp = function(){
     
     $(window).resize(function(){windowZoom.updateWindow()});
     
+
       /*****************************************
       ******** Register Key Up Events**********
       ****************************************/   
@@ -228,15 +229,7 @@ var DrawApp = function(){
         }    
     });
     
-    /* ERASE*/
-    $(document).on("click","line",function(){
-        if(mode=="erase"){
-        	var myID=$(this).attr("data-identifier");
-        	coordDictionary.removeIntersection(myID);
-          $(this).remove();
-        }    
-    });
-    
+   
     
     
     var isDrawMode = function(){
