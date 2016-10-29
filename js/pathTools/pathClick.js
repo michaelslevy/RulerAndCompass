@@ -56,9 +56,11 @@ var PathClick=function(mode,current_line){
         //add a drawing layer if none exists
         if($("#drawinglayer").length==0){
         	var svgNS = "http://www.w3.org/2000/svg"; 
+        	var nest=document.getElementById("nest");
+        	var intersectionLayer=document.getElementById("intersection_points");
         	var mGroup = document.createElementNS(svgNS,"g"); 
         	mGroup.setAttributeNS(null,"id","drawinglayer");
-        	document.getElementById("nest").appendChild(mGroup);
+        	nest.insertBefore(mGroup, intersectionLayer);
         }
         
         var svgNS = "http://www.w3.org/2000/svg"; 
