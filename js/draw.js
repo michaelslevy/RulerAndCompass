@@ -39,6 +39,7 @@ var DrawApp = function(){
             //esc    
 			case 27:
 				nodeClicks.reset_vars();
+                $("path.selected").removeClass("selected");
 			break;
                
               //space  

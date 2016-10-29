@@ -93,6 +93,12 @@ var NodeClicks=function(){
 			newLineCoord.y1=my_y;
 						
 		} else if (clicknum == 2){ 
+            
+            //ignore double clicks
+            if(newLineCoord.x1==my_x && newLineCoord.y1==my_y){
+                clicknum=1;//revert click
+                return false;   
+            }    
 			
             //set enpoints
             if(mode!="draw-curved"){
@@ -176,7 +182,12 @@ var NodeClicks=function(){
             
 		}	
         //set endpoint for curved segments
-        else if (clicknum == 3){            
+        else if (clicknum == 3){   
+            //ignore double clicks
+             if(newLineCoord.xQ==my_x && newLineCoord.yQ==my_y){
+                clicknum=2;//revert clicks
+                return false;   
+            }   
             switch (mode){
                 case "draw-curved":
                     //ending coordinates
