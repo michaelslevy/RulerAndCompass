@@ -80,13 +80,15 @@ var NodeClicks=function(){
     
 	//Determines behaviors when an intersection node is clicked.	
 	$(document).on('click',".intersection",function(){
-  		var my_x=this.getAttribute("cx");
-		var my_y=this.getAttribute("cy");
+        
+        var node=this;
+  		var my_x=node.getAttribute("cx");
+		var my_y=node.getAttribute("cy");
 						
 		/* get mouse positions */
 				
 		clicknum++;
-				
+        				
 		if(clicknum == 1){
 			//starting coordinates
 			newLineCoord.x1=my_x;
@@ -105,11 +107,60 @@ var NodeClicks=function(){
                 //ending coordinates
                 newLineCoord.x2=my_x;
                 newLineCoord.y2=my_y;
+                
+                completeLine(node);
+                
+            } else if(mode=="draw-curved"){
+                
+                //set curve control point
+                newLineCoord.xQ=my_x;
+                newLineCoord.yQ=my_y;
+            }    
+            
+            
+		}	
+        //set endpoint for curved segments
+        else if (clicknum == 3){   
+            
+            //ignore double clicks
+             if(newLineCoord.xQ==my_x && newLineCoord.yQ==my_y){
+                clicknum=2;//revert clicks
+                return false;   
+            }   
+            
+            //refresh line and complete
+             if(mode!="draw-curved"){
+                //ending coordinates
+                newLineCoord.x2=my_x;
+                newLineCoord.y2=my_y;
+                newLineCoord.xQ="nan";//remove control points
+                newLineCoord.yQ="nan";//remove control points   
+                completeLine(node);
             } 
             
-			var current_line; 
-						
-			switch (mode){
+            //complete draw curved
+            else if(mode=="draw-curved"){
+                //ending coordinates
+                newLineCoord.x2=my_x;
+                newLineCoord.y2=my_y;
+                var pathClick=new PathClick(mode,newLineCoord);
+                self.reset_vars();
+            }    
+           
+        }   	
+         
+	});
+    
+    /* COMPLETE LINE 
+    *  Triggered after node clicks
+    */
+    
+    var completeLine =function(node){
+        
+        var my_x=node.getAttribute("cx");
+		var my_y=node.getAttribute("cy");
+                
+        switch (mode){
 				
 				case "line":
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
@@ -138,7 +189,7 @@ var NodeClicks=function(){
 				case "circle-center":
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
-					current_line=$(".guide").last(); 
+					var current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
@@ -151,7 +202,7 @@ var NodeClicks=function(){
 				case "circle-edge":
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
-					current_line=$(".guide").last(); 
+					var current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
@@ -167,39 +218,10 @@ var NodeClicks=function(){
                     //restore defaults
                     self.reset_vars();
                 break;   
-                    
-                case "draw-curved":
-                   
-                    //set curve control point
-                    newLineCoord.xQ=my_x;
-                    newLineCoord.yQ=my_y;
-                
-                break;    
-                    
+                                        
 			}
-            //end switch
-             
-            
-		}	
-        //set endpoint for curved segments
-        else if (clicknum == 3){   
-            //ignore double clicks
-             if(newLineCoord.xQ==my_x && newLineCoord.yQ==my_y){
-                clicknum=2;//revert clicks
-                return false;   
-            }   
-            switch (mode){
-                case "draw-curved":
-                    //ending coordinates
-                    newLineCoord.x2=my_x;
-                    newLineCoord.y2=my_y;
-                    var pathClick=new PathClick(mode,newLineCoord);
-                    self.reset_vars();
-                break; 
-            }            
-        }   	
-         
-	});
+    }    
+    
 	
     /* draw a straight preview line */
 	self.drawPreviewLine=function(panOffset, mouseCoords){
