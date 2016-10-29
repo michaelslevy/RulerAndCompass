@@ -60,6 +60,7 @@ var NodeClicks=function(){
         
         //enables continuity of path line
         else if((mode=="draw-straight" || mode == "draw-curved" ) && pathSelected==true ){
+        	
             //passes points along to next segment
             newLineCoord.x1=newLineCoord.x2;
             newLineCoord.y1=newLineCoord.y2;
@@ -69,6 +70,7 @@ var NodeClicks=function(){
             newLineCoord.yQ="nan";
           
             clicknum=1;
+            
         }    
             
 		$('.preview_line').remove();
@@ -78,6 +80,14 @@ var NodeClicks=function(){
         windowZoom.updateZoomDimension();
         
 	}
+	
+	self.hardReset=function(){
+		  $("path.selected").removeClass("selected");
+		  var tempMode=mode; //remeber mode
+		  mode="stop"; //switching mode escapes continous click mode
+		  self.reset_vars(); //run reset
+		  mode=tempMode; //return mode
+	}	
     
     //checks for an active path in the DOM
     var isPathSelected=function(){
