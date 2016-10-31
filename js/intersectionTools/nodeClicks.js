@@ -135,9 +135,9 @@ var NodeClicks=function(){
                 
             } else if(mode=="draw-curved"){
                 
-                //set curve control point
-                newLineCoord.xQ=my_x;
-                newLineCoord.yQ=my_y;
+                //set curve end point
+                newLineCoord.x2=my_x;
+                newLineCoord.y2=my_y;
             }    
             
             
@@ -163,9 +163,9 @@ var NodeClicks=function(){
             
             //complete draw curved
             else if(mode=="draw-curved"){
-                //ending coordinates
-                newLineCoord.x2=my_x;
-                newLineCoord.y2=my_y;
+                //Set Control Points
+                newLineCoord.xQ=my_x;
+                newLineCoord.yQ=my_y;
                 var pathClick=new PathClick(mode,newLineCoord);
                 self.reset_vars();
             }    
@@ -286,19 +286,19 @@ var NodeClicks=function(){
 		}  
         
         //draw a straight line after first click
-        else if(newLineCoord.xQ=='nan' || typeof newLineCoord.xQ=='undefined' ) {
+        else if(newLineCoord.x2=='nan' || typeof newLineCoord.x2=='undefined' ) {
            self.drawPreviewLine(panOffset, mouseCoords);
         }    
         
         //draw preview curve after second click
-        else if(newLineCoord.xQ!='nan' && typeof newLineCoord.xQ!='undefined' ) {
+        else if(newLineCoord.x2!='nan' && typeof newLineCoord.x2!='undefined' ) {
 
            var x1 = newLineCoord.x1;//start coord
            var y1 = newLineCoord.y1;//start coord
-           var xQ = newLineCoord.xQ;//curve control
-           var yQ = newLineCoord.yQ;//curve control
-           var x2=mouseCoords["x"]+panOffset["x"]; //end coord
-           var y2=mouseCoords["y"]+panOffset["y"]; //end coord    
+           var x2 = newLineCoord.x2;//curve control
+           var y2 = newLineCoord.y2;//curve control
+           var xQ=mouseCoords["x"]+panOffset["x"]; //end coord
+           var yQ=mouseCoords["y"]+panOffset["y"]; //end coord    
             
             drawPreviewCurvePath(x1,y1,xQ,yQ,x2,y2);
         }  
