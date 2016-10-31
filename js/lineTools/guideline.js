@@ -3,7 +3,7 @@
 	  
 		 var plugin=this;
          var groupID=$(this).attr('id');
-		 var line_id="l"+($("svg line").length+1);
+		 var line_id="l"+$("svg line").length+1;
     
 		  var config = {
 		  	"x":"nan",
@@ -62,7 +62,7 @@
 			var svgNS = "http://www.w3.org/2000/svg"; 
 			var mLine = document.createElementNS(svgNS,"line"); 
 		    mLine.setAttributeNS(null,"class",config.css_class);
-		    mLine.setAttributeNS(null,"data-identifier",line_id);
+		    mLine.setAttributeNS(null,"data-identifier",line_id); 
 		    mLine.setAttributeNS(null,"data-lineWidth",config.lineWidth); //set absolute line width
 		    mLine.setAttributeNS(null,"x1",config.x1);
 		    mLine.setAttributeNS(null,"x2",config.x2);

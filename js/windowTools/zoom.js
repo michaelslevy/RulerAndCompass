@@ -76,7 +76,7 @@ var WindowZoom =function() {
         var parent_offset=jQuery('#nest').parent().offset();
         var x=parseInt(e.pageX-parent_offset.left);
         var y=parseInt(e.pageY-parent_offset.top);
-        
+                
         /* Get scale and invert */
         updateScale();
         var invertedRatio=1/scale;
