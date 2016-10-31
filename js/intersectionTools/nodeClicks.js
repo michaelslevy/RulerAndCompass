@@ -5,6 +5,7 @@ var NodeClicks=function(){
 	var coordDictionary=new CoordDictionary(); 
 	var musicPlayer=new Musical();
 	var mode='line';
+    var undoHistory=new UndoHistory();
 
 	 /* CLICK EVENTS
 	  * Click events are either starting points or ending points 
@@ -189,10 +190,12 @@ var NodeClicks=function(){
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					//add new line
 					add_line('#guidelines');
-					var current_line=$(".guideline").last(); 
-                    
+					var current_line=$(".guideline").last();                    
+                
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                
+                     addUndoStep(current_line);
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -204,6 +207,8 @@ var NodeClicks=function(){
 				    add_line("#musicallines");
 				    var current_line=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone(); //plays a preview tone
+                
+                    addUndoStep(current_line);
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -215,7 +220,9 @@ var NodeClicks=function(){
 					var current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
-			        coordDictionary.find_coords(); 
+			        coordDictionary.find_coords();
+                
+                     addUndoStep(current_line);
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -229,6 +236,8 @@ var NodeClicks=function(){
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                
+                    addUndoStep(current_line);
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -238,11 +247,22 @@ var NodeClicks=function(){
                 case "draw-straight":
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
                     var pathClick=new PathClick(mode,newLineCoord);
+                    
                     //restore defaults
                     self.reset_vars();
                 break;   
                                         
 			}
+    }    
+    
+    var addUndoStep=function(currentLine){
+        //console.log(currentLine);
+        var elemID=currentLine.attr("data-identifier");
+        var undoObj={
+            type:"addPrimitive",
+            content:elemID
+        }
+        undoHistory.addStep(undoObj);   
     }    
     
 	
@@ -345,7 +365,7 @@ var NodeClicks=function(){
 		y2v=newLineCoord.y2;
 		
 		jQuery(id).Guideline({x1: x1v, y1:y1v, x2:x2v, y2:y2v}).draw();
-		 
+        
 	}
 	
 	var  add_circle=function(className){
