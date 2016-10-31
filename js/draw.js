@@ -220,25 +220,7 @@ var DrawApp = function(){
 			$("#intersection_points").addClass("hidden");
 		}
 	}
-            
-    $(document).on("click","circle",function(){
-        //console.log($(this).css("stroke-width"));
-        if(mode=="erase"){
-          $(this).remove();
-        }    
-    });
-    
-    /* ERASE*/
-    $(document).on("click","line",function(){
-        if(mode=="erase"){
-        	var myID=$(this).attr("data-identifier");
-        	coordDictionary.removeIntersection(myID);
-          $(this).remove();
-        }    
-    });
-    
-    
-    
+                
     var isDrawMode = function(){
         if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical" || mode=="draw-straight"){
             return "line";   

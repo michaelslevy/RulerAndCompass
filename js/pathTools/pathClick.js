@@ -53,9 +53,12 @@ var PathClick=function(mode,current_line){
             var dimensions="M "+x1+" "+y1+" Q "+xQ+ " "+ yQ+" "+x2+ " "+ y2;
         }
         
+        var pathID="P"+(parseInt($("#drawinglayer path").length)+1);//count the number of paths to make identifier
+        
         var svgNS = "http://www.w3.org/2000/svg"; 
         var mPath = document.createElementNS(svgNS,"path"); 
         mPath.setAttributeNS(null,"d",dimensions);
+        mPath.setAttributeNS(null,"data-identifier",pathID);
         mPath.setAttributeNS(null,"class","selected");
         document.getElementById("drawinglayer").appendChild(mPath);
     }    
@@ -80,7 +83,7 @@ var PathClick=function(mode,current_line){
     * determine how to draw new segment
     */
     var drawCurved=function(){
-     
+             
         //is first click 
         if(selectedPath.length==0){
             newPath();        

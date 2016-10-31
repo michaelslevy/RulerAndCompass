@@ -382,6 +382,15 @@ var NodeClicks=function(){
 		
 		return attrs;
 	}
+    
+     /* ERASE*/
+    
+    $(document).on("click","circle",function(){
+        //console.log($(this).css("stroke-width"));
+        if(mode=="erase"){
+          $(this).remove();
+        }    
+    });
 	
 	$(document).on("mouseover","line",function(){
         if(mode=="erase"){
