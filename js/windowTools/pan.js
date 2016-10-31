@@ -13,25 +13,23 @@ var WindowPan=function(){
 	    return self;
     }
    
+   //seperate viewbox attribute and asign them to seperate values
    var setValues=function(){
    	
    		parent_offset=jQuery('#nest').parent().offset();
-	    followX=parseInt(self.event.pageX-parent_offset.left);
-		followY=parseInt(self.event.pageY-parent_offset.top);
 	        
 	    viewBox=document.getElementById("nest").getAttribute("viewBox");
 	    if(typeof viewBox != "undefined" &&  viewBox != null){
-	    	console.log(viewBox);
 	    	 viewBox_a=viewBox.match(/-?[\d\.]+/g);
 		    pan_offset_x=parseInt(viewBox_a[0]);
 		    pan_offset_y=parseInt(viewBox_a[1]);
 	    }
 	   
-	    followX=followX+pan_offset_x;
-	    followY=followY+pan_offset_y;
-	    
    }
    
+   /* Find Absolute Mouse Coords 
+    * If starting a new pan define pan property
+    */
    self.checkPan=function(e){
    		
    		//set event
@@ -39,11 +37,18 @@ var WindowPan=function(){
    		
    		//test if pan mode is on
 	   	if(self.panMode != false){
+	   		
+	   			//define pan property
 	            if(self.panMode=="start"){
+	            	
+	            	//find the offset of the frmae that holds the SVG element from the page
 	                parent_offset=jQuery('#nest').parent().offset();
+	                
+	                //set x, y values by subtracting page offset from current mouse position
 	                x=parseInt(self.event.pageX-parent_offset.left);
 				    y=parseInt(self.event.pageY-parent_offset.top);
 	               
+	               //set pan property
 	                self.pan=new Coords(x,y);
 	                self.panMode=true;
 	            }    
@@ -51,6 +56,11 @@ var WindowPan=function(){
 	        }    
    }
    
+   /* SET PAN
+   Finds the difference between the mouse position current pan
+   Scales the difference
+   Chnages Viewbox Value 
+   */
   	var panViewBox = function(){
         
         //get current mouse coordinates
@@ -61,12 +71,11 @@ var WindowPan=function(){
         //get curent scale
         var scale=Number($("#nest").attr("data-scale"));
         
-        //get difference of current and pan
+        //get difference of current and pan increment
         var xDiff=(self.pan.x-curX)/scale;
         var yDiff=(self.pan.y-curY)/scale;
         
         //add to viewport paramaeters
-        
         var viewX=parseInt($("#nest").attr("data-left"));
         var viewY=parseInt($("#nest").attr("data-top"));
         

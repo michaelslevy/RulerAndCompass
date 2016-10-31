@@ -77,6 +77,8 @@ var WindowZoom =function() {
         var x=parseInt(e.pageX-parent_offset.left);
         var y=parseInt(e.pageY-parent_offset.top);
         
+        console.log(x,y);
+        
         /* Get scale and invert */
         updateScale();
         var invertedRatio=1/scale;
