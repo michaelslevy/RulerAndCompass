@@ -56,7 +56,6 @@ var NodeClicks=function(){
             newLineCoord.yQ="nan";
 
             clicknum=0;
-            
         } 
         
         //enables continuity of path line
@@ -195,7 +194,7 @@ var NodeClicks=function(){
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
                 
-                     addUndoStep(current_line);
+                     addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -208,7 +207,7 @@ var NodeClicks=function(){
 				    var current_line=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone(); //plays a preview tone
                 
-                    addUndoStep(current_line);
+                    addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -222,7 +221,7 @@ var NodeClicks=function(){
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords();
                 
-                     addUndoStep(current_line);
+                     addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -237,7 +236,7 @@ var NodeClicks=function(){
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
                 
-                    addUndoStep(current_line);
+                    addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -255,12 +254,17 @@ var NodeClicks=function(){
 			}
     }    
     
-    var addUndoStep=function(currentLine){
+    var addUndoStep=function(currentLine,type){
         //console.log(currentLine);
+        
+        //Create list of new element id's
+        var additionList=coordDictionary.newNodeList;
         var elemID=currentLine.attr("data-identifier");
+        additionList.push(elemID);
+        
         var undoObj={
-            type:"addPrimitive",
-            content:elemID
+            type:type,
+            content:additionList
         }
         undoHistory.addStep(undoObj);   
     }    

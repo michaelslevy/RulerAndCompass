@@ -11,10 +11,13 @@ var CoordDictionary = function(settings){
         self.DictionaryVerticals=[];
     	self.currentElement='';
     	self.currentElementID='';
+        self.newNodeList=[];//passed to undo history
     	var lastComparison=[];//last comparison list
 	      
         self.find_coords=function(){
 			
+            self.newNodeList=[];//reset number of new intersections
+            
 			if(self.currentElement.is("circle")==true ) {
 				self.find_circle_intersections();
 				return;
@@ -385,6 +388,10 @@ var CoordDictionary = function(settings){
         var addIntersectionNode = function(iCoord,elems){
 
             var iNode=new IntersectionNode(iCoord,elems); 
+            //was a new node created
+            if(iNode.nodID.length>1){
+                self.newNodeList.push(iNode.nodID);
+            }    
         }    
         
        self.removeIntersection=function(myId){

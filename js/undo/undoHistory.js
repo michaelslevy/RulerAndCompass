@@ -2,12 +2,15 @@ var UndoHistory=function(){
     
     self=this;
     
-    var undoHistory=[];
-    
+    var undoHistory= JSON.parse(localStorage.getItem("RC_undoHistory"));
+    if(typeof undoHistory=="undefined" || undoHistory==null){
+        undoHistory=[];  
+    }    
+        
     self.addStep=function(undoObj){ 
-        console.log(undoObj);
         undoHistory.push(undoObj);
-        console.log(undoHistory);
+        var historyJSON=JSON.stringify(undoHistory);
+        localStorage.setItem("RC_undoHistory", historyJSON);
     }
     
     self.stepBack=function(){

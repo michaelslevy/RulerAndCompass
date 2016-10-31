@@ -3,6 +3,7 @@ var IntersectionNode = function(coords,elems){
 	self.intersectionCoords=coords;
 	self.elem1=elems[0];
 	self.elem2=elems[1];
+    self.nodID='';
 	
 	//check if exists
 	var init=function(){
@@ -39,6 +40,7 @@ var IntersectionNode = function(coords,elems){
 	function drawNode(){
 		var c=self.intersectionCoords;
 		$("#intersection_points").CircleDraw({cx:c.x,cy:c.y,radius:5, css_class:"intersection" });
+        self.nodID=$("#intersection_points circle").last().attr("data-identifier");
 	}
 	
 	//else: add element id to node
