@@ -21,7 +21,10 @@ var DrawApp = function(){
     
     self.init();
     
-    $(window).resize(function(){windowZoom.updateWindow()});
+    $(window).resize(function(){
+    	windowZoom.updateWindow();
+    	windowPan.updateWindow();
+    });
     
 
       /*****************************************

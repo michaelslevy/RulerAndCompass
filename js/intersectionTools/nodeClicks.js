@@ -318,13 +318,24 @@ var NodeClicks=function(){
 	
 	self.newCanvasPolygons=function(){
 		
-		var frameHeight=Number($('#nest').height());
-		var frameWidth=Number($('#nest').width());
-			
-		$("#guidecircles").CircleDraw();
+		 $("#guidecircles").CircleDraw(); //by default draws a centered circle
+		 
+		 /* CREATE FIRST CIRCLE
+		  * Add an intersection point in the center of the first circle
+		  * Record Centerpoint on SVG Element
+		   *********************************************************/
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
+			var centerpoint=xCoord+", "+yCoord;
 			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint"});
+			$("#nest").attr("data-centerpoint", centerpoint);
+			
+			/* CREATE INITIAL INTERSECTION NODES
+			 * Add guidelines to generate intersections then remove them
+			 */
+			var frameHeight=Number($('#nest').height());
+			var frameWidth=Number($('#nest').width());
+			
 			$("#guidelines").Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
 			coordDictionary.currentElement=$("line").last(); 
 			coordDictionary.find_coords(); 
@@ -336,6 +347,7 @@ var NodeClicks=function(){
                 var myId=$(this).attr("data-identifier");
                 coordDictionary.removeIntersection(myId);
             });
+                        
 	}
 	
 	var add_line=function(id){
