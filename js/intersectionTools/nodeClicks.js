@@ -24,6 +24,19 @@ var NodeClicks=function(){
 		mode=m;
 	}
     
+      /*****************************************
+      ********  Record Mouse Status **********
+      ****************************************/ 
+        var mouseDown=false;//keep track of whether mouse is up or down;
+
+     $(document).mousedown(function() {
+     		mouseDown=true;
+     });
+      $(document).mouseup(function() {
+     		mouseDown=false;
+     });
+    
+    
     /* RESET VARIABLES
     *  After line finishes make ready for new line or path segment
     */
@@ -47,6 +60,7 @@ var NodeClicks=function(){
         
         //enables continuity of path line
         else if((mode=="draw-straight" || mode == "draw-curved" ) && pathSelected==true ){
+        	
             //passes points along to next segment
             newLineCoord.x1=newLineCoord.x2;
             newLineCoord.y1=newLineCoord.y2;
@@ -56,6 +70,7 @@ var NodeClicks=function(){
             newLineCoord.yQ="nan";
           
             clicknum=1;
+            
         }    
             
 		$('.preview_line').remove();
@@ -65,6 +80,14 @@ var NodeClicks=function(){
         windowZoom.updateZoomDimension();
         
 	}
+	
+	self.hardReset=function(){
+		  $("path.selected").removeClass("selected");
+		  var tempMode=mode; //remeber mode
+		  mode="stop"; //switching mode escapes continous click mode
+		  self.reset_vars(); //run reset
+		  mode=tempMode; //return mode
+	}	
     
     //checks for an active path in the DOM
     var isPathSelected=function(){
@@ -112,9 +135,9 @@ var NodeClicks=function(){
                 
             } else if(mode=="draw-curved"){
                 
-                //set curve control point
-                newLineCoord.xQ=my_x;
-                newLineCoord.yQ=my_y;
+                //set curve end point
+                newLineCoord.x2=my_x;
+                newLineCoord.y2=my_y;
             }    
             
             
@@ -140,9 +163,9 @@ var NodeClicks=function(){
             
             //complete draw curved
             else if(mode=="draw-curved"){
-                //ending coordinates
-                newLineCoord.x2=my_x;
-                newLineCoord.y2=my_y;
+                //Set Control Points
+                newLineCoord.xQ=my_x;
+                newLineCoord.yQ=my_y;
                 var pathClick=new PathClick(mode,newLineCoord);
                 self.reset_vars();
             }    
@@ -263,19 +286,19 @@ var NodeClicks=function(){
 		}  
         
         //draw a straight line after first click
-        else if(newLineCoord.xQ=='nan' || typeof newLineCoord.xQ=='undefined' ) {
+        else if(newLineCoord.x2=='nan' || typeof newLineCoord.x2=='undefined' ) {
            self.drawPreviewLine(panOffset, mouseCoords);
         }    
         
         //draw preview curve after second click
-        else if(newLineCoord.xQ!='nan' && typeof newLineCoord.xQ!='undefined' ) {
+        else if(newLineCoord.x2!='nan' && typeof newLineCoord.x2!='undefined' ) {
 
            var x1 = newLineCoord.x1;//start coord
            var y1 = newLineCoord.y1;//start coord
-           var xQ = newLineCoord.xQ;//curve control
-           var yQ = newLineCoord.yQ;//curve control
-           var x2=mouseCoords["x"]+panOffset["x"]; //end coord
-           var y2=mouseCoords["y"]+panOffset["y"]; //end coord    
+           var x2 = newLineCoord.x2;//curve control
+           var y2 = newLineCoord.y2;//curve control
+           var xQ=mouseCoords["x"]+panOffset["x"]; //end coord
+           var yQ=mouseCoords["y"]+panOffset["y"]; //end coord    
             
             drawPreviewCurvePath(x1,y1,xQ,yQ,x2,y2);
         }  
@@ -392,7 +415,8 @@ var NodeClicks=function(){
         }    
     });
 	
-	$(document).on("mouseover","line",function(){
+ /* ERASE*/
+    $(document).on("click","line",function(){
         if(mode=="erase"){
         	var myID=$(this).attr("data-identifier");
         	coordDictionary.removeIntersection(myID);
@@ -400,11 +424,20 @@ var NodeClicks=function(){
         }    
     });
     
-    $(document).on("mouseover","path",function(){
-        if(mode=="erase"){
+    	$(document).on("mouseover","line",function(){
+        if(mode=="erase" && mouseDown==true){
+        	var myID=$(this).attr("data-identifier");
+        	coordDictionary.removeIntersection(myID);
           $(this).remove();
         }    
     });
+    
+    $(document).on("mouseover","path",function(){
+        if(mode=="erase" && mouseDown==true){
+          $(this).remove();
+        }    
+    });
+    
 	
 	self.init();
 	return self;

@@ -23,6 +23,7 @@ var DrawApp = function(){
     
     $(window).resize(function(){windowZoom.updateWindow()});
     
+
       /*****************************************
       ******** Register Key Up Events**********
       ****************************************/   
@@ -38,8 +39,7 @@ var DrawApp = function(){
 		switch (keycode){
             //esc    
 			case 27:
-				nodeClicks.reset_vars();
-                $("path.selected").removeClass("selected");
+				nodeClicks.hardReset();
 			break;
                
               //space  
@@ -220,7 +220,7 @@ var DrawApp = function(){
 			$("#intersection_points").addClass("hidden");
 		}
 	}
-                
+
     var isDrawMode = function(){
         if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical" || mode=="draw-straight"){
             return "line";   
