@@ -3,6 +3,8 @@ var UndoHistory=function(){
     self=this;
     
     var undoHistory= JSON.parse(localStorage.getItem("RC_undoHistory"));
+    var lastStep=false;
+    
     if(typeof undoHistory=="undefined" || undoHistory==null){
         undoHistory=[];  
     }    
@@ -13,14 +15,37 @@ var UndoHistory=function(){
         
     self.addStep=function(undoObj){ 
         undoHistory.push(undoObj);
-        var historyJSON=JSON.stringify(undoHistory);
-        localStorage.setItem("RC_undoHistory", historyJSON);
+        saveHistory();
     }
     
     self.stepBack=function(){
-        var stepsNum=undoHistory.length;
-        console.log(stepsNum, undoHistory);
+        lastStep=undoHistory.pop();
+        
+        if(typeof lastStep=="undefined"){
+            return false;   
+        }    
+        
+        switch(lastStep.type){
+            case "add-primitive":
+                removePrimitives();
+            break;
+                
+        }
+        
+        saveHistory();
     }
+    
+    var removePrimitives=function(){
+        for(var i in lastStep.content){
+            var elemID= lastStep.content[i];
+            $("[data-identifier='"+elemID+"']").remove();
+        }    
+    }
+    
+    var saveHistory=function(){
+        var historyJSON=JSON.stringify(undoHistory);
+        localStorage.setItem("RC_undoHistory", historyJSON);
+    }    
     
     return self;
 }

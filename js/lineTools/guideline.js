@@ -3,7 +3,7 @@
 	  
 		 var plugin=this;
          var groupID=$(this).attr('id');
-		 var line_id="l"+$("svg line").length+1;
+		 var line_id="l"+(parseInt($("svg line").length)+1);
     
 		  var config = {
 		  	"x":"nan",
