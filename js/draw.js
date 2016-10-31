@@ -16,6 +16,8 @@ var DrawApp = function(){
     
     self.init=function(){
     	setUpCanvas();
+        var undoHistory=new UndoHistory();
+        undoHistory.refresh();
     	return self;
     }
     
@@ -91,6 +93,14 @@ var DrawApp = function(){
 			case 187:
 				windowZoom.zoomIn();
 			break;
+                
+            //(z) undo
+            case 90:
+				var undoHistory=new UndoHistory();
+                undoHistory.stepBack();
+			break;   
+                
+                
 			//-
 			case 189:
 				windowZoom.zoomOut();
@@ -105,6 +115,7 @@ var DrawApp = function(){
 				hideIntersectionPoints();
 			break;	
 		}	  
+          
 
 	});
         

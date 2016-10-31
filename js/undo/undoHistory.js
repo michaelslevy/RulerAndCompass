@@ -6,6 +6,10 @@ var UndoHistory=function(){
     if(typeof undoHistory=="undefined" || undoHistory==null){
         undoHistory=[];  
     }    
+    
+    self.refresh=function(){
+        localStorage.clear("RC_undoHistory");
+    }
         
     self.addStep=function(undoObj){ 
         undoHistory.push(undoObj);
@@ -14,7 +18,8 @@ var UndoHistory=function(){
     }
     
     self.stepBack=function(){
-    
+        var stepsNum=undoHistory.length;
+        console.log(stepsNum, undoHistory);
     }
     
     return self;

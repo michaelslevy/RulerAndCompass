@@ -5,7 +5,6 @@ var NodeClicks=function(){
 	var coordDictionary=new CoordDictionary(); 
 	var musicPlayer=new Musical();
 	var mode='line';
-    var undoHistory=new UndoHistory();
 
 	 /* CLICK EVENTS
 	  * Click events are either starting points or ending points 
@@ -266,6 +265,8 @@ var NodeClicks=function(){
             type:type,
             content:additionList
         }
+        
+        var undoHistory=new UndoHistory();
         undoHistory.addStep(undoObj);   
     }    
     
