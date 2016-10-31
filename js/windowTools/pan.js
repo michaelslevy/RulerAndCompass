@@ -102,6 +102,10 @@ var WindowPan=function(){
     	document.getElementById("nest").setAttribute("viewBox", x+" "+y+" "+w+" "+h);
     }
     
+    /* FIND PAN OFFSET 
+     * Used when creating preview lines
+     * Determines offset based on pan
+     */
     self.getPanOffset =function(){
         var offset=[];
         var viewBox=document.getElementById("nest").getAttribute("viewBox");
@@ -125,6 +129,7 @@ var WindowPan=function(){
      */
     
     self.updateWindow=function(){
+    	console.log("updating");
     	findCenterpointOffset();
 		updateViewBox(centerpointOffset.x ,centerpointOffset.y);
     }
@@ -139,8 +144,8 @@ var WindowPan=function(){
     		y: centerpointArr[1]
     	}
     	
-    	var frameHeight=Number($('#nest').height());
-		var frameWidth=Number($('#nest').width());
+    	var frameHeight=Number($('#nest').parent().height());
+		var frameWidth=Number($('#nest').parent().width());
     	var windowCenter={
     		x:(frameWidth/2),
     		y:(frameHeight/2)
