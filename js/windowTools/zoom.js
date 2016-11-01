@@ -76,7 +76,7 @@ var WindowZoom =function() {
         var parent_offset=jQuery('#nest').parent().offset();
         var x=parseInt(e.pageX-parent_offset.left);
         var y=parseInt(e.pageY-parent_offset.top);
-                
+                        
         /* Get scale and invert */
         updateScale();
         var invertedRatio=1/scale;
@@ -89,7 +89,7 @@ var WindowZoom =function() {
             /* get intersection points */
             var centerX=Number($(".intersectionPoint").attr("cx"));
             var centerY=Number($(".intersectionPoint").attr("cy"));
-
+            
             /* convert to centerpoint coordinate */
             var relX=x-centerX;
             var relY=y-centerY;
@@ -99,8 +99,8 @@ var WindowZoom =function() {
             var scaled_y=invertedRatio*relY;
 
             /* convert to window coordinate */
-            var absX=scaled_x+centerX;
-            var absY=scaled_y+centerY;
+            var absX=scaled_x+centerX+centerpointOffset.x;
+            var absY=scaled_y+centerY+centerpointOffset.y;
 
             compensated["x"]=absX;
             compensated["y"]=absY;   

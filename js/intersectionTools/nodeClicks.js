@@ -327,7 +327,7 @@ var NodeClicks=function(){
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
-			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint"});
+			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint"});
 			$("#nest").attr("data-centerpoint", centerpoint);
 			
 			/* CREATE INITIAL INTERSECTION NODES

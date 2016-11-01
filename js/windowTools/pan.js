@@ -129,13 +129,13 @@ var WindowPan=function(){
      */
     
     self.updateWindow=function(){
-    	console.log("updating");
-    	findCenterpointOffset();
+    	self.findCenterpointOffset();
+    	console.log(centerpointOffset)
 		updateViewBox(centerpointOffset.x ,centerpointOffset.y);
     }
     
     /* FIND CENTER POINT OFFSET*/
-    var findCenterpointOffset=function(){
+    self.findCenterpointOffset=function(){
     	
     	var centerpointAttr=$("#nest").attr("data-centerpoint");
     	var centerpointArr=centerpointAttr.split(",");
@@ -146,17 +146,30 @@ var WindowPan=function(){
     	
     	var frameHeight=Number($('#nest').parent().height());
 		var frameWidth=Number($('#nest').parent().width());
+		
+		
+		
     	var windowCenter={
     		x:(frameWidth/2),
     		y:(frameHeight/2)
     	}
-    	
-    	console.log(drawingCenter, windowCenter);
-    	
+    	    	    	    	
     	centerpointOffset.x=drawingCenter.x-windowCenter.x;
     	centerpointOffset.y=drawingCenter.y-windowCenter.y;
+    	console.log(centerpointOffset, drawingCenter,windowCenter);
+    	
+    	return centerpointOffset;
     }
+	
+	 /* RESET CENTER POINT */
+	/* Resets center based on first circle */
+	self.resetCenterPoint =function(circle){
+		
+	}
+	
 	
 	init();
 	return self;
 }
+
+
