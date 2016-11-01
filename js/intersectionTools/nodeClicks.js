@@ -328,7 +328,8 @@ var NodeClicks=function(){
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
 			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint"});
-			$("#nest").attr("data-centerpoint", centerpoint);
+			//$("#nest").attr("data-centerpoint", centerpoint);
+			$("#nest centerpoint").text( centerpoint);
 			
 			/* CREATE INITIAL INTERSECTION NODES
 			 * Add guidelines to generate intersections then remove them
