@@ -70,6 +70,19 @@ var PathClick=function(mode,current_line){
         mPath.setAttributeNS(null,"data-identifier",pathID);
         mPath.setAttributeNS(null,"class","selected");
         document.getElementById("drawinglayer").appendChild(mPath);
+        
+        
+        var type="add-primitive";
+        var additionList=[pathID];
+        //add path to undo list
+         var undoObj={
+            type:type,
+            content:additionList
+        }
+        
+        var undoHistory=new UndoHistory();
+        undoHistory.addStep(undoObj);
+        
     }    
     
     //check if its the end of the path

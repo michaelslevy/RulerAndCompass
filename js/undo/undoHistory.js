@@ -28,6 +28,7 @@ var UndoHistory=function(){
         switch(lastStep.type){
             case "add-primitive":
                 removePrimitives();
+                $(".preview_line").remove();
             break;
                 
         }

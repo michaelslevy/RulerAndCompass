@@ -129,11 +129,9 @@ var NodeClicks=function(){
                 //ending coordinates
                 newLineCoord.x2=my_x;
                 newLineCoord.y2=my_y;
-                
                 completeLine(node);
-                
-            } else if(mode=="draw-curved"){
-                
+            } 
+            else if(mode=="draw-curved"){
                 //set curve end point
                 newLineCoord.x2=my_x;
                 newLineCoord.y2=my_y;

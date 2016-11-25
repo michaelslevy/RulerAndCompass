@@ -98,6 +98,7 @@ var DrawApp = function(){
             case 90:
 				var undoHistory=new UndoHistory();
                 undoHistory.stepBack();
+                nodeClicks.reset_vars();
 			break;   
                 
                 
