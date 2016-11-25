@@ -99,8 +99,8 @@ var WindowZoom =function() {
             var scaled_y=invertedRatio*relY;
 
             /* convert to window coordinate */
-            var absX=scaled_x+centerX+centerpointOffset.x;
-            var absY=scaled_y+centerY+centerpointOffset.y;
+            var absX=scaled_x+centerX;
+            var absY=scaled_y+centerY;
 
             compensated["x"]=absX;
             compensated["y"]=absY;   
