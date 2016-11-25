@@ -71,9 +71,12 @@ var PathClick=function(mode,current_line){
         mPath.setAttributeNS(null,"class","selected");
         document.getElementById("drawinglayer").appendChild(mPath);
         
-        
+       /* 
+       * add undo history 
+       */
         var type="add-primitive";
         var additionList=[pathID];
+        
         //add path to undo list
          var undoObj={
             type:type,
