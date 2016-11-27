@@ -100,7 +100,12 @@ var DrawApp = function(){
                 undoHistory.stepBack();
                 nodeClicks.reset_vars();
 			break;   
-                
+            
+            //f7 - Layer pallette
+			case 118:
+                console.log("layers");
+				var layers=new LayerPalette();
+			break;    
                 
 			//-
 			case 189:
