@@ -372,7 +372,7 @@ var NodeClicks=function(){
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
-			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint"});
+			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint",stroke:"none", fill:"#666"});
 			//$("#nest").attr("data-centerpoint", centerpoint);
 			$("#nest centerpoint").text( centerpoint);
 			
