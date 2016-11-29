@@ -431,7 +431,7 @@ var NodeClicks=function(){
 		}
         
 		//draw circle
-		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className }); 
+		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className, fill:fill,stroke:stroke }); 
 
 	}
 	
