@@ -3,7 +3,7 @@
 	  
 		 var plugin=this;
          var groupID=$(this).attr('id');
-		 var line_id="l"+$("svg line").length+1;
+		 var line_id="l"+(parseInt($("svg line").length)+1);
     
 		  var config = {
 		  	"x":"nan",
@@ -13,7 +13,9 @@
             "y1":"nan", 
             "y2":"nan",
             "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
-            "css_class":"guideline"
+            "css_class":"guideline",
+            'stroke':"#000000",
+            'lineWidth':1
           }
 		  
 		if (settings) {
@@ -69,6 +71,8 @@
 		    mLine.setAttributeNS(null,"y1",config.y1);
 		    mLine.setAttributeNS(null,"y2",config.y2);
 		    mLine.setAttributeNS(null,"style","stroke-width:"+scale);
+		    mLine.setAttributeNS(null,"fill",config.fill);
+		    mLine.setAttributeNS(null,"stroke",config.stroke); 
 		  /*  mLine.setAttributeNS(null,"y2",config.y2);*/ 
 		    
 		    document.getElementById(groupID).appendChild(mLine);

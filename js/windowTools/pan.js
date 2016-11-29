@@ -131,6 +131,7 @@ var WindowPan=function(){
     self.updateWindow=function(){
     	self.findCenterpointOffset();
     	console.log(centerpointOffset)
+
 		updateViewBox(centerpointOffset.x ,centerpointOffset.y);
     }
     

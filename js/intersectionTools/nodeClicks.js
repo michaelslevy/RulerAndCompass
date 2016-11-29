@@ -5,6 +5,9 @@ var NodeClicks=function(){
 	var coordDictionary=new CoordDictionary(); 
 	var musicPlayer=new Musical();
 	var mode='line';
+	var fill="none";
+	var stroke="#000000";
+	var strokeWidth=1;
 
 	 /* CLICK EVENTS
 	  * Click events are either starting points or ending points 
@@ -55,7 +58,6 @@ var NodeClicks=function(){
             newLineCoord.yQ="nan";
 
             clicknum=0;
-            
         } 
         
         //enables continuity of path line
@@ -130,11 +132,9 @@ var NodeClicks=function(){
                 //ending coordinates
                 newLineCoord.x2=my_x;
                 newLineCoord.y2=my_y;
-                
                 completeLine(node);
-                
-            } else if(mode=="draw-curved"){
-                
+            } 
+            else if(mode=="draw-curved"){
                 //set curve end point
                 newLineCoord.x2=my_x;
                 newLineCoord.y2=my_y;
@@ -186,36 +186,53 @@ var NodeClicks=function(){
         switch (mode){
 				
 				case "line":
+					fill="none";
+					stroke="#666666";
+					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					//add new line
 					add_line('#guidelines');
-					var current_line=$(".guideline").last(); 
-                    
+					var current_line=$(".guideline").last();                    
+                
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                
+                     addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
 				break;
                     
                 case "musical":
+                
+                	fill="none";
+					stroke="#000000";
+					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 				//add new line
 				    add_line("#musicallines");
 				    var current_line=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone(); //plays a preview tone
+                
+                    addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
 				break;
 				
 				case "circle-center":
+				
+					fill="none";
+					stroke="#666666";
+					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					var current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
-			        coordDictionary.find_coords(); 
+			        coordDictionary.find_coords();
+                
+                     addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -223,12 +240,18 @@ var NodeClicks=function(){
 				break;
 				
 				case "circle-edge":
+				
+					fill="none";
+					stroke="#666666";
+				
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					var current_line=$(".guide").last(); 
                     
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
+                
+                    addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -236,13 +259,35 @@ var NodeClicks=function(){
 				break;
                     
                 case "draw-straight":
+                	
+                	fill="none";
+					stroke="#000000";
+                		
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
                     var pathClick=new PathClick(mode,newLineCoord);
+                    
                     //restore defaults
                     self.reset_vars();
                 break;   
                                         
 			}
+    }    
+    
+    var addUndoStep=function(currentLine,type){
+        //console.log(currentLine);
+        
+        //Create list of new element id's
+        var additionList=coordDictionary.newNodeList;
+        var elemID=currentLine.attr("data-identifier");
+        additionList.push(elemID);
+        
+        var undoObj={
+            type:type,
+            content:additionList
+        }
+        
+        var undoHistory=new UndoHistory();
+        undoHistory.addStep(undoObj);   
     }    
     
 	
@@ -357,8 +402,16 @@ var NodeClicks=function(){
 		x2v=newLineCoord.x2;
 		y2v=newLineCoord.y2;
 		
-		jQuery(id).Guideline({x1: x1v, y1:y1v, x2:x2v, y2:y2v}).draw();
-		 
+		jQuery(id).Guideline({
+				x1: x1v,
+				y1:y1v, 
+				x2:x2v, 
+				y2:y2v,
+				fill:fill,
+				stroke:stroke,
+				lineWidth:strokeWidth
+			}).draw();
+        
 	}
 	
 	var  add_circle=function(className){
@@ -418,6 +471,15 @@ var NodeClicks=function(){
 		
 		return attrs;
 	}
+    
+     /* ERASE*/
+    
+    $(document).on("click","circle",function(){
+        //console.log($(this).css("stroke-width"));
+        if(mode=="erase"){
+          $(this).remove();
+        }    
+    });
 	
  /* ERASE*/
     $(document).on("click","line",function(){

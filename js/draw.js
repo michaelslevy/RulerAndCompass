@@ -16,6 +16,8 @@ var DrawApp = function(){
     
     self.init=function(){
     	setUpCanvas();
+        var undoHistory=new UndoHistory();
+        undoHistory.refresh();
     	return self;
     }
     
@@ -91,6 +93,15 @@ var DrawApp = function(){
 			case 187:
 				windowZoom.zoomIn();
 			break;
+                
+            //(z) undo
+            case 90:
+				var undoHistory=new UndoHistory();
+                undoHistory.stepBack();
+                nodeClicks.reset_vars();
+			break;   
+                
+                
 			//-
 			case 189:
 				windowZoom.zoomOut();
@@ -105,6 +116,7 @@ var DrawApp = function(){
 				hideIntersectionPoints();
 			break;	
 		}	  
+          
 
 	});
         
@@ -223,17 +235,7 @@ var DrawApp = function(){
 			$("#intersection_points").addClass("hidden");
 		}
 	}
-            
-    $(document).on("click","circle",function(){
-        //console.log($(this).css("stroke-width"));
-        if(mode=="erase"){
-          $(this).remove();
-        }    
-    });
-    
-   
-    
-    
+
     var isDrawMode = function(){
         if(mode=="circle-center" || mode=="circle-edge" || mode=="line" || mode=="musical" || mode=="draw-straight"){
             return "line";   
