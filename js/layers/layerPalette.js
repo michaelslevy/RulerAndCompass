@@ -2,11 +2,36 @@ var LayerPalette=function(){
     
     var self=this;
     
+    var layersHTML="<div id='layerPallette' class='pallette'>"+
+   "<header>Layers</header>"+
+    
+    "<ul id='drawingLayers'>"+
+    "    <li><a class='on selected' identifier='Layer 1'></a>Layer 1</li>"+
+    "</ul>"+
+    
+    "<ul id='guideLayers'>"+
+    "    <li id='intersection_points'>"+
+    "        <a class='on selected' identifier='intersection'></a>"+ 
+    "        <span>intersection points</span>"+
+    "    </li>"+
+    "    <li>"+
+    "        <a class='on selected' identifier='guidelines'></a>"+
+    "        <span>guides</span>"+
+    "    </li>"+
+    "</ul>"+
+    
+    "<footer>"+
+    "    <button id='newLayer'>+</button>"+
+    "    <button id='eraseLayer'>-</button>"+
+    "</footer>"+
+       
+    "</div>";
+    
     var init=function(){
         
         console.log("initilaizing");
         //make window
-        $( "body" ).load( "js/layers/layerPalette.html");
+        $( "body" ).prepend(layersHTML);
     }
     
     //populate window

@@ -38,9 +38,7 @@ var DrawApp = function(){
        
 	  var charCode = e.charCode || e.keyCode, character = String.fromCharCode(charCode);
 	  var keycode=e.keyCode;    
-	
-	//alert(keycode);
-	
+		
 		switch (keycode){
             //esc    
 			case 27:
@@ -102,8 +100,8 @@ var DrawApp = function(){
 			break;   
             
             //f7 - Layer pallette
-			case 118:
-                console.log("layers");
+			case 55:
+                console.log("layers"); 
 				var layers=new LayerPalette();
 			break;    
                 
@@ -121,6 +119,8 @@ var DrawApp = function(){
 				hideIntersectionPoints();
 			break;	
 		}	  
+       
+       e.preventDefault()
           
 
 	});
