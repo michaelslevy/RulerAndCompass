@@ -1,25 +1,24 @@
-<div id='layerPallette' class='pallette'>
-
-    <header>Layers</header>
+<div id='layerPalette' class='palette'>
+  <header>Layers</header>
     
-    <ul id='drawingLayers'>
-        <li><a class='on selected' identifier="Layer 1"></a>Layer 1</li>
-    </ul>
+   <ul id='drawingLayers'>
+       <li><a class='on selector' identifier='Layer 1'></a>layer 1</li>
+   </ul>
     
-    <ul id='guideLayers'>
-        <li id='intersection_points'>
-            <a class='on selected' identifier="intersection"></a> 
-            <span>intersection points</span>
-        </li>
-        <li>
-            <a class='on selected' identifier="guidelines"></a>
-            <span>guides</span>
-        </li>
-    </ul>
+   <ul id='guideLayers'>
+       <li id='intersection_points'>
+           <a class='on selector' identifier='intersection'></a>
+   <span>intersection points</span>
+       </li>
+       <li>
+           <a class='on selector' identifier='guidelines'></a>
+   <span>guides</span>
+       </li>
+   </ul>
     
-    <footer>
-        <button id='newLayer'>+</button>
-        <button id='eraseLayer'>-</button>
-    </footer>
+   <footer class='clearfix'>
+       <a class='closeLayer' href=''><i class='small material-icons'>note_add</i></a>
+       <button id='eraseLayer'><i class='small material-icons'>delete</i></button>
+   </footer>
        
-</div>
+   </div>

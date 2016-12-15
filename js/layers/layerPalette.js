@@ -2,36 +2,44 @@ var LayerPalette=function(){
     
     var self=this;
     
-    var layersHTML="<div id='layerPallette' class='pallette'>"+
-   "<header>Layers</header>"+
+    var layersHTML="<div id='layerPalette' class='palette'>"+
+   "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
     "<ul id='drawingLayers'>"+
-    "    <li><a class='on selected' identifier='Layer 1'></a>Layer 1</li>"+
+    "    <li><a class='on selector' identifier='Layer 1'></a>layer 1</li>"+
     "</ul>"+
     
     "<ul id='guideLayers'>"+
     "    <li id='intersection_points'>"+
-    "        <a class='on selected' identifier='intersection'></a>"+ 
-    "        <span>intersection points</span>"+
+    "        <a class='on selector' identifier='intersection'></a>"+ 
+    "<span>intersection points</span>"+
     "    </li>"+
     "    <li>"+
-    "        <a class='on selected' identifier='guidelines'></a>"+
-    "        <span>guides</span>"+
+    "        <a class='on selector' identifier='guidelines'></a>"+
+    "<span>guides</span>"+
     "    </li>"+
     "</ul>"+
     
-    "<footer>"+
-    "    <button id='newLayer'>+</button>"+
-    "    <button id='eraseLayer'>-</button>"+
+    "<footer class='clearfix'>"+
+    "    <button id='newLayer'><i class='small material-icons'>note_add</i></button>"+
+    "    <button id='eraseLayer'><i class='small material-icons'>delete</i></button>"+
     "</footer>"+
        
     "</div>";
     
     var init=function(){
         
-        console.log("initilaizing");
-        //make window
-        $( "body" ).prepend(layersHTML);
+        if($("#layerPalette").length>0){
+            if($("#layerPalette").css("display")=="none"){
+                $("#layerPalette").show();
+            } else {
+                $("#layerPalette").hide();
+            }    
+            
+        } else {    
+            //make window
+            $(layersHTML).draggable({ handle: "header", containment: "window" }).prependTo($('body')).css("position", "absolute");
+        }    
     }
     
     //populate window
@@ -62,3 +70,9 @@ var LayerPalette=function(){
     return self;
         
 }
+
+ $( ".palette" ).draggable({ handle: "header", containment: "window" });
+ $( document ).on('click','.palette .close',function(){
+     
+    $( ".palette" ).hide();
+ });
