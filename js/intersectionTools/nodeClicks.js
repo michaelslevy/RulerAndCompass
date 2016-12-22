@@ -490,10 +490,16 @@ var NodeClicks=function(){
         }    
     });
     
-    	$(document).on("mouseover","line",function(){
+    $(document).on("mouseover","line",function(){
         if(mode=="erase" && mouseDown==true){
         	var myID=$(this).attr("data-identifier");
         	coordDictionary.removeIntersection(myID);
+          $(this).remove();
+        }    
+    });
+    
+    $(document).on("mouseover","circle",function(){
+        if(mode=="erase" && mouseDown==true){
           $(this).remove();
         }    
     });
