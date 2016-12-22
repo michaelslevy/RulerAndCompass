@@ -22,10 +22,10 @@ var IntersectionNode = function(coords,elems){
 	 	var exists=false;
 		$("#intersection_points circle").each(function(){
 			
-			var cx=Number($(this).attr('cx')).toFixed(6);
-			var cy=Number($(this).attr('cy')).toFixed(6);
-            coord.x=Number(coord.x).toFixed(6);
-            coord.y=Number(coord.y).toFixed(6);
+			var cx=Number($(this).attr('cx'));
+			var cy=Number($(this).attr('cy'));
+            coord.x=Number(coord.x);
+            coord.y=Number(coord.y);
             						
 			if(cx==coord.x && cy==coord.y){
 				exists =true;
