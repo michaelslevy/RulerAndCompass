@@ -22,10 +22,11 @@ var IntersectionNode = function(coords,elems){
 	 	var exists=false;
 		$("#intersection_points circle").each(function(){
 			
-			var cx=Number($(this).attr('cx'));
-			var cy=Number($(this).attr('cy'));
-            coord.x=Number(coord.x);
-            coord.y=Number(coord.y);
+			//looks for intersections within .01 pexls of each other
+			var cx=Number($(this).attr('cx')).toFixed(2);
+			var cy=Number($(this).attr('cy')).toFixed(2);
+            coord.x=Number(coord.x).toFixed(2);
+            coord.y=Number(coord.y).toFixed(2);
             						
 			if(cx==coord.x && cy==coord.y){
 				exists =true;

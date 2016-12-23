@@ -87,7 +87,7 @@ var LineIntersections = function(){
 		var c=self.line1Attributes.yIntercept;
 		var d=self.line2Attributes.yIntercept;
         
-		var x=(d-c)/(a-b).toFixed(precision);
+		var x=(d-c)/(a-b);
 		var y=a*((d-c)/(a-b))+c;
         
 		self.coords=new Coords(x,y); 

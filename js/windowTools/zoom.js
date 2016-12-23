@@ -44,7 +44,7 @@ var WindowZoom =function() {
     self.updateZoomDimension=function(){
        updateScale();
         if(typeof scale=="undefined"){ return false; }
-        var nodeRadius=(5/scale).toFixed(2);
+        var nodeRadius=(5/scale);
         var lineWidth= self.getLineWidth();
         $("#nest #intersection_points circle").attr("r",nodeRadius);
          $("#nest circle").css("stroke-width",lineWidth);
