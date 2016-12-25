@@ -391,7 +391,7 @@ var NodeClicks=function(){
 			coordDictionary.find_coords();
             $("#guidelines line").each(function(){
                 var myId=$(this).attr("data-identifier");
-                coordDictionary.removeIntersection(myId);
+               coordDictionary.removeIntersection(myId);
             });
                         
 	}

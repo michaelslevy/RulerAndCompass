@@ -34,8 +34,24 @@ var CoordDictionary = function(settings){
 			self.findLineCircleIntersections();
             
             //check intersections with lines
-            self.runSweepLineCheck();
+           // self.runSweepLineCheck();
+           self.findLineLineIntersections();
         }    
+        
+        self.findLineLineIntersections=function(){
+        	$("#guidelines line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
+        		
+        		var intersections = new LineIntersections();
+        		intersections.line1=$(this);
+        		intersections.line2=$("[data-identifier='"+self.currentElementID+"']");
+        		var intersection_point=intersections.intersection_point();
+        		if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
+        			var elems=[];
+					addIntersectionNode(intersection_point,elems);
+				}
+        		
+        	});
+        }
         
         //if the line is straight up and down track seperately
         self.runSweepLineCheck=function(){
@@ -44,11 +60,9 @@ var CoordDictionary = function(settings){
             
             if(myX1==myX2){
                 self.verticalsSweepline();
-                console.log("vertical sweep");
             } else {
                 self.normalSweepLine();
                 self.checkNormalVerticalIntersections();//check against verticals
-                console.log("normal");
             }    
             
         }
@@ -320,7 +334,7 @@ var CoordDictionary = function(settings){
 			var intersectionCoord=new LineIntersections(); 
 			intersectionCoord.line1Id=elems[0];
 			intersectionCoord.line2Id=elems[1];
-            
+			
 			var intersection_point=intersectionCoord.intersection_point();
                         
 			var iCoord=new Coords(intersection_point.x,intersection_point.y);
