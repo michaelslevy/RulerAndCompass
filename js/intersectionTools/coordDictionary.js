@@ -44,9 +44,11 @@ var CoordDictionary = function(settings){
             
             if(myX1==myX2){
                 self.verticalsSweepline();
+                console.log("vertical sweep");
             } else {
                 self.normalSweepLine();
                 self.checkNormalVerticalIntersections();//check against verticals
+                console.log("normal");
             }    
             
         }
@@ -148,7 +150,7 @@ var CoordDictionary = function(settings){
          		self.check_for_intersections(xpos); 
 
          	}
-         	         	
+         	         	         	
          	//reset comparison array
          	lastComparison=[];
          	
@@ -282,8 +284,10 @@ var CoordDictionary = function(settings){
         //checks for differences in sort order between lists
 		self.append_intersection_list=function(current_comparisons,lastComparison ){
 			//console.log(current_comparisons,lastComparison);
-			if(current_comparisons.length>0 && lastComparison.length>0){
-				
+			
+			//use jquery to test if objects are empty
+			if($.isEmptyObject(current_comparisons)==false && $.isEmptyObject(lastComparison)==false){
+
 				for(index in current_comparisons ){
 					if(current_comparisons[index]!=lastComparison[index]){
 						elems=[index,self.currentElementID];
@@ -318,8 +322,7 @@ var CoordDictionary = function(settings){
 			intersectionCoord.line2Id=elems[1];
             
 			var intersection_point=intersectionCoord.intersection_point();
-            
-            
+                        
 			var iCoord=new Coords(intersection_point.x,intersection_point.y);
 			if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
 				addIntersectionNode(iCoord,elems);

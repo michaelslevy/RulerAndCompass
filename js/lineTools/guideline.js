@@ -65,6 +65,7 @@
 			var mLine = document.createElementNS(svgNS,"line"); 
 		    mLine.setAttributeNS(null,"class",config.css_class);
 		    mLine.setAttributeNS(null,"data-identifier",line_id); 
+		    mLine.setAttributeNS(null,"id","L"+line_id); 
 		    mLine.setAttributeNS(null,"data-lineWidth",config.lineWidth); //set absolute line width
 		    mLine.setAttributeNS(null,"x1",config.x1);
 		    mLine.setAttributeNS(null,"x2",config.x2);

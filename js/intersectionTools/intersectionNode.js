@@ -23,12 +23,18 @@ var IntersectionNode = function(coords,elems){
 		$("#intersection_points circle").each(function(){
 			
 			//looks for intersections within .01 pexls of each other
-			var cx=Number($(this).attr('cx')).toFixed(2);
-			var cy=Number($(this).attr('cy')).toFixed(2);
-            coord.x=Number(coord.x).toFixed(2);
-            coord.y=Number(coord.y).toFixed(2);
+			var cx=Number($(this).attr('cx'));
+			var cy=Number($(this).attr('cy'));
+            var IntX=Number(coord.x);
+            var IntY=Number(coord.y);
+         
+         var X=cx.toFixed(2);
+         var Y= cy.toFixed(2);
+         var x=IntX.toFixed(2);
+          var y=IntY.toFixed(2);
+       
             						
-			if(cx==coord.x && cy==coord.y){
+			if(X==x && y==Y){
 				exists =true;
                 return;
 			}
