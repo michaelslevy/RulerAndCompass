@@ -214,7 +214,7 @@ var NodeClicks=function(){
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					var current_line=$(".guide").last(); 
-                    
+
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords();
                 

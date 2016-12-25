@@ -15,7 +15,7 @@ var CoordDictionary = function(settings){
     	var lastComparison=[];//last comparison list
 	      
         self.find_coords=function(){
-			
+            			
             self.newNodeList=[];//reset number of new intersections
             
 			if(self.currentElement.is("circle")==true ) {
@@ -361,6 +361,8 @@ var CoordDictionary = function(settings){
 					addIntersectionNode(iCoord,elems);
 				}
 			});
+            
+            
 			
 		}
 		
@@ -386,7 +388,6 @@ var CoordDictionary = function(settings){
 		}
         
         var addIntersectionNode = function(iCoord,elems){
-
             var iNode=new IntersectionNode(iCoord,elems); 
             //was a new node created
             if(iNode.nodID.length>1){
