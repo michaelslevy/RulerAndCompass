@@ -40,7 +40,7 @@ var CoordDictionary = function(settings){
         
         self.findLineLineIntersections=function(){
         	$("#guidelines line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
-        		
+
         		var intersections = new LineIntersections();
         		intersections.line1=$(this);
         		intersections.line2=$("[data-identifier='"+self.currentElementID+"']");

@@ -34,8 +34,13 @@ var LineIntersections = function(){
 		if(typeof self.line1!='undefined' &&  typeof self.line2 !='undefined' ){
 			self.setCoordinates();
 			self.defineSlopesAndIntercepts();
-			self.calculateXYcoordinates();
-                      
+			
+			if(isFinite(self.line1Attributes.slope)==false || isFinite(self.line2Attributes.slope)==false ){
+				self.calculateXYcoordinatesVertical();
+			} else {
+				self.calculateXYcoordinates();
+			}
+         
 			if(self.insideLines()==false ){
 				return false;
 			} else {
@@ -107,6 +112,26 @@ var LineIntersections = function(){
 		self.coords=new Coords(x,y); 
 				
 	}
+	
+	self.calculateXYcoordinatesVertical=function(){
+			
+			var X;
+			var Y;
+			
+			if(isFinite(self.line1Attributes.slope)==false) {
+				X=self.line1Attributes.x1;
+				Y=self.line2.LineEquation({known_x:X}).y_from_x();
+			}	else if (isFinite(self.line2Attributes.slope)==false ){
+				X=self.line2Attributes.x1;
+				Y=self.line1.LineEquation({known_x:X}).y_from_x();
+			} else {
+				console.warn("No vertical line found");
+				return false;
+			}
+			
+			self.coords=new Coords(X,Y); 
+			
+	}			
 	
 	//determine whether coordinates lie inside the bounds of the line
 	this.insideLines=function(){
