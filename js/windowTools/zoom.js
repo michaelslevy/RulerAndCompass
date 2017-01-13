@@ -44,7 +44,7 @@ var WindowZoom =function() {
     self.updateZoomDimension=function(){
        updateScale();
         if(typeof scale=="undefined"){ return false; }
-        var nodeRadius=(5/scale).toFixed(2);
+        var nodeRadius=(5/scale);
         var lineWidth= self.getLineWidth();
         $("#nest #intersection_points circle").attr("r",nodeRadius);
          $("#nest circle").css("stroke-width",lineWidth);
@@ -76,7 +76,7 @@ var WindowZoom =function() {
         var parent_offset=jQuery('#nest').parent().offset();
         var x=parseInt(e.pageX-parent_offset.left);
         var y=parseInt(e.pageY-parent_offset.top);
-                
+                        
         /* Get scale and invert */
         updateScale();
         var invertedRatio=1/scale;
@@ -89,7 +89,7 @@ var WindowZoom =function() {
             /* get intersection points */
             var centerX=Number($(".intersectionPoint").attr("cx"));
             var centerY=Number($(".intersectionPoint").attr("cy"));
-
+            
             /* convert to centerpoint coordinate */
             var relX=x-centerX;
             var relY=y-centerY;

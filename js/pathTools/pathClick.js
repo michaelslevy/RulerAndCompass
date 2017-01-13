@@ -12,6 +12,9 @@ var PathClick=function(mode,current_line){
     var xQ=self.current_line.xQ;//curve control points
     var yQ=self.current_line.yQ;//curve control points
     
+    var stroke="#000000";
+    var fill="none";
+    
     var clickType='point';//point or handle
     
     //direct the action
@@ -69,6 +72,8 @@ var PathClick=function(mode,current_line){
         mPath.setAttributeNS(null,"d",dimensions);
         mPath.setAttributeNS(null,"data-identifier",pathID);
         mPath.setAttributeNS(null,"class","selected");
+        mPath.setAttributeNS(null,"stroke",stroke);
+        mPath.setAttributeNS(null,"fill",fill);
         document.getElementById("drawinglayer").appendChild(mPath);
         
        /* 

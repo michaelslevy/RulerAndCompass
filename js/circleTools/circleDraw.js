@@ -12,7 +12,9 @@ $.fn.CircleDraw = function(settings){
         "cx": win_width/2,
         "cy":win_height/2,
         "css_class":'guide',
-        "lineWidth":1 //Variable remembers  value at scale 1. Line width will change according to zoom. 
+        "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
+        "stroke":"#666666",
+        "fill":"none"
     }
 
     if (settings) {
@@ -48,6 +50,8 @@ $.fn.CircleDraw = function(settings){
         mLine.setAttributeNS(null,"cx",config.cx);
         mLine.setAttributeNS(null,"cy",config.cy);
         mLine.setAttributeNS(null,"data-identifier",identifier);
+        mLine.setAttributeNS(null,"stroke",config.stroke);
+        mLine.setAttributeNS(null,"fill",config.fill);
 
 		var theID=$(plugin).attr("id");
 

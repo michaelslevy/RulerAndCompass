@@ -5,6 +5,9 @@ var NodeClicks=function(){
 	var coordDictionary=new CoordDictionary(); 
 	var musicPlayer=new Musical();
 	var mode='line';
+	var fill="none";
+	var stroke="#000000";
+	var strokeWidth=1;
 
 	 /* CLICK EVENTS
 	  * Click events are either starting points or ending points 
@@ -183,6 +186,9 @@ var NodeClicks=function(){
         switch (mode){
 				
 				case "line":
+					fill="none";
+					stroke="#666666";
+					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					//add new line
 					add_line('#guidelines');
@@ -198,6 +204,10 @@ var NodeClicks=function(){
 				break;
                     
                 case "musical":
+                
+                	fill="none";
+					stroke="#000000";
+					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 				//add new line
 				    add_line("#musicallines");
@@ -211,6 +221,10 @@ var NodeClicks=function(){
 				break;
 				
 				case "circle-center":
+				
+					fill="none";
+					stroke="#666666";
+					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					var current_line=$(".guide").last(); 
@@ -226,6 +240,10 @@ var NodeClicks=function(){
 				break;
 				
 				case "circle-edge":
+				
+					fill="none";
+					stroke="#666666";
+				
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					var current_line=$(".guide").last(); 
@@ -241,6 +259,10 @@ var NodeClicks=function(){
 				break;
                     
                 case "draw-straight":
+                	
+                	fill="none";
+					stroke="#000000";
+                		
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
                     var pathClick=new PathClick(mode,newLineCoord);
                     
@@ -350,8 +372,9 @@ var NodeClicks=function(){
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
-			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint"});
-			$("#nest").attr("data-centerpoint", centerpoint);
+			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint",stroke:"none", fill:"#666"});
+			//$("#nest").attr("data-centerpoint", centerpoint);
+			$("#nest centerpoint").text( centerpoint);
 			
 			/* CREATE INITIAL INTERSECTION NODES
 			 * Add guidelines to generate intersections then remove them
@@ -368,7 +391,7 @@ var NodeClicks=function(){
 			coordDictionary.find_coords();
             $("#guidelines line").each(function(){
                 var myId=$(this).attr("data-identifier");
-                coordDictionary.removeIntersection(myId);
+               coordDictionary.removeIntersection(myId);
             });
                         
 	}
@@ -379,7 +402,15 @@ var NodeClicks=function(){
 		x2v=newLineCoord.x2;
 		y2v=newLineCoord.y2;
 		
-		jQuery(id).Guideline({x1: x1v, y1:y1v, x2:x2v, y2:y2v}).draw();
+		jQuery(id).Guideline({
+				x1: x1v,
+				y1:y1v, 
+				x2:x2v, 
+				y2:y2v,
+				fill:fill,
+				stroke:stroke,
+				lineWidth:strokeWidth
+			}).draw();
         
 	}
 	
@@ -400,7 +431,7 @@ var NodeClicks=function(){
 		}
         
 		//draw circle
-		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className }); 
+		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className, fill:fill,stroke:stroke }); 
 
 	}
 	
@@ -459,10 +490,16 @@ var NodeClicks=function(){
         }    
     });
     
-    	$(document).on("mouseover","line",function(){
+    $(document).on("mouseover","line",function(){
         if(mode=="erase" && mouseDown==true){
         	var myID=$(this).attr("data-identifier");
         	coordDictionary.removeIntersection(myID);
+          $(this).remove();
+        }    
+    });
+    
+    $(document).on("mouseover","circle",function(){
+        if(mode=="erase" && mouseDown==true){
           $(this).remove();
         }    
     });

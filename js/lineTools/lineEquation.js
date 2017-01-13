@@ -2,6 +2,8 @@
 	$.fn.LineEquation = function(settings){
 		 var self=this;
          var precision=6;
+         
+         console.log(self);
     
 		  var config = {
 			slope:"nan",
@@ -109,6 +111,7 @@
 				console.log("Error:known_x is not defined");
 			}
 			if(isNaN(slope)){ 
+				console.log(config);
 				console.log("Error:slope is not defined");
 			}
 			if(isNaN(yi)){ 

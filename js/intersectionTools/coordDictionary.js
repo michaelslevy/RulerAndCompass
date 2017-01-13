@@ -34,8 +34,24 @@ var CoordDictionary = function(settings){
 			self.findLineCircleIntersections();
             
             //check intersections with lines
-            self.runSweepLineCheck();
+           // self.runSweepLineCheck();
+           self.findLineLineIntersections();
         }    
+        
+        self.findLineLineIntersections=function(){
+        	$("#guidelines line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
+
+        		var intersections = new LineIntersections();
+        		intersections.line1=$(this);
+        		intersections.line2=$("[data-identifier='"+self.currentElementID+"']");
+        		var intersection_point=intersections.intersection_point();
+        		if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
+        			var elems=[];
+					addIntersectionNode(intersection_point,elems);
+				}
+        		
+        	});
+        }
         
         //if the line is straight up and down track seperately
         self.runSweepLineCheck=function(){
@@ -148,7 +164,7 @@ var CoordDictionary = function(settings){
          		self.check_for_intersections(xpos); 
 
          	}
-         	         	
+         	         	         	
          	//reset comparison array
          	lastComparison=[];
          	
@@ -282,8 +298,10 @@ var CoordDictionary = function(settings){
         //checks for differences in sort order between lists
 		self.append_intersection_list=function(current_comparisons,lastComparison ){
 			//console.log(current_comparisons,lastComparison);
-			if(current_comparisons.length>0 && lastComparison.length>0){
-				
+			
+			//use jquery to test if objects are empty
+			if($.isEmptyObject(current_comparisons)==false && $.isEmptyObject(lastComparison)==false){
+
 				for(index in current_comparisons ){
 					if(current_comparisons[index]!=lastComparison[index]){
 						elems=[index,self.currentElementID];
@@ -316,10 +334,9 @@ var CoordDictionary = function(settings){
 			var intersectionCoord=new LineIntersections(); 
 			intersectionCoord.line1Id=elems[0];
 			intersectionCoord.line2Id=elems[1];
-            
+			
 			var intersection_point=intersectionCoord.intersection_point();
-            
-            
+                        
 			var iCoord=new Coords(intersection_point.x,intersection_point.y);
 			if(intersection_point!=false && isNaN(intersection_point.x)!=true &&  isNaN(intersection_point.y)!=true){ 
 				addIntersectionNode(iCoord,elems);

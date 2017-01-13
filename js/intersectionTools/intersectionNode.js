@@ -22,12 +22,19 @@ var IntersectionNode = function(coords,elems){
 	 	var exists=false;
 		$("#intersection_points circle").each(function(){
 			
-			var cx=Number($(this).attr('cx')).toFixed(6);
-			var cy=Number($(this).attr('cy')).toFixed(6);
-            coord.x=Number(coord.x).toFixed(6);
-            coord.y=Number(coord.y).toFixed(6);
+			//looks for intersections within .01 pexls of each other
+			var cx=Number($(this).attr('cx'));
+			var cy=Number($(this).attr('cy'));
+            var IntX=Number(coord.x);
+            var IntY=Number(coord.y);
+         
+         var X=cx.toFixed(2);
+         var Y= cy.toFixed(2);
+         var x=IntX.toFixed(2);
+          var y=IntY.toFixed(2);
+       
             						
-			if(cx==coord.x && cy==coord.y){
+			if(X==x && y==Y){
 				exists =true;
                 return;
 			}
@@ -39,7 +46,7 @@ var IntersectionNode = function(coords,elems){
 	//if not: draw node
 	function drawNode(){
 		var c=self.intersectionCoords;
-		$("#intersection_points").CircleDraw({cx:c.x,cy:c.y,radius:5, css_class:"intersection" });
+		$("#intersection_points").CircleDraw({cx:c.x,cy:c.y,radius:5, css_class:"intersection",stroke:'none',fill:'fill' });
         self.nodID=$("#intersection_points circle").last().attr("data-identifier");
 	}
 	

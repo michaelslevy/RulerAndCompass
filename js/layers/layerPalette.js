@@ -38,7 +38,7 @@ var LayerPalette=function(){
             
         } else {    
             //make window
-            $(layersHTML).draggable({ handle: "header", containment: "window" }).prependTo($('body')).css("position", "absolute");
+            $(layersHTML).draggable({ handle: "header", containment: "window" }).appendTo($('body')).css("position", "absolute");
         }    
     }
     
@@ -74,5 +74,5 @@ var LayerPalette=function(){
  $( ".palette" ).draggable({ handle: "header", containment: "window" });
  $( document ).on('click','.palette .close',function(){
      
-    $( ".palette" ).hide();
+    $( ".palette" ).remove(); 
  });

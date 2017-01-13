@@ -129,34 +129,54 @@ var WindowPan=function(){
      */
     
     self.updateWindow=function(){
-    	//console.log("updating");
-    	findCenterpointOffset();
+    	self.findCenterpointOffset();
+    	//console.log(centerpointOffset)
+
 		updateViewBox(centerpointOffset.x ,centerpointOffset.y);
     }
     
-    /* FIND CENTER POINT OFFSET*/
-    var findCenterpointOffset=function(){
+    /* FIND CENTER POINT OFFSET
+     * Gets the difference of the drawings center from the windows center
+     * */
+    self.findCenterpointOffset=function(){
     	
-    	var centerpointAttr=$("#nest").attr("data-centerpoint");
+    	//get valur from metadata
+    	var centerpointAttr=$("#nest centerpoint").text();
+    	
+    	//if metadata can't be bound use the first intersection point.'
+    	if(centerpointAttr.length<1){
+    		var firsIntersection=$("#nest #intersection_points circle").first();
+    		var x=firsIntersection.attr("cx");
+    		var y=firsIntersection.attr("cy");
+    		centerpointAttr=x+", "+y
+    	}
+    	
+    	//convert attribute string to an object
     	var centerpointArr=centerpointAttr.split(",");
     	var drawingCenter={
     		x: centerpointArr[0],
     		y: centerpointArr[1]
     	}
     	
+    	//find window dimensions
     	var frameHeight=Number($('#nest').parent().height());
 		var frameWidth=Number($('#nest').parent().width());
+		
+		//define widow center
     	var windowCenter={
     		x:(frameWidth/2),
     		y:(frameHeight/2)
     	}
-    	
-    	//console.log(drawingCenter, windowCenter);
-    	
+    	 
+    	 //find difference   	    	    	
     	centerpointOffset.x=drawingCenter.x-windowCenter.x;
     	centerpointOffset.y=drawingCenter.y-windowCenter.y;
+    	
+    	return centerpointOffset;
     }
 	
 	init();
 	return self;
 }
+
+
