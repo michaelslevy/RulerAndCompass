@@ -6,17 +6,13 @@ var LayerPalette=function(){
    "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
     "<ul id='drawingLayers'>"+
-    "    <li><a class='on selector' identifier='Layer 1'></a>layer 1</li>"+
+    "    <li data-identifier='drawinglayer'><a class='on selector' identifier='Layer 1'></a>drawing</li>"+
     "</ul>"+
     
     "<ul id='guideLayers'>"+
-    "    <li id='intersection_points'>"+
-    "        <a class='on selector' identifier='intersection'></a>"+ 
-    "<span>intersection points</span>"+
-    "    </li>"+
-    "    <li>"+
-    "        <a class='on selector' identifier='guidelines'></a>"+
-    "<span>guides</span>"+
+    "    <li data-identifier='guidelines'>"+
+    "        <a class='on selector' ></a>"+
+    "<span>guide</span>"+
     "    </li>"+
     "</ul>"+
     
@@ -28,18 +24,7 @@ var LayerPalette=function(){
     "</div>";
     
     var init=function(){
-        
-        if($("#layerPalette").length>0){
-            if($("#layerPalette").css("display")=="none"){
-                $("#layerPalette").show();
-            } else {
-                $("#layerPalette").hide();
-            }    
-            
-        } else {    
-            //make window
-            $(layersHTML).draggable({ handle: "header", containment: "window" }).appendTo($('body')).css("position", "absolute");
-        }    
+        hideShowLayerPalette(layersHTML);
     }
     
     //populate window
@@ -74,5 +59,29 @@ var LayerPalette=function(){
  $( ".palette" ).draggable({ handle: "header", containment: "window" });
  $( document ).on('click','.palette .close',function(){
      
-    $( ".palette" ).remove(); 
+   hideShowLayerPalette(); 
  });
+
+/*
+$( document ).on('click','.palette .close',function(){
+     
+ });*/
+
+function hideShowLayerPalette(layersHTML){
+
+    if($("#layerPalette").length>0){
+                if($("#layerPalette").css("display")=="none"){
+                    $("#layerPalette").show();
+                } else {
+                    $("#layerPalette").hide();
+                }    
+
+            } else {    
+                console.log(layersHTML);
+                //make window
+                $(layersHTML).draggable({ handle: "header", containment: "window" }).appendTo($('body')).css("position", "absolute");
+            } 
+}
+
+   
+

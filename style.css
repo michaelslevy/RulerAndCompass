@@ -6,7 +6,7 @@ html, body {
 
 body {
     position:relative;
-	margin:2% 2% 0 2%;
+	margin:0% 2% 0 2%;
 	background:black;
 	height:95%;
 }
@@ -293,7 +293,7 @@ header.layout nav {
 
 #frame {
 	clear:both;
-	height:calc(100%  - 29px);
+	height:calc(100%  - 60px);
 }
 
 #menu li {
