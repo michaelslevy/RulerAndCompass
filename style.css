@@ -66,8 +66,8 @@ body {
 	fill:#aaa; 
 }
 
-#intersection_points.hidden  .intersection{
-	fill-opacity:0; 
+svg g.hidden  {
+	display:none;
 }
 
 .intersection:hover,
@@ -215,11 +215,11 @@ nav#toolbox button.active {
     width:200px;
 }
 
-#guideLayers li{
+.palette li.heading{
     background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHElEQVQYV2O8efPmf3V1dUYGKIAzMARgKjFUAABhTQgFqUDzYAAAAABJRU5ErkJggg==');
 }
 
-#guideLayers li:hover{
+.palette  li.heading:hover{
 background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAJUlEQVQYV2NUmfD/f5U9Axwwzjv//z+Cy8AAF2g7yMAAUomhAgBMfg+xx0DOUQAAAABJRU5ErkJggg==');
     color:black;
 }    
@@ -262,7 +262,8 @@ background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z
     display:inline-block;
     height:10px;
     width:10px;
-    border:solid 1px #eee;
+    border:solid 1px #000000;
+    background:white;
     margin-right:10px;
 }
 

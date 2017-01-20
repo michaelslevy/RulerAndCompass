@@ -6,11 +6,11 @@ var LayerPalette=function(){
    "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
     "<ul id='drawingLayers'>"+
-    "    <li data-identifier='drawinglayer'><a class='on selector' identifier='Layer 1'></a>drawing</li>"+
+    "    <li data-identifier='drawinglayer' class='heading'><a class='on selector' identifier='Layer 1'></a>drawing</li>"+
     "</ul>"+
     
     "<ul id='guideLayers'>"+
-    "    <li data-identifier='guidelines'>"+
+    "    <li data-identifier='guidelines' class='heading'>"+
     "        <a class='on selector' ></a>"+
     "<span>guide</span>"+
     "    </li>"+
@@ -23,65 +23,53 @@ var LayerPalette=function(){
        
     "</div>";
     
-    var init=function(){
-        hideShowLayerPalette(layersHTML);
+    var hideShowLayerPalette=function(){
+        
+       if($("#layerPalette").length>0){
+           
+             if($("#layerPalette").css("display")=="none"){
+                $("#layerPalette").css("display","block");
+            } else {
+                $("#layerPalette").css("display","none");
+            }    
+
+             } else {       
+                    //make window
+                    $(layersHTML).draggable({ handle: "header", containment: "window" }).appendTo($('body')).css("position", "absolute");
+             } 
     }
     
-    //populate window
-
-        //get layers
+    var init=function(){
+        hideShowLayerPalette();
+    }
         
-        //get layer visibility
-        
-    //turn on and off layers
+     $( ".palette" ).draggable({ handle: "header", containment: "window" });
+     $( document ).off('mouseup','.palette .close').on('mouseup','.palette .close',function(){
+       hideShowLayerPalette(); 
+     });
     
-    //select layer
-    
-    //change layer name
-    
-        //change name to an input on click
-        
-        //change name to text on blur
-            
-            //validate id
-            
-            //change layer id        
-    
-    //add layer
-    
-    //delete layer
-    
-    init();
-    return self;
-        
-}
 
- $( ".palette" ).draggable({ handle: "header", containment: "window" });
- $( document ).on('click','.palette .close',function(){
-     
-   hideShowLayerPalette(); 
- });
-
-/*
-$( document ).on('click','.palette .close',function(){
-     
- });*/
-
-function hideShowLayerPalette(layersHTML){
-
-    if($("#layerPalette").length>0){
-                if($("#layerPalette").css("display")=="none"){
-                    $("#layerPalette").show();
-                } else {
-                    $("#layerPalette").hide();
-                }    
-
-            } else {    
-                console.log(layersHTML);
-                //make window
-                $(layersHTML).draggable({ handle: "header", containment: "window" }).appendTo($('body')).css("position", "absolute");
-            } 
-}
-
+    $( document ).off('click','.palette .selector').on('click','.palette .selector',function(){
+         var layerId="#"+$(this).parent().attr("data-identifier");
+         var on=$(this).hasClass("on");
+            if(on==true){
+                //turn off layer
+                $(this).removeClass("on");
+                $(layerId).addClass("hidden");
+            } else {
+                //turn on layer
+                $(this).addClass("on");
+                $(layerId).removeClass("hidden");
+            }    
+     });
    
+        
+    init();
+    return self;    
+}
+
+
+
+
+
 
