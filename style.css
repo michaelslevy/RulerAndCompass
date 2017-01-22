@@ -222,6 +222,10 @@ nav#toolbox button.active {
 .palette  li.heading:hover{
 background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAJUlEQVQYV2NUmfD/f5U9Axwwzjv//z+Cy8AAF2g7yMAAUomhAgBMfg+xx0DOUQAAAABJRU5ErkJggg==');
     color:black;
+}  
+
+.palette ul li.selected {
+    background:#daedff;
 }    
 
 .palette ul li:hover {

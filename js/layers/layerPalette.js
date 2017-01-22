@@ -10,7 +10,7 @@ var LayerPalette=function(){
     "</ul>"+
     
     "<ul id='guideLayers'>"+
-    "    <li data-identifier='guidelines' class='heading'>"+
+    "    <li data-identifier='guides' class='heading selected'>"+
     "        <a class='on selector' ></a>"+
     "<span>guide</span>"+
     "    </li>"+
@@ -60,6 +60,22 @@ var LayerPalette=function(){
                 //turn on layer
                 $(this).addClass("on");
                 $(layerId).removeClass("hidden");
+            }    
+     });
+    
+    $( document ).off('click','.palette li').on('click','.palette li',function(){
+        var layerId="#"+$(this).attr("data-identifier");
+          var on=$(this).hasClass("selected");
+            if(on==true){
+                //turn off layer
+                $(this).removeClass("selected");
+                $(layerId).removeClass("selected");
+            } else {
+                //turn on layer
+                $("g").removeClass("selected");
+                $(".palette li").removeClass("selected");
+                $(this).addClass("selected");
+                $(layerId).addClass("selected");
             }    
      });
    

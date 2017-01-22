@@ -54,8 +54,7 @@ $.fn.CircleDraw = function(settings){
         mLine.setAttributeNS(null,"fill",config.fill);
 
 		var theID=$(plugin).attr("id");
-
-        document.getElementById(theID).appendChild(mLine); 
+       document.getElementById(theID).appendChild(mLine); 
 
     }
     

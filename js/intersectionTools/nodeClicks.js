@@ -186,13 +186,18 @@ var NodeClicks=function(){
         switch (mode){
 				
 				case "line":
+                    //place line into selected layer
+                    var selectedGroupID="#"+$("g.selected").attr("id");
+
 					fill="none";
 					stroke="#666666";
 					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
+                
 					//add new line
-					add_line('#guidelines');
-					var current_line=$(".guideline").last();                    
+                   
+					add_line(selectedGroupID);
+					var current_line=$(selectedGroupID).find('line').last();  
                 
                     coordDictionary.currentElement=current_line; 
 			        coordDictionary.find_coords(); 
@@ -274,7 +279,6 @@ var NodeClicks=function(){
     }    
     
     var addUndoStep=function(currentLine,type){
-        //console.log(currentLine);
         
         //Create list of new element id's
         var additionList=coordDictionary.newNodeList;
@@ -363,7 +367,7 @@ var NodeClicks=function(){
 	
 	self.newCanvasPolygons=function(){
 		
-		 $("#guidecircles").CircleDraw(); //by default draws a centered circle
+		 $("#guides").CircleDraw(); //by default draws a centered circle
 		 
 		 /* CREATE FIRST CIRCLE
 		  * Add an intersection point in the center of the first circle
@@ -373,7 +377,6 @@ var NodeClicks=function(){
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
 			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint",stroke:"none", fill:"#666"});
-			//$("#nest").attr("data-centerpoint", centerpoint);
 			$("#nest centerpoint").text( centerpoint);
 			
 			/* CREATE INITIAL INTERSECTION NODES
@@ -382,14 +385,14 @@ var NodeClicks=function(){
 			var frameHeight=Number($('#nest').height());
 			var frameWidth=Number($('#nest').width());
 			
-			$("#guidelines").Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
+			$("#guides").Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
 			coordDictionary.currentElement=$("line").last(); 
 			coordDictionary.find_coords(); 
 			
-			$("#guidelines").Guideline({x1:0,y1:yCoord,x2:frameWidth,y2:yCoord}).draw();
+			$("#guides").Guideline({x1:0,y1:yCoord,x2:frameWidth,y2:yCoord}).draw();
 			coordDictionary.currentElement=$("line").last();
 			coordDictionary.find_coords();
-            $("#guidelines line").each(function(){
+            $("#guides line").each(function(){
                 var myId=$(this).attr("data-identifier");
                coordDictionary.removeIntersection(myId);
             });
@@ -417,7 +420,8 @@ var NodeClicks=function(){
 	var  add_circle=function(className){
 		//define variables
 		var myClass=className;
-        var group="#guidecircles";
+        var group="#"+$("g.selected").attr("id");
+
         if(myClass=="preview_line"){
             group="#preview";
         }  

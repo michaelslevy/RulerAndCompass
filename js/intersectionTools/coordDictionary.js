@@ -39,7 +39,7 @@ var CoordDictionary = function(settings){
         }    
         
         self.findLineLineIntersections=function(){
-        	$("#guidelines line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
+        	$("#guides line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
 
         		var intersections = new LineIntersections();
         		intersections.line1=$(this);
@@ -346,7 +346,7 @@ var CoordDictionary = function(settings){
 		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
 			
-			$("#guidecircles circle").not(self.currentElement).not(".preview_line").each(function(){
+			$("#guides circle").not(self.currentElement).not(".preview_line").each(function(){
 
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
 
@@ -386,7 +386,7 @@ var CoordDictionary = function(settings){
 		self.findLineCircleIntersections=function(){
 			var cur=self.currentElement;
 			
-			$("#guidecircles circle").each(function(){
+			$("#guides circle").each(function(){
 				var intersects=$(this).CircleEquation({lineToTest:cur}).findCircleLineIntersection();
 
 				var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
@@ -770,7 +770,7 @@ var CoordDictionary = function(settings){
 		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
 			
-			$("#guidecircles circle").not(self.currentElement).not(".preview_line").each(function(){
+			$("#guides circle").not(self.currentElement).not(".preview_line").each(function(){
 
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
 
@@ -808,7 +808,7 @@ var CoordDictionary = function(settings){
 		self.findLineCircleIntersections=function(){
 			var cur=self.currentElement;
 			
-			$("#guidecircles circle").each(function(){
+			$("#guides circle").each(function(){
 				var intersects=$(this).CircleEquation({lineToTest:cur}).findCircleLineIntersection();
 
 				var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
