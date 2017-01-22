@@ -6,14 +6,14 @@ html, body {
 
 body {
     position:relative;
-	margin:0% 2% 0 2%;
+	margin:0% 0;
 	background:black;
 	height:95%;
 }
 
 #frame {
 	border:solid 1px #999;
-	height:calc(96% - 50px);
+	height:calc(100% - 30px); 
 	margin:0;
 	position:relative;
 	background:#eee;
@@ -298,7 +298,6 @@ header.layout nav {
 
 #frame {
 	clear:both;
-	height:calc(100%  - 60px);
 }
 
 #menu li {
