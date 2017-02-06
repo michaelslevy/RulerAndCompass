@@ -12,7 +12,7 @@ $.fn.CircleDraw = function(settings){
         "cx": win_width/2,
         "cy":win_height/2,
         "css_class":'guide',
-        "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
+        "strokeWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
         "stroke":"#666666",
         "fill":"none"
     }
@@ -40,11 +40,20 @@ $.fn.CircleDraw = function(settings){
     		//console.log("Circle: config.cy ("+config.cy+") is not a number");
     		return false;
     	}
+        
+       var scaleAttr=$("#nest").attr('data-scale');
+       var scaledStrokeWidth;
+
+        
+       if($("g.selected").hasClass("drawing")){
+          scaledStrokeWidth=config.strokeWidth;  
+       } else {   
+          scaledStrokeWidth=1/parseFloat(scaleAttr);
+       }
 
         var svgNS = "http://www.w3.org/2000/svg"; 
         var identifier="C"+($("circle").length++);
         var mLine = document.createElementNS(svgNS,"circle"); 
-        mLine.setAttributeNS(null,"data-lineWidth",config.lineWidth); //set absolute line width
         mLine.setAttributeNS(null,"class",config.css_class);
         mLine.setAttributeNS(null,"r",config.radius);
         mLine.setAttributeNS(null,"cx",config.cx);
@@ -52,7 +61,10 @@ $.fn.CircleDraw = function(settings){
         mLine.setAttributeNS(null,"data-identifier",identifier);
         mLine.setAttributeNS(null,"stroke",config.stroke);
         mLine.setAttributeNS(null,"fill",config.fill);
-
+        
+        mLine.setAttributeNS(null,"data-lineWidth",config.strokeWidth); //set absolute line width
+        mLine.setAttributeNS(null,"style","stroke-width:"+scaledStrokeWidth);
+        
 		var theID=$(plugin).attr("id");
        document.getElementById(theID).appendChild(mLine); 
 

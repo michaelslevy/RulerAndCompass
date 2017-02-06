@@ -15,7 +15,7 @@
             "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
             "css_class":"",
             'stroke':"#000000",
-            'lineWidth':1
+            'strokeWidth':1
           }
 		  
 		if (settings) {
@@ -61,24 +61,27 @@
           // console.log(config.stroke);
             
             var scaleAttr=$("#nest").attr('data-scale');
-            var scale;
+            var scaledStrokeWidth;
            
-            scale=1/parseFloat(scaleAttr);
+           if($("g.selected").hasClass("drawing")){
+             scaledStrokeWidth=config.strokeWidth;  
+           } else {   
+            scaledStrokeWidth=1/parseFloat(scaleAttr);
+           }
            
-           
-           console.log(config.strokeWidth);
+           console.log(scaledStrokeWidth); 
          
 			var svgNS = "http://www.w3.org/2000/svg"; 
 			var mLine = document.createElementNS(svgNS,"line"); 
 		    mLine.setAttributeNS(null,"class",config.css_class);
 		    mLine.setAttributeNS(null,"data-identifier",line_id); 
 		    mLine.setAttributeNS(null,"id","L"+line_id); 
-		    mLine.setAttributeNS(null,"data-lineWidth",config.lineWidth); //set absolute line width
+		    mLine.setAttributeNS(null,"data-lineWidth",config.strokeWidth); //set absolute line width
 		    mLine.setAttributeNS(null,"x1",config.x1);
 		    mLine.setAttributeNS(null,"x2",config.x2);
 		    mLine.setAttributeNS(null,"y1",config.y1);
 		    mLine.setAttributeNS(null,"y2",config.y2);
-		    mLine.setAttributeNS(null,"style","stroke-width:"+scale);
+		    mLine.setAttributeNS(null,"style","stroke-width:"+scaledStrokeWidth);
 		    mLine.setAttributeNS(null,"fill",config.fill);
 		    mLine.setAttributeNS(null,"stroke",config.stroke); 
 		  /*  mLine.setAttributeNS(null,"y2",config.y2);*/ 

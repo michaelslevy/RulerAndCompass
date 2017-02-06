@@ -47,8 +47,8 @@ var WindowZoom =function() {
         var nodeRadius=(5/scale);
         var lineWidth= self.getLineWidth();
         $("#nest #intersection_points circle").attr("r",nodeRadius);
-         $("#nest circle").css("stroke-width",lineWidth);
-         $("#nest line").css("stroke-width",lineWidth);
+         $("#nest #guides circle").css("stroke-width",lineWidth);
+         $("#nest #guides line").not("#nest #drawingLayer circle").css("stroke-width",lineWidth);
     }  
      
      

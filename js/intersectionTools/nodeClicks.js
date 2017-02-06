@@ -435,7 +435,7 @@ var NodeClicks=function(){
 				y2:y2v,
 				fill:fill,
 				stroke:mStroke,
-				lineWidth:mStrokeWidth
+				strokeWidth:mStrokeWidth
 			}).draw();
         
 	}
@@ -476,7 +476,7 @@ var NodeClicks=function(){
         }  
         
 		//draw circle
-		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className, fill:fill,stroke:mStroke }); 
+		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className, fill:fill,stroke:mStroke, strokeWidth:mStrokeWidth }); 
 
 	}
 	
