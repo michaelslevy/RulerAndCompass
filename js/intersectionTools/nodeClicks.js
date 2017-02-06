@@ -198,9 +198,11 @@ var NodeClicks=function(){
                    
 					add_line(selectedGroupID);
 					var current_line=$(selectedGroupID).find('line').last();  
-                
-                    coordDictionary.currentElement=current_line; 
-			        coordDictionary.find_coords(); 
+                    
+                    if($(selectedGroupID).hasClass("guide")){
+                        coordDictionary.currentElement=current_line; 
+			            coordDictionary.find_coords(); 
+                    }
                 
                      addUndoStep(current_line,"add-primitive");
                     
@@ -233,9 +235,11 @@ var NodeClicks=function(){
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
 					var current_line=$(".guide").last(); 
-
-                    coordDictionary.currentElement=current_line; 
-			        coordDictionary.find_coords();
+                    
+                    if($("g.selected").hasClass("guide")){
+                        coordDictionary.currentElement=current_line; 
+                        coordDictionary.find_coords();
+                    }
                 
                      addUndoStep(current_line,"add-primitive");
                     
@@ -404,15 +408,34 @@ var NodeClicks=function(){
 		y1v=newLineCoord.y1;
 		x2v=newLineCoord.x2;
 		y2v=newLineCoord.y2;
-		
+        
+        var mStroke;
+        var gStroke=$(id).attr("data-stroke");
+        
+        if(gStroke.length>3){
+            mStroke=gStroke;  
+        } else {
+            mStroke=stroke;
+        }  
+        
+        var mStrokeWidth;
+        var gStrokeWidth=$(id).attr("data-stroke-width");
+        
+        if(gStrokeWidth.length>0){
+            mStrokeWidth=gStrokeWidth;  
+        } else {
+            mStrokeWidth=strokeWidth;
+        }  
+     
+        		
 		jQuery(id).Guideline({
 				x1: x1v,
 				y1:y1v, 
 				x2:x2v, 
 				y2:y2v,
 				fill:fill,
-				stroke:stroke,
-				lineWidth:strokeWidth
+				stroke:mStroke,
+				lineWidth:mStrokeWidth
 			}).draw();
         
 	}
@@ -434,8 +457,26 @@ var NodeClicks=function(){
 			var attrs=calculateCircleEdgeAttrs();
 		}
         
+        var mStroke;
+        var gStroke=$(group).attr("data-stroke");
+        
+        if(typeof gStroke != "undefined"){
+            mStroke=gStroke;  
+        } else {
+            mStroke=stroke;
+        }  
+        
+        var mStrokeWidth;
+        var gStrokeWidth=$(group).attr("data-stroke-width");
+        
+        if(typeof gStrokeWidth != "undefined"){
+            mStrokeWidth=gStrokeWidth;  
+        } else {
+            mStrokeWidth=strokeWidth;
+        }  
+        
 		//draw circle
-		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className, fill:fill,stroke:stroke }); 
+		$(group).CircleDraw({cx:attrs.cx,cy:attrs.cy,radius:attrs.radius, css_class:className, fill:fill,stroke:mStroke }); 
 
 	}
 	

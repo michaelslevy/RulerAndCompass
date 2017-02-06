@@ -13,7 +13,7 @@
             "y1":"nan", 
             "y2":"nan",
             "lineWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
-            "css_class":"guideline",
+            "css_class":"",
             'stroke':"#000000",
             'lineWidth':1
           }
@@ -57,9 +57,16 @@
                 console.log('GUIDELINE PLUGIN: missing parameter - x1, x2, y1, y2 are required');
                 return;
             }   
+           
+          // console.log(config.stroke);
             
             var scaleAttr=$("#nest").attr('data-scale');
-            var scale=1/parseFloat(scaleAttr);
+            var scale;
+           
+            scale=1/parseFloat(scaleAttr);
+           
+           
+           console.log(config.strokeWidth);
          
 			var svgNS = "http://www.w3.org/2000/svg"; 
 			var mLine = document.createElementNS(svgNS,"line"); 
