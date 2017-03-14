@@ -68,9 +68,7 @@
            } else {   
             scaledStrokeWidth=1/parseFloat(scaleAttr);
            }
-           
-           console.log(scaledStrokeWidth); 
-         
+                    
 			var svgNS = "http://www.w3.org/2000/svg"; 
 			var mLine = document.createElementNS(svgNS,"line"); 
 		    mLine.setAttributeNS(null,"class",config.css_class);

@@ -343,13 +343,15 @@ var CoordDictionary = function(settings){
 			}
 		}
 		
+        //brute force method for finding circle intersections
 		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
-			
-			$("#guides circle").not(self.currentElement).not(".preview_line").each(function(){
-
+            console.log(cur.attr("data-identifier"));
+            			
+			$("#guides circle").not(cur).not(".preview_line").each(function(){
+                    
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
-
+                
                 var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
 												
 				if(intersects[0]!=false && typeof intersects[0]!="undefined"){

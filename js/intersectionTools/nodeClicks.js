@@ -8,6 +8,7 @@ var NodeClicks=function(){
 	var fill="none";
 	var stroke="#000000";
 	var strokeWidth=1;
+    var currentLine;
 
 	 /* CLICK EVENTS
 	  * Click events are either starting points or ending points 
@@ -195,7 +196,6 @@ var NodeClicks=function(){
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
                 
 					//add new line
-                   
 					add_line(selectedGroupID);
 					var current_line=$(selectedGroupID).find('line').last();  
                     
@@ -234,12 +234,8 @@ var NodeClicks=function(){
 					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
-					var current_line=$(".guide").last(); 
-                    
-                    if($("g.selected").hasClass("guide")){
-                        coordDictionary.currentElement=current_line; 
-                        coordDictionary.find_coords();
-                    }
+
+                    findCircleCoordinates();
                 
                      addUndoStep(current_line,"add-primitive");
                     
@@ -255,10 +251,8 @@ var NodeClicks=function(){
 				
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 					add_circle("guide");
-					var current_line=$(".guide").last(); 
-                    
-                    coordDictionary.currentElement=current_line; 
-			        coordDictionary.find_coords(); 
+                
+                    findCircleCoordinates();
                 
                     addUndoStep(current_line,"add-primitive");
                     
@@ -282,7 +276,21 @@ var NodeClicks=function(){
 			}
     }    
     
-    var addUndoStep=function(currentLine,type){
+    //find intersection coordinates of a circle
+    var findCircleCoordinates=function(){
+        
+        var g=$("g.selected").attr("id");
+        var layer="#"+g+" .guide";
+        currentLine=$(layer).last(); 
+        
+        if($("g.selected").hasClass("guide")){
+            console.log("finding intersections..",currentLine.attr("data-identifier"));
+            coordDictionary.currentElement=currentLine; 
+            coordDictionary.find_coords(); 
+        } 
+    }
+    
+    var addUndoStep=function(type){
         
         //Create list of new element id's
         var additionList=coordDictionary.newNodeList;
@@ -443,8 +451,11 @@ var NodeClicks=function(){
 	var  add_circle=function(className){
 		//define variables
 		var myClass=className;
+        
+        //Which SVG group should the circle be drawn in?
         var group="#"+$("g.selected").attr("id");
-
+        
+        //check if drawing a preview circle
         if(myClass=="preview_line"){
             group="#preview";
         }  
@@ -457,6 +468,7 @@ var NodeClicks=function(){
 			var attrs=calculateCircleEdgeAttrs();
 		}
         
+        //stroke color of svg group
         var mStroke;
         var gStroke=$(group).attr("data-stroke");
         
@@ -466,6 +478,7 @@ var NodeClicks=function(){
             mStroke=stroke;
         }  
         
+        //stroke width of svg group
         var mStrokeWidth;
         var gStrokeWidth=$(group).attr("data-stroke-width");
         

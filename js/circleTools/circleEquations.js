@@ -51,6 +51,7 @@
         
         // Find the points where the two circles intersect.
        self.FindCircleCircleIntersections=function(){
+                      
 			var cx0=circle1.cx;
 			var cy0=circle1.cy;
 			var radius0=circle1.radius;
@@ -58,7 +59,7 @@
 			var cx1=circle2.cx;
 			var cy1=circle2.cy;
 			var radius1=circle2.radius;
-			
+			           
 			var intersection1;
 			var intersection2;
 		
