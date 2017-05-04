@@ -197,14 +197,14 @@ var NodeClicks=function(){
                 
 					//add new line
 					add_line(selectedGroupID);
-					var current_line=$(selectedGroupID).find('line').last();  
+					currentLine=$(selectedGroupID).find('line').last();  
                     
                     if($(selectedGroupID).hasClass("guide")){
-                        coordDictionary.currentElement=current_line; 
+                        coordDictionary.currentElement=currentLine; 
 			            coordDictionary.find_coords(); 
                     }
                 
-                     addUndoStep(current_line,"add-primitive");
+                     addUndoStep("add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -218,10 +218,10 @@ var NodeClicks=function(){
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 				//add new line
 				    add_line("#musicallines");
-				    var current_line=$("#musicallines line").last(); 
+				    currentLine=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone(); //plays a preview tone
                 
-                    addUndoStep(current_line,"add-primitive");
+                    addUndoStep("add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -237,7 +237,7 @@ var NodeClicks=function(){
 
                     findCircleCoordinates();
                 
-                     addUndoStep(current_line,"add-primitive");
+                     addUndoStep("add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -254,7 +254,7 @@ var NodeClicks=function(){
                 
                     findCircleCoordinates();
                 
-                    addUndoStep(current_line,"add-primitive");
+                    addUndoStep("add-primitive");
                     
                     //restore defaults
                     self.reset_vars();                    
@@ -284,7 +284,6 @@ var NodeClicks=function(){
         currentLine=$(layer).last(); 
         
         if($("g.selected").hasClass("guide")){
-            console.log("finding intersections..",currentLine.attr("data-identifier"));
             coordDictionary.currentElement=currentLine; 
             coordDictionary.find_coords(); 
         } 
@@ -419,6 +418,9 @@ var NodeClicks=function(){
         
         var mStroke;
         var gStroke=$(id).attr("data-stroke");
+        if(typeof gStroke=="undefined"){
+            gStroke="#000000";
+        }
         
         if(gStroke.length>3){
             mStroke=gStroke;  
@@ -428,6 +430,10 @@ var NodeClicks=function(){
         
         var mStrokeWidth;
         var gStrokeWidth=$(id).attr("data-stroke-width");
+        
+        if(typeof gStrokeWidth=="undefined"){
+            gStrokeWidth=1;
+        }
         
         if(gStrokeWidth.length>0){
             mStrokeWidth=gStrokeWidth;  
