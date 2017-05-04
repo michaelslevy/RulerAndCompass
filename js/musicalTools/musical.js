@@ -60,15 +60,15 @@ var Musical = function(){
    
     
     self.setCurrentPitch=function(){
-    	
+            	
     	if(typeof self.baseLineLength == "undefined") {
-    		self.baseLineLength=$("#guidecircles circle").first().attr("r");
+    		self.baseLineLength=$("#guides circle").first().attr("r");
     	}
          /* find ratio of current line length to base line length */
         var ratio=parseFloat(self.baseLineLength/self.currentLineLength);
         /* apply ratio to base pitch and set the current pitch */
         self.currentPitch=self.basePitch*ratio;
-        
+
     }
     
 
