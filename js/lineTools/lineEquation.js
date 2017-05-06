@@ -2,9 +2,7 @@
 	$.fn.LineEquation = function(settings){
 		 var self=this;
          var precision=6;
-         
-         console.log(self);
-    
+             
 		  var config = {
 			slope:"nan",
 			y_intercept:"nan",
