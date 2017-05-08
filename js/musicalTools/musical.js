@@ -2,8 +2,9 @@ var Musical = function(){
     
     var self=this;
     
-    self.basePitch= 420;
-    self.currentPitch=420;
+    self.basePitch= 440;
+    self.currentPitch=440;
+    self.currentNote='';
     self.baseLineLength=$("#guidecircles circle").first().attr("r");
     self.currentLineLength=100;
     self.duration=.2; //time in seconds
@@ -49,6 +50,7 @@ var Musical = function(){
     }
     
     self.playPreviewTone=function(){
+                
     	 var current_line=$("#musicallines line").last(); 
          var magnitude=current_line.LineEquation().getMagnitude();
          self.currentLineLength=magnitude;
@@ -56,6 +58,18 @@ var Musical = function(){
          
          terminal =true;
          return self;
+    }
+    
+    self.playContinousPreviewTone=function(){
+        
+       /* TODO: Play a stepped notes */
+        
+      /* send back note as text */
+         var current_line=$("#preview line").last(); 
+         var magnitude=current_line.LineEquation().getMagnitude();
+         self.currentLineLength=magnitude;
+        self.setCurrentPitch();
+        return self.currentNote;
     }
    
     
@@ -67,7 +81,14 @@ var Musical = function(){
          /* find ratio of current line length to base line length */
         var ratio=parseFloat(self.baseLineLength/self.currentLineLength);
         /* apply ratio to base pitch and set the current pitch */
-        self.currentPitch=self.basePitch*ratio;
+                
+        var absolutePitch=self.basePitch*ratio;
+                            
+        var findInterpretted=new ClosestNote;
+        findInterpretted.preciseHZ=absolutePitch;
+        findInterpretted.findNote();
+        self.currentPitch=findInterpretted.interprettedHZ;
+        self.currentNote=findInterpretted.interprettedNote;
         
     }
     
