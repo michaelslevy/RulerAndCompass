@@ -81,6 +81,7 @@ var NodeClicks=function(){
 		var windowZoom=new WindowZoom();
         windowZoom.updateZoomDimension();
         
+        coordDictionary.newNodeList=[];
 	}
 	
 	self.hardReset=function(){
@@ -209,11 +210,11 @@ var NodeClicks=function(){
 					stroke="#000000";
 					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
-				//add new line
+				    //add new line
 				    add_line("#musicallines");
 				    current_line=$("#musicallines line").last(); 
                     musicPlayer.playPreviewTone(); //plays a preview tone
-                    
+                
                     addUndoStep(current_line,"add-primitive");
                     
                     //restore defaults
