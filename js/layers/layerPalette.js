@@ -78,6 +78,29 @@ var LayerPalette=function(){
                 $(layerId).addClass("selected");
             }    
      });
+    
+    $(document).on("click","#newLayer",function(){
+        
+        //find top level group that is currently selected and its representative in the layer menu
+        var selectedHeading=$("#layerPalette .heading.selected");
+        var selectedGroup=$("#nest .top.selected");
+        
+        //create the automated id for the new layer
+        var selectedGroupID=selectedGroup.attr("id");
+        var layerCount=Number($("#"+selectedGroupID+" g").length);
+        var c=layerCount+1;
+        var layerName=selectedGroupID+c;
+        
+        //create the new layer
+        var newGroup="<g id='"+layerName+"' class=''></g>";
+        selectedGroup.append(newGroup);
+        
+        var newPaletteItem="<li data-identifier='"+layerName+"' >"+
+        "<a class='on selector' identifier='Layer 1'></a>"+layerName+"</li>";
+        
+        $("#layerPalette [data-identifier='"+selectedGroupID+"']").append(newPaletteItem);
+        
+    });
    
         
     init();

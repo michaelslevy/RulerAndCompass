@@ -346,7 +346,6 @@ var CoordDictionary = function(settings){
         //brute force method for finding circle intersections
 		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
-            console.log(cur.attr("data-identifier"));
             			
 			$("#guides circle").not(cur).not(".preview_line").each(function(){
                     
