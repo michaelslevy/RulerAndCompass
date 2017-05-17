@@ -9,6 +9,7 @@ var NodeClicks=function(){
 	var stroke="#000000";
 	var strokeWidth=1;
     var currentLine;
+    var layerIndex;//index of selected layer
 
 	 /* CLICK EVENTS
 	  * Click events are either starting points or ending points 
@@ -378,7 +379,10 @@ var NodeClicks=function(){
 	
 	self.newCanvasPolygons=function(){
 		
-		 $("#guides").CircleDraw(); //by default draws a centered circle
+        setLayerIndex();
+        var group="#guides"+layerIndex;
+
+        $(group).CircleDraw(); //by default draws a centered circle
 		 
 		 /* CREATE FIRST CIRCLE
 		  * Add an intersection point in the center of the first circle
@@ -387,7 +391,7 @@ var NodeClicks=function(){
 			var xCoord=$("circle").attr("cx");
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
-			$("#intersection_points").CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint",stroke:"none", fill:"#666"});
+			$("#intersection_points"+layerIndex).CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint",stroke:"none", fill:"#666"});
 			$("#nest centerpoint").text( centerpoint);
 			
 			/* CREATE INITIAL INTERSECTION NODES
@@ -396,14 +400,16 @@ var NodeClicks=function(){
 			var frameHeight=Number($('#nest').height());
 			var frameWidth=Number($('#nest').width());
 			
-			$("#guides").Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
+		    var group="#guides"+layerIndex;
+        
+            $(group).Guideline({x1:xCoord,y1:0,x2:xCoord,y2:frameHeight}).draw();
 			coordDictionary.currentElement=$("line").last(); 
 			coordDictionary.find_coords(); 
 			
-			$("#guides").Guideline({x1:0,y1:yCoord,x2:frameWidth,y2:yCoord}).draw();
+			$(group).Guideline({x1:0,y1:yCoord,x2:frameWidth,y2:yCoord}).draw();
 			coordDictionary.currentElement=$("line").last();
 			coordDictionary.find_coords();
-            $("#guides line").each(function(){
+            $(group+" line").each(function(){
                 var myId=$(this).attr("data-identifier");
                coordDictionary.removeIntersection(myId);
             });
@@ -459,7 +465,7 @@ var NodeClicks=function(){
 		var myClass=className;
         
         //Which SVG group should the circle be drawn in?
-        var group="#"+$("g.selected").attr("id");
+        var group="#"+$("g.child.selected").attr("id");
         
         //check if drawing a preview circle
         if(myClass=="preview_line"){
@@ -535,6 +541,12 @@ var NodeClicks=function(){
 		
 		return attrs;
 	}
+    
+    /* Set Layer Index */
+    
+    var setLayerIndex=function(){
+        layerIndex=$(".layerGroup.selected").attr("data-index");
+    }
     
      /* ERASE*/
     

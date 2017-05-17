@@ -82,18 +82,25 @@ var LayerPalette=function(){
     $(document).on("click","#newLayer",function(){
         
         //find top level group that is currently selected and its representative in the layer menu
-        var selectedHeading=$("#layerPalette .heading.selected");
-        var selectedGroup=$("#nest .top.selected");
+        var selectedGroup=$("#nest #workingLayers .selected");
         
         //create the automated id for the new layer
         var selectedGroupID=selectedGroup.attr("id");
-        var layerCount=Number($("#"+selectedGroupID+" g").length);
+        var layerCount=Number($("#workingLayers g").length);
         var c=layerCount+1;
         var layerName=selectedGroupID+c;
         
         //create the new layer
-        var newGroup="<g id='"+layerName+"' class=''></g>";
-        selectedGroup.append(newGroup);
+        var newGroup="<g id='"+layerName+"' data-index='"+c+"' class='layerGroup selected'>"+
+                   "<g data-identifier='drawinglayer"+c+"' class='drawing' data-stroke='#000000' data-stroke-width='2'></g>"+
+                    "<g data-identifier='musicallines"+c+"' class='musical'></g>"+
+                    "<g data-identifier='guides"+c+"' class='selected guide' data-stroke='#666666' data-stroke-width='1'></g>"+
+                    "<g data-identifier='intersection_points"+c+"'></g>"+
+                "</g>";
+        
+        
+        
+        $("#workingLayers").append(newGroup);
         
         var newPaletteItem="<li data-identifier='"+layerName+"' >"+
         "<a class='on selector' identifier='Layer 1'></a>"+layerName+"</li>";

@@ -65,8 +65,14 @@ $.fn.CircleDraw = function(settings){
         mLine.setAttributeNS(null,"data-lineWidth",config.strokeWidth); //set absolute line width
         mLine.setAttributeNS(null,"style","stroke-width:"+scaledStrokeWidth);
         
-		var theID=$(plugin).attr("id");
-       document.getElementById(theID).appendChild(mLine); 
+		var theID=plugin.attr("id");
+            
+        if(typeof theID!="undefined"){
+            document.getElementById(theID).appendChild(mLine); 
+        } else {
+            console.error("Cant't draw circle. Layer ID is undefined.");
+        }
+       
 
     }
     

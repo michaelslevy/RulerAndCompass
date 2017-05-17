@@ -46,8 +46,9 @@ var IntersectionNode = function(coords,elems){
 	//if not: draw node
 	function drawNode(){
 		var c=self.intersectionCoords;
-		$("#intersection_points").CircleDraw({cx:c.x,cy:c.y,radius:5, css_class:"intersection",stroke:'none',fill:'fill' });
-        self.nodID=$("#intersection_points circle").last().attr("data-identifier");
+        var layerIndex=$(".layerGroup.selected").attr("data-index");
+		$("#intersection_points"+layerIndex).CircleDraw({cx:c.x,cy:c.y,radius:5, css_class:"intersection",stroke:'none',fill:'fill' });
+        self.nodID=$("#intersection_points"+layerIndex +" circle").last().attr("data-identifier");
 	}
 	
 	//else: add element id to node

@@ -57,8 +57,11 @@ var IntersectionList = function(settings){
     
 	this.addIntersectionHitSpot=function(){
 		var coord=this.intersectionCoord;
-		//console.log(coord);
-		$("#intersection_points").CircleDraw({cx:coord.x,cy:coord.y,radius:5, css_class:"intersection" });
+        
+        //select active layer group
+        var layerIndex=$(".layerGroup.selected").attr("data-index");
+
+        $("#intersection_points"+layerIndex).CircleDraw({cx:coord.x,cy:coord.y,radius:5, css_class:"intersection" });
 	}
         
 }
