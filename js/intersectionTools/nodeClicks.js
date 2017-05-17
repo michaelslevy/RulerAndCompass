@@ -189,7 +189,7 @@ var NodeClicks=function(){
 				
 				case "line":
                     //place line into selected layer
-                    var selectedGroupID="#"+$("g.selected").attr("id");
+                    var selectedGroupID="#"+$("g.child.selected").attr("id");
 
 					fill="none";
 					stroke="#666666";
@@ -218,8 +218,12 @@ var NodeClicks=function(){
 					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
 				//add new line
-				    add_line("#musicallines");
-				    currentLine=$("#musicallines line").last(); 
+                    setLayerIndex();
+				    var group= "#musicallines"+layerIndex;
+                
+                    add_line(group);
+                    
+				    currentLine=$(group+" line").last(); 
                     musicPlayer.playPreviewTone(); //plays a preview tone
                 
                     addUndoStep("add-primitive");

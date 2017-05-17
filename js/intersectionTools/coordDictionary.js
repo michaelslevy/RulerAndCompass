@@ -39,7 +39,9 @@ var CoordDictionary = function(settings){
         }    
         
         self.findLineLineIntersections=function(){
-        	$("#guides line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
+            
+            var layerIndex=$(".layerGroup.selected").attr("data-index");
+        	$("#guides"+layerIndex+" line").not("[data-identifier='"+self.currentElementID+"']").each(function(){
 
         		var intersections = new LineIntersections();
         		intersections.line1=$(this);
@@ -346,8 +348,10 @@ var CoordDictionary = function(settings){
         //brute force method for finding circle intersections
 		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
-            			
-			$("#guides circle").not(cur).not(".preview_line").each(function(){
+            
+            //get current layer index
+            var layerIndex=$(".layerGroup.selected").attr("data-index");
+			$("#guides"+layerIndex+" circle").not(cur).not(".preview_line").each(function(){
                     
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
                 
@@ -386,8 +390,9 @@ var CoordDictionary = function(settings){
 		
 		self.findLineCircleIntersections=function(){
 			var cur=self.currentElement;
-			
-			$("#guides circle").each(function(){
+            
+			layerIndex=$(".layerGroup.selected").attr("data-index");
+			$("#guides"+layerIndex +" circle").each(function(){
 				var intersects=$(this).CircleEquation({lineToTest:cur}).findCircleLineIntersection();
 
 				var elems=[$(this).attr("data-identifier"),$(cur).attr("data-identifier")];
@@ -770,8 +775,10 @@ var CoordDictionary = function(settings){
 		
 		self.find_circle_intersections=function(){
 			var cur=self.currentElement;
+            
+            var layerIndex=$(".layerGroup.selected").attr("data-index");
 			
-			$("#guides circle").not(self.currentElement).not(".preview_line").each(function(){
+			$("#guides"+layerIndex+" circle").not(self.currentElement).not(".preview_line").each(function(){
 
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();
 

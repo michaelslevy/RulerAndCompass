@@ -2,9 +2,12 @@ var Musical = function(){
     
     var self=this;
     
+    var layerIndex=$(".layerGroup.selected").attr("data-index");//active drawing layer
+    
     self.basePitch= 420;
     self.currentPitch=420;
-    self.baseLineLength=$("#guidecircles circle").first().attr("r");
+    //self.baseLineLength=$("#guidecircles circle").first().attr("r");
+    self.baseLineLength=100;
     self.currentLineLength=100;
     self.duration=.2; //time in seconds
     self.durationMicroSeconds=self.duration*1000
@@ -49,7 +52,7 @@ var Musical = function(){
     }
     
     self.playPreviewTone=function(){
-    	 var current_line=$("#musicallines line").last(); 
+    	 var current_line=$("#musicallines"+layerIndex+" line").last(); 
          var magnitude=current_line.LineEquation().getMagnitude();
          self.currentLineLength=magnitude;
          self.playTone();
@@ -83,10 +86,10 @@ var Musical = function(){
     
     var playNext=function(){
     	
+        var line="#musicallines"+layerIndex+" line";
      
-     
-        var toneLine=$("#musicallines line").eq(self.playPosition);
-        $("#musicallines line").removeClass('playing');
+        var toneLine=$(line).eq(self.playPosition);
+        $(line).removeClass('playing');
         toneLine.addClass('playing');
         
         /* If last note, indicate to stop oscilator */
@@ -95,7 +98,7 @@ var Musical = function(){
         }	
         
         /* end playback if position greater than number of lines. */
-        if(self.playPosition>($("#musicallines line").length-1)){
+        if(self.playPosition>($(line).length-1)){
             clearInterval(self.playTimer);
             self.playPosition=0;
         }   else { 
