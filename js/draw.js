@@ -101,7 +101,6 @@ var DrawApp = function(){
             
             //f7 - Layer pallette
 			case 55:
-                console.log("layers"); 
 				var layers=new LayerPalette();
 			break;    
                 

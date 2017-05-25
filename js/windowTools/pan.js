@@ -171,7 +171,7 @@ var WindowPan=function(){
     	 //find difference   	    	    	
     	centerpointOffset.x=drawingCenter.x-windowCenter.x;
     	centerpointOffset.y=drawingCenter.y-windowCenter.y;
-    	
+    	        
     	return centerpointOffset;
     }
 	

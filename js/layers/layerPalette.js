@@ -5,16 +5,29 @@ var LayerPalette=function(){
     var layersHTML="<div id='layerPalette' class='palette'>"+
    "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
-    "<ul id='drawingLayers'>"+
-    "    <li data-identifier='drawinglayer' class='heading'><a class='on selector' identifier='Layer 1'></a>drawing</li>"+
-    "</ul>"+
-    
-    "<ul id='guideLayers'>"+
-    "    <li data-identifier='guides' class='heading selected'>"+
-    "        <a class='on selector' ></a>"+
-    "<span>guide</span>"+
-    "    </li>"+
-    "</ul>"+
+    "<ul id='workingLayersPalette'>"+
+        "<li id='layer1' class='layerGroup selected heading' data-index='1'>"+
+            
+           "<a class='on selector' data-identifier='layer1' data-name='Layer 1'></a>Layer 1"+
+            "<a href='#' class='opener'><span class='arrow'></span></a>"+
+            
+            "<ul class='childLayers'>"+
+                "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
+                    "<a class='on selector' data-identifier='drawinglayer1'></a>drawing"+
+                "</li>"+
+                "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
+                    "<a class='on selector' data-identifier='musicallines1'></a>musical"+
+                "</li>"+
+                "<li data-identifier='guides1' class='child selected guide' data-stroke='#666666' data-stroke-width='1'  data-name='guides'>"+
+                   " <a class='on selector' data-identifier='guides1'></a>guides"+
+                "</li>"+
+                "<li data-identifier='intersection_points1' class='child'  data-name='intersections'>"+
+                 "   <a class='on selector' data-identifier='intersection_points1'></a>intersections"+
+                "</li>"+
+            "</ul>"+
+           
+        "</li>"+
+    "</ul>";
     
     "<footer class='clearfix'>"+
     "    <button id='newLayer'><i class='small material-icons'>note_add</i></button>"+

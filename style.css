@@ -174,8 +174,8 @@ nav#toolbox button.active {
 .palette {
     position:absolute;
     z-index:999;
-    top:0;
-    left:0;
+    top:84px;
+    right:20px;
     background:white;
     border:solid 1px #666;
     border-radius:3px;
