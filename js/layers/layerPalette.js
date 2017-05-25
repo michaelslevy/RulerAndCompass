@@ -7,7 +7,7 @@ var LayerPalette=function(){
    "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
     "<ul id='PaletteWorkingLayers'>"+
-        "<li id='layer1' class='layerGroup selected heading' data-index='1'>"+
+        "<li id='layer1' class='layerGroup selected heading open' data-index='1'>"+
             
            "<a class='on selector' data-identifier='layer1' data-name='Layer 1'></a>Layer 1"+
             "<a href='#' class='opener open'><span class='arrow'></span></a>"+
@@ -119,7 +119,7 @@ var LayerPalette=function(){
         var newPaletteItem="<li id='layer1' class='layerGroup  heading closed' data-index='"+c+"'>"+
             
            "<a class='on selector' data-identifier='layer"+c+"' data-name='Layer 1'></a>Layer "+c+""+
-            "<a href='#' class='opener open'><span class='arrow'></span></a>"+
+            "<a href='#' class='opener closed'><span class='arrow'></span></a>"+
             
             "<ul class='childLayers'>"+
                 "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
@@ -142,6 +142,28 @@ var LayerPalette=function(){
         
     });
    
+    
+    $(document).on("click",".layerGroup .opener",function(){
+        
+        if($(this).hasClass("closed")){
+            
+            $(this).removeClass("closed");
+            $(this).addClass("open");
+            
+            $(this).parent().removeClass("closed");
+            $(this).parent().addClass("open");
+            
+        } else {
+            
+            $(this).removeClass("open");
+            $(this).addClass("closed");
+            
+            $(this).parent().removeClass("open");
+            $(this).parent().addClass("closed");
+            
+        }
+        
+    });
         
     init();
     return self;    
