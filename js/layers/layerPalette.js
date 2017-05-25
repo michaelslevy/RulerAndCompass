@@ -2,14 +2,15 @@ var LayerPalette=function(){
     
     var self=this;
     
+    
     var layersHTML="<div id='layerPalette' class='palette'>"+
    "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
-    "<ul id='workingLayersPalette'>"+
+    "<ul id='PaletteWorkingLayers'>"+
         "<li id='layer1' class='layerGroup selected heading' data-index='1'>"+
             
            "<a class='on selector' data-identifier='layer1' data-name='Layer 1'></a>Layer 1"+
-            "<a href='#' class='opener'><span class='arrow'></span></a>"+
+            "<a href='#' class='opener open'><span class='arrow'></span></a>"+
             
             "<ul class='childLayers'>"+
                 "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
@@ -27,7 +28,7 @@ var LayerPalette=function(){
             "</ul>"+
            
         "</li>"+
-    "</ul>";
+    "</ul>"+
     
     "<footer class='clearfix'>"+
     "    <button id='newLayer'><i class='small material-icons'>note_add</i></button>"+
@@ -99,7 +100,7 @@ var LayerPalette=function(){
         
         //create the automated id for the new layer
         var selectedGroupID=selectedGroup.attr("id");
-        var layerCount=Number($("#workingLayers g").length);
+        var layerCount=Number($("#workingLayers .layerGroup").length);
         var c=layerCount+1;
         var layerName=selectedGroupID+c;
         
@@ -115,10 +116,29 @@ var LayerPalette=function(){
         
         $("#workingLayers").append(newGroup);
         
-        var newPaletteItem="<li data-identifier='"+layerName+"' >"+
-        "<a class='on selector' identifier='Layer 1'></a>"+layerName+"</li>";
+        var newPaletteItem="<li id='layer1' class='layerGroup  heading closed' data-index='"+c+"'>"+
+            
+           "<a class='on selector' data-identifier='layer"+c+"' data-name='Layer 1'></a>Layer "+c+""+
+            "<a href='#' class='opener open'><span class='arrow'></span></a>"+
+            
+            "<ul class='childLayers'>"+
+                "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
+                    "<a class='on selector' data-identifier='drawinglayer"+c+"'></a>drawing"+
+                "</li>"+
+                "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
+                    "<a class='on selector' data-identifier='musicallines"+c+"'></a>musical"+
+                "</li>"+
+                "<li data-identifier='guides1' class='child  guide' data-name='guides'>"+
+                   " <a class='on selector' data-identifier='guides"+c+"'></a>guides"+
+                "</li>"+
+                "<li data-identifier='intersection_points"+c+"' class='child'  data-name='intersections'>"+
+                 "   <a class='on selector' data-identifier='intersection_points"+c+"'></a>intersections"+
+                "</li>"+
+            "</ul>"+
+           
+        "</li>";
         
-        $("#layerPalette [data-identifier='"+selectedGroupID+"']").append(newPaletteItem);
+        $("#PaletteWorkingLayers").append(newPaletteItem);
         
     });
    
