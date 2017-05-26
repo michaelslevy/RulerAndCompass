@@ -180,9 +180,10 @@ nav#toolbox button.active {
     border:solid 1px #666;
     border-radius:3px;
     overflow: hidden;
+    width:220px;
 }    
 
-.palette header {
+.palette header.paletteHandle {
     background:#ccc;
     color:black;
     padding:5px 10px;
@@ -190,7 +191,7 @@ nav#toolbox button.active {
     cursor: move;
 }   
 
-.palette header a {
+.palette header.paletteHandle a {
     background:none;
     border:0;
     position:absolute;
@@ -207,7 +208,8 @@ nav#toolbox button.active {
     list-style: none;
 }    
 
-.palette ul li {
+.palette ul li.child,
+.palette ul li header{
     display:block;
     margin:0;
     padding:5px 10px;
@@ -223,20 +225,33 @@ nav#toolbox button.active {
     background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHElEQVQYV2O8efPmf3V1dUYGKIAzMARgKjFUAABhTQgFqUDzYAAAAABJRU5ErkJggg==');
 }
 
+.palette li.heading .child {
+    background:white;   
+    margin:0;
+}
+/*
 .palette  li.heading:hover{
 background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAJUlEQVQYV2NUmfD/f5U9Axwwzjv//z+Cy8AAF2g7yMAAUomhAgBMfg+xx0DOUQAAAABJRU5ErkJggg==');
     color:black;
-}  
+}  */
 
-.palette ul li.selected {
+.palette ul li.selected,
+.palette ul li.child.selected{
     background:#daedff;
-}    
+}   
 
-.palette ul li:hover {
+.palette ul li label {
+    display:inline-block;
+    width:150px;
+}
+
+/*
+.palette ul li:hover,
+.palette ul li.child:hover {
     background:#3b9eff;
     color:white;
 }    
-    
+    */
 .palette footer {
     background: #eee;
     padding:5px 10px;

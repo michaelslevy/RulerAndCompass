@@ -4,26 +4,26 @@ var LayerPalette=function(){
     
     
     var layersHTML="<div id='layerPalette' class='palette'>"+
-   "<header>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
+   "<header class='paletteHandle'>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
     "<ul id='PaletteWorkingLayers'>"+
         "<li id='layer1' class='layerGroup selected heading open' data-index='1'>"+
             
-           "<a class='on selector' data-identifier='layer1' data-name='Layer 1'></a>Layer 1"+
-            "<a href='#' class='opener open'><span class='arrow'></span></a>"+
+           "<header class='layerHeading'><a class='on selector' data-identifier='layer1' data-name='Layer 1'></a><label>Layer 1</label>"+
+            "<a href='#' class='opener open'><span class='arrow'></span></a></header>"+
             
             "<ul class='childLayers'>"+
                 "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
-                    "<a class='on selector' data-identifier='drawinglayer1'></a>drawing"+
+                    "<a class='on selector' data-identifier='drawinglayer1'></a><label>drawing</label>"+
                 "</li>"+
                 "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
-                    "<a class='on selector' data-identifier='musicallines1'></a>musical"+
+                    "<a class='on selector' data-identifier='musicallines1'></a><label>musical</label>"+
                 "</li>"+
                 "<li data-identifier='guides1' class='child selected guide' data-stroke='#666666' data-stroke-width='1'  data-name='guides'>"+
-                   " <a class='on selector' data-identifier='guides1'></a>guides"+
+                   " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
                 "</li>"+
                 "<li data-identifier='intersection_points1' class='child'  data-name='intersections'>"+
-                 "   <a class='on selector' data-identifier='intersection_points1'></a>intersections"+
+                 "   <a class='on selector' data-identifier='intersection_points1'></a><label>intersections</label>"+
                 "</li>"+
             "</ul>"+
            
@@ -57,7 +57,7 @@ var LayerPalette=function(){
         hideShowLayerPalette();
     }
         
-     $( ".palette" ).draggable({ handle: "header", containment: "window" });
+     $( ".palette" ).draggable({ handle: ".", containment: "window" });
      $( document ).off('mouseup','.palette .close').on('mouseup','.palette .close',function(){
        hideShowLayerPalette(); 
      });
@@ -77,18 +77,21 @@ var LayerPalette=function(){
             }    
      });
     
-    $( document ).off('click','.palette li').on('click','.palette li',function(){
+    $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
         var layerId="#"+$(this).attr("data-identifier");
-          var on=$(this).hasClass("selected");
+            
+        var parent=$(this).parent();
+        
+          var on=parent.hasClass("selected");
             if(on==true){
                 //turn off layer
-                $(this).removeClass("selected");
+                parent.removeClass("selected");
                 $(layerId).removeClass("selected");
             } else {
                 //turn on layer
                 $("g").removeClass("selected");
                 $(".palette li").removeClass("selected");
-                $(this).addClass("selected");
+                parent.addClass("selected");
                 $(layerId).addClass("selected");
             }    
      });
@@ -118,21 +121,21 @@ var LayerPalette=function(){
         
         var newPaletteItem="<li id='layer1' class='layerGroup  heading closed' data-index='"+c+"'>"+
             
-           "<a class='on selector' data-identifier='layer"+c+"' data-name='Layer 1'></a>Layer "+c+""+
-            "<a href='#' class='opener closed'><span class='arrow'></span></a>"+
+           "<header class='layerHeading'><a class='on selector' data-identifier='layer"+c+"' data-name='Layer 1'></a><label>Layer "+c+"</label>"+
+            "<a href='#' class='opener closed'><span class='arrow'></span></a></header>"+
             
             "<ul class='childLayers'>"+
                 "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
-                    "<a class='on selector' data-identifier='drawinglayer"+c+"'></a>drawing"+
+                    "<a class='on selector' data-identifier='drawinglayer"+c+"'></a><label>drawing</label>"+
                 "</li>"+
                 "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
-                    "<a class='on selector' data-identifier='musicallines"+c+"'></a>musical"+
-                "</li>"+
+                    "<a class='on selector' data-identifier='musicallines"+c+"'></a><label>musical"+
+                "</label></li>"+
                 "<li data-identifier='guides1' class='child  guide' data-name='guides'>"+
-                   " <a class='on selector' data-identifier='guides"+c+"'></a>guides"+
+                   " <a class='on selector' data-identifier='guides"+c+"'></a><label>guides</label>"+
                 "</li>"+
                 "<li data-identifier='intersection_points"+c+"' class='child'  data-name='intersections'>"+
-                 "   <a class='on selector' data-identifier='intersection_points"+c+"'></a>intersections"+
+                 "   <a class='on selector' data-identifier='intersection_points"+c+"'></a><label>intersections</label>"+
                 "</li>"+
             "</ul>"+
            
@@ -150,16 +153,16 @@ var LayerPalette=function(){
             $(this).removeClass("closed");
             $(this).addClass("open");
             
-            $(this).parent().removeClass("closed");
-            $(this).parent().addClass("open");
+            $(this).parent().parent().removeClass("closed");
+            $(this).parent().parent().addClass("open");
             
         } else {
             
             $(this).removeClass("open");
             $(this).addClass("closed");
             
-            $(this).parent().removeClass("open");
-            $(this).parent().addClass("closed");
+            $(this).parent().parent().removeClass("open");
+            $(this).parent().parent().addClass("closed");
             
         }
         
