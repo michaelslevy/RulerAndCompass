@@ -78,22 +78,24 @@ var LayerPalette=function(){
      });
     
     $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
-        var layerId="#"+$(this).attr("data-identifier");
             
         var parent=$(this).parent();
         
-          var on=parent.hasClass("selected");
-            if(on==true){
-                //turn off layer
-                parent.removeClass("selected");
-                $(layerId).removeClass("selected");
-            } else {
-                //turn on layer
-                $("g").removeClass("selected");
-                $(".palette li").removeClass("selected");
-                parent.addClass("selected");
-                $(layerId).addClass("selected");
-            }    
+        var layerId="#"+parent.attr("data-identifier");
+        var on=parent.hasClass("selected");
+        
+        if(on==true){
+            //turn off layer
+            parent.removeClass("selected");
+            $(layerId).removeClass("selected");
+        } else {
+            //turn on layer
+            $("g").removeClass("selected");
+            $(".palette li").removeClass("selected");
+            parent.addClass("selected");
+            $(layerId).addClass("selected");
+        }
+        
      });
     
     $(document).on("click","#newLayer",function(){
