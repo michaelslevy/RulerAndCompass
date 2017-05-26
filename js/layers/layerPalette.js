@@ -98,14 +98,10 @@ var LayerPalette=function(){
     
     $(document).on("click","#newLayer",function(){
         
-        //find top level group that is currently selected and its representative in the layer menu
-        var selectedGroup=$("#nest #workingLayers .selected");
-        
         //create the automated id for the new layer
-        var selectedGroupID=selectedGroup.attr("id");
         var layerCount=Number($("#workingLayers .layerGroup").length);
         var c=layerCount+1;
-        var layerName=selectedGroupID+c;
+        var layerName="layerGroup"+c;
         
         //create the new layer
         var newGroup="<g id='"+layerName+"' data-index='"+c+"' class='layerGroup selected'>"+
