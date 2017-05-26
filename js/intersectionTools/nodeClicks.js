@@ -184,6 +184,9 @@ var NodeClicks=function(){
         
         var my_x=node.getAttribute("cx");
 		var my_y=node.getAttribute("cy");
+        
+        var group=$("g.child.selected").attr("id");
+        var selectedGroupID="#"+group;
                 
         switch (mode){
 				
@@ -238,7 +241,7 @@ var NodeClicks=function(){
 					stroke="#666666";
 					
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
-					add_circle("guide");
+					add_circle(group);
 
                     findCircleCoordinates();
                 
@@ -255,7 +258,7 @@ var NodeClicks=function(){
 					stroke="#666666";
 				
                     $("line.preview_line").attr({"x2":my_x, "y2":my_y});
-					add_circle("guide");
+					add_circle(group);
                 
                     findCircleCoordinates();
                 

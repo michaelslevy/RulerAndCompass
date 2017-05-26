@@ -7,9 +7,9 @@ var LayerPalette=function(){
    "<header class='paletteHandle'>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
     "<ul id='PaletteWorkingLayers'>"+
-        "<li id='layer1' class='layerGroup selected heading open' data-index='1'>"+
+        "<li data-identifier='layerGroup1' class='layerGroup selected heading open' data-index='1'>"+
             
-           "<header class='layerHeading'><a class='on selector' data-identifier='layer1' data-name='Layer 1'></a><label>Layer 1</label>"+
+           "<header data-identifier='layerGroup1' class='layerHeading'><a class='on selector' data-identifier='layerGroup1' data-name='Layer 1'></a><label>Layer 1</label>"+
             "<a href='#' class='opener open'><span class='arrow'></span></a></header>"+
             
             "<ul class='childLayers'>"+
@@ -19,7 +19,7 @@ var LayerPalette=function(){
                 "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
                     "<a class='on selector' data-identifier='musicallines1'></a><label>musical</label>"+
                 "</li>"+
-                "<li data-identifier='guides1' class='child selected guide' data-stroke='#666666' data-stroke-width='1'  data-name='guides'>"+
+                "<li data-identifier='guides1' class='child selected guide'  data-name='guides'>"+
                    " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
                 "</li>"+
                 "<li data-identifier='intersection_points1' class='child'  data-name='intersections'>"+
@@ -65,6 +65,8 @@ var LayerPalette=function(){
 
     $( document ).off('click','.palette .selector').on('click','.palette .selector',function(){
          var layerId="#"+$(this).parent().attr("data-identifier");
+        
+        console.log(layerId);
          var on=$(this).hasClass("on");
             if(on==true){
                 //turn off layer
@@ -107,29 +109,29 @@ var LayerPalette=function(){
         
         //create the new layer
         var newGroup="<g id='"+layerName+"' data-index='"+c+"' class='layerGroup selected'>"+
-                   "<g data-identifier='drawinglayer"+c+"' class='drawing' data-stroke='#000000' data-stroke-width='2'></g>"+
-                    "<g data-identifier='musicallines"+c+"' class='musical'></g>"+
-                    "<g data-identifier='guides"+c+"' class='selected guide' data-stroke='#666666' data-stroke-width='1'></g>"+
-                    "<g data-identifier='intersection_points"+c+"'></g>"+
+                   "<g id='drawinglayer"+c+"' class='drawing child' data-stroke='#000000' data-stroke-width='2'></g>"+
+                    "<g id='musicallines"+c+"' class='musical child'></g>"+
+                    "<g id='guides"+c+"' class='selected guide child' data-stroke='#666666' data-stroke-width='1'></g>"+
+                    "<g id='intersection_points"+c+"' ></g>"+
                 "</g>";
         
         
         
         $("#workingLayers").append(newGroup);
         
-        var newPaletteItem="<li id='layer1' class='layerGroup  heading closed' data-index='"+c+"'>"+
+        var newPaletteItem="<li data-identifier='layerGroup"+c+"' class='layerGroup  heading closed' data-index='"+c+"'>"+
             
-           "<header class='layerHeading'><a class='on selector' data-identifier='layer"+c+"' data-name='Layer 1'></a><label>Layer "+c+"</label>"+
+           "<header class='layerHeading' data-identifier='layerGroup"+c+"'><a class='on selector' data-identifier='layerGroup"+c+"' data-name='Layer "+c+"'></a><label>Layer "+c+"</label>"+
             "<a href='#' class='opener closed'><span class='arrow'></span></a></header>"+
             
             "<ul class='childLayers'>"+
-                "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
+                "<li data-identifier='drawinglayer"+c+"' class='child musical' data-name='drawing'>"+
                     "<a class='on selector' data-identifier='drawinglayer"+c+"'></a><label>drawing</label>"+
                 "</li>"+
-                "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
+                "<li data-identifier='musicallines"+c+"' class='child musical' data-name='musical'>"+
                     "<a class='on selector' data-identifier='musicallines"+c+"'></a><label>musical"+
                 "</label></li>"+
-                "<li data-identifier='guides1' class='child  guide' data-name='guides'>"+
+                "<li data-identifier='guides"+c+"' class='child  guide' data-name='guides'>"+
                    " <a class='on selector' data-identifier='guides"+c+"'></a><label>guides</label>"+
                 "</li>"+
                 "<li data-identifier='intersection_points"+c+"' class='child'  data-name='intersections'>"+
