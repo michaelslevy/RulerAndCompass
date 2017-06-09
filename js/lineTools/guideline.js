@@ -4,7 +4,7 @@
 		 var plugin=this;
          var groupID=$(this).attr('id');
 		 var line_id="l"+(parseInt($("svg line").length)+1);
-    
+            
 		  var config = {
 		  	"x":"nan",
 		  	"y":"nan",
@@ -83,7 +83,7 @@
 		    mLine.setAttributeNS(null,"fill",config.fill);
 		    mLine.setAttributeNS(null,"stroke",config.stroke); 
 		  /*  mLine.setAttributeNS(null,"y2",config.y2);*/ 
-		    
+           
 		    document.getElementById(groupID).appendChild(mLine);
 		    return plugin;
 		}

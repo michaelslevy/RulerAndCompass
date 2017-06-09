@@ -107,17 +107,54 @@ var LayerPalette=function(){
         var c=layerCount+1;
         var layerName="layerGroup"+c;
         
-        //create the new layer
-        var newGroup="<g id='"+layerName+"' data-index='"+c+"' class='layerGroup selected'>"+
-                   "<g id='drawinglayer"+c+"' class='drawing child' data-stroke='#000000' data-stroke-width='2'></g>"+
-                    "<g id='musicallines"+c+"' class='musical child'></g>"+
-                    "<g id='guides"+c+"' class='selected guide child' data-stroke='#666666' data-stroke-width='1'></g>"+
-                    "<g id='intersection_points"+c+"' ></g>"+
-                "</g>";
+        //create the new SVG layer
         
+        //add layer group to svg
+                
+        var layerGroup=new Group();
+        layerGroup.args={
+            id:layerName,
+            index:c,
+            class:'layerGroup selected',
+            parentID:"workingLayers"
+        };
+       layerGroup.addGroup();
         
+        var drawingGroup=new Group();
+        drawingGroup.args={
+            id:"drawinglayer"+c,
+            class:'drawing child',
+            parentID:layerName,
+            stroke:'#000000',
+            strokeWidth:2
+        };
+        drawingGroup.addGroup();
         
-        $("#workingLayers").append(newGroup);
+        var musicalGroup=new Group();
+        musicalGroup.args={
+            id:"musicallines"+c,
+            class:'musical child',
+            parentID:layerName,
+        };
+        musicalGroup.addGroup();
+        
+        var guidesGroup=new Group();
+        guidesGroup.args={
+            id:"guides"+c,
+            class:'selected guide child',
+            parentID:layerName,
+            stroke:"#666666",
+            strokeWidth:1
+        };
+        guidesGroup.addGroup();
+        
+        var intersectionGroup=new Group();
+        intersectionGroup.args={
+            id:"intersection_points"+c,
+            parentID:layerName
+        };
+        intersectionGroup.addGroup();
+        
         
         var newPaletteItem="<li data-identifier='layerGroup"+c+"' class='layerGroup  heading closed' data-index='"+c+"'>"+
             

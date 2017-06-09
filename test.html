@@ -1,0 +1,85 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  
+    <svg id='nest'width="700" height="700">
+        <g id='g1'>
+        
+        </g>
+    </svg>
+    <button class='addline'>Add line</button>
+    <button class='addGroup'>Add svg</button>
+    
+    <script>
+    
+        var line='<line x1="'+randN()+'" y1="'+randN()+'" x2="'+randN()+'" y2="'+randN()+'" style="stroke:rgb('+randc()+','+randc()+','+randc()+');stroke-width:2" />';
+        
+        
+        function randN() {
+            var min=0;
+            var max=500;
+            return parseInt(Math.random() * (max - min) + min);
+        }
+        
+        function randc() {
+            var min=0;
+            var max=255;
+            return parseInt(Math.random() * (max - min) + min);
+        }
+        
+        $('.addline').click(function(){
+            
+            var svgNS = "http://www.w3.org/2000/svg"; 
+
+		    var mLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            mLine.setAttribute("stroke", "rgb("+randc()+","+randc()+","+randc()+")");
+            mLine.setAttribute("stroke-width", "2");
+            mLine.setAttribute("x1", randN());
+            mLine.setAttribute("y1", randN());
+            mLine.setAttribute("x2", randN());
+            mLine.setAttribute("y2", randN());
+
+            var group="g"+$("g").length;
+		    
+		    document.getElementById(group).appendChild(mLine);
+            
+        });
+        
+        
+        $(".addGroup").click(function(){
+            
+            var groupID="g"+($("g").length+1);
+            
+            
+            var svgNS = "http://www.w3.org/2000/svg"; 
+
+		    var mGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+         
+            mGroup.setAttribute("id", groupID);
+            
+            document.getElementById('nest').appendChild(mGroup);
+
+            
+        });
+        
+    </script>
+    
+</body>
+</html>

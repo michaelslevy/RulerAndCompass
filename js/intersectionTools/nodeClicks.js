@@ -429,6 +429,7 @@ var NodeClicks=function(){
 		x2v=newLineCoord.x2;
 		y2v=newLineCoord.y2;
         
+        
         var mStroke;
         var gStroke=$(id).attr("data-stroke");
         if(typeof gStroke=="undefined"){
@@ -453,7 +454,6 @@ var NodeClicks=function(){
         } else {
             mStrokeWidth=strokeWidth;
         }  
-     
         		
 		jQuery(id).Guideline({
 				x1: x1v,
