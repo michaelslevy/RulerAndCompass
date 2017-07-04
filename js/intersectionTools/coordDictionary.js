@@ -15,10 +15,12 @@ var CoordDictionary = function(settings){
     	var lastComparison=[];//last comparison list
 	      
         self.find_coords=function(){
+            
             			
             self.newNodeList=[];//reset number of new intersections
-            
+                        
 			if(self.currentElement.is("circle")==true ) {
+            
 				self.find_circle_intersections();
 				return;
 			}  else {
@@ -351,6 +353,7 @@ var CoordDictionary = function(settings){
             
             //get current layer index
             var layerIndex=$(".layerGroup.selected").attr("data-index");
+                        
 			$("#guides"+layerIndex+" circle").not(cur).not(".preview_line").each(function(){
                     
                 var intersects=$(cur).CircleEquation({circleToTest:$(this)}).FindCircleCircleIntersections();

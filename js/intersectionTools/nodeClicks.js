@@ -286,12 +286,12 @@ var NodeClicks=function(){
     
     //find intersection coordinates of a circle
     var findCircleCoordinates=function(){
+        var g=$(".child.selected").attr("id");
+        var layer="#"+g;
+        currentLine=$(layer).find("circle").last(); 
+        console.log(layer, currentLine, $(currentLine).html());
         
-        var g=$("g.selected").attr("id");
-        var layer="#"+g+" .guide";
-        currentLine=$(layer).last(); 
-        
-        if($("g.selected").hasClass("guide")){
+        if($(".child.selected").hasClass("guide")){
             coordDictionary.currentElement=currentLine; 
             coordDictionary.find_coords(); 
         } 
@@ -387,7 +387,6 @@ var NodeClicks=function(){
 	self.newCanvasPolygons=function(){
 		
         setLayerIndex();
-        console.log(layerIndex);
 
         var group="#guides"+layerIndex;
 
@@ -401,7 +400,7 @@ var NodeClicks=function(){
 			var yCoord=$("circle").attr("cy");
 			var centerpoint=xCoord+", "+yCoord;
 			$("#intersection_points"+layerIndex).CircleDraw({cx:xCoord, cy:yCoord, radius:5, css_class:"intersection intersectionPoint centerpoint",stroke:"none", fill:"#666"});
-			$("#nest centerpoint").text( centerpoint);
+			$("#nest centerpoint").text(centerpoint);
 			
 			/* CREATE INITIAL INTERSECTION NODES
 			 * Add guidelines to generate intersections then remove them
