@@ -1,6 +1,8 @@
 Phase 1
 
-Resolve layer group selection
+Create seperate layer selection method.
+Select layers based on tool used.
+
 Delete Layers
 Differentiate non selectable layers
 Create layers from opened file

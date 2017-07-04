@@ -101,7 +101,7 @@ var DrawApp = function(){
             
             //f7 - Layer pallette
 			case 55:
-				var layers=new LayerPalette();
+				var layers=new LayerPalette().hideShowLayerPalette();
 			break;    
                 
 			//-

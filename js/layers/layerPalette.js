@@ -35,7 +35,7 @@ var LayerPalette=function(){
        
     "</div>";
     
-    var hideShowLayerPalette=function(){
+    self.hideShowLayerPalette=function(){
         
        if($("#layerPalette").length>0){
            
@@ -56,7 +56,7 @@ var LayerPalette=function(){
     }
     
      $( document ).off('mouseup','.palette .close').on('mouseup','.palette .close',function(){
-       hideShowLayerPalette(); 
+       self.hideShowLayerPalette(); 
      });
     
 
@@ -76,31 +76,37 @@ var LayerPalette=function(){
      });
     
     
-    //selects layer to draw in
+    //Selects layer to draw in
     $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
             
         var parent=$(this).parent();
+        self.selectLayer(parent);
         
-        var layerId="#"+parent.attr("data-identifier");
-        var on=parent.hasClass("selected");
+     });
+    
+    //select layer
+    //takes layer object as parameter
+    self.selectLayer = function(layer){
+        
+        var layerId="#"+layer.attr("data-identifier");
+        var on=layer.hasClass("selected");
         
         if(on==true){
             //turn off layer
-            parent.removeClass("selected");
+            layer.removeClass("selected");
             $(layerId).removeClass("selected");
         } else {
             //turn on layer
             $("g").removeClass("selected");
             $(".palette li").removeClass("selected");
-            parent.addClass("selected");
+            layer.addClass("selected");
             $(layerId).addClass("selected");
             $(layerId).parent().addClass("selected");
         }
-        
-     });
+    }
     
     
-    
+    //Add a New Layer
     $(document).on("click","#newLayer",function(){
         
         //create the automated id for the new layer
@@ -207,11 +213,7 @@ var LayerPalette=function(){
                 
     });
      
-    var init=function(){
-        hideShowLayerPalette();
-    }
-        
-    init();
+   
     return self;    
 }
 
