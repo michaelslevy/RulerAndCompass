@@ -233,10 +233,10 @@ var DrawApp = function(){
     }    
 	
 	var hideIntersectionPoints=function(){
-		if($("#intersection_points").hasClass("hidden")==true){
-			$("#intersection_points").removeClass("hidden");
+		if($(".intersections").hasClass("hidden")==true){
+			$(".intersections").removeClass("hidden");
 		} else {
-			$("#intersection_points").addClass("hidden");
+			$(".intersections").addClass("hidden");
 		}
 	}
 
