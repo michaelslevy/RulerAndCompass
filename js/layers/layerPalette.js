@@ -55,7 +55,6 @@ var LayerPalette=function(){
         
     }
     
-     $( ".palette" ).draggable({ handle: ".", containment: "window" });
      $( document ).off('mouseup','.palette .close').on('mouseup','.palette .close',function(){
        hideShowLayerPalette(); 
      });
