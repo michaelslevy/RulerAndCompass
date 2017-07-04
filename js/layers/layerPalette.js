@@ -20,7 +20,7 @@ var LayerPalette=function(){
                     "<li data-identifier='guides1' class='child selected guide'  data-name='guides'>"+
                        " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
                     "</li>"+
-                    "<li data-identifier='intersection_points1' class='child intersection'  data-name='intersections'>"+
+                    "<li data-identifier='intersection_points1' class='child intersectionPoints'  data-name='intersections'>"+
                      "   <a class='on selector' data-identifier='intersection_points1'></a><label>intersections</label>"+
                      "</li>"+
                  "</ul>"+
@@ -179,7 +179,7 @@ var LayerPalette=function(){
                 "<li data-identifier='guides"+c+"' class='child  guide' data-name='guides'>"+
                    " <a class='on selector' data-identifier='guides"+c+"'></a><label>guides</label>"+
                 "</li>"+
-                "<li data-identifier='intersection_points"+c+"' class='child intersection'  data-name='intersections'>"+
+                "<li data-identifier='intersection_points"+c+"' class='child intersectionPoints'  data-name='intersections'>"+
                  "   <a class='on selector' data-identifier='intersection_points"+c+"'></a><label>intersections</label>"+
                 "</li>"+
             "</ul>"+
