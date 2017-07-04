@@ -1,7 +1,5 @@
 Phase 1
 
-fix circle 1 insertions
-fix circle 2 insertions
 fix drawing line insertions
 fix path line insertions
 fix musical line insertions

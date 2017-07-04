@@ -18,9 +18,8 @@ var CoordDictionary = function(settings){
             
             			
             self.newNodeList=[];//reset number of new intersections
-                        
-			if(self.currentElement.is("circle")==true ) {
             
+			if(self.currentElement.is("circle")==true ) {
 				self.find_circle_intersections();
 				return;
 			}  else {
@@ -353,6 +352,8 @@ var CoordDictionary = function(settings){
             
             //get current layer index
             var layerIndex=$(".layerGroup.selected").attr("data-index");
+            
+            console.log(layerIndex);
                         
 			$("#guides"+layerIndex+" circle").not(cur).not(".preview_line").each(function(){
                     

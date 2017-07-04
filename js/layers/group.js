@@ -1,3 +1,4 @@
+//Creates an svg group
 var Group=function(){
     
     var self=this;

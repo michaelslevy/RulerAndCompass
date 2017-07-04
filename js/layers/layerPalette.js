@@ -66,7 +66,6 @@ var LayerPalette=function(){
     $( document ).off('click','.palette .selector').on('click','.palette .selector',function(){
          var layerId="#"+$(this).parent().attr("data-identifier");
         
-        console.log(layerId);
          var on=$(this).hasClass("on");
             if(on==true){
                 //turn off layer
@@ -79,6 +78,8 @@ var LayerPalette=function(){
             }    
      });
     
+    
+    //selects layer to draw in
     $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
             
         var parent=$(this).parent();
@@ -96,6 +97,7 @@ var LayerPalette=function(){
             $(".palette li").removeClass("selected");
             parent.addClass("selected");
             $(layerId).addClass("selected");
+            $(layerId).parent().addClass("selected");
         }
         
      });
