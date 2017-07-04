@@ -3,6 +3,7 @@ Phase 1
 Resolve layer group selection
 Delete Layers
 Differentiate non selectable layers
+Create layers from opened file
 
 Phase 2
 

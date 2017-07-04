@@ -11,7 +11,7 @@ var LayerPalette=function(){
                "<header data-identifier='layerGroup1' class='layerHeading'><a class='on selector' data-identifier='layerGroup1' data-name='Layer 1'></a><label>Layer 1</label>"+
                 "<a href='#' class='opener open'><span class='arrow'></span></a></header>"+
                 "<ul class='childLayers'>"+
-                    "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
+                    "<li data-identifier='drawinglayer1' class='child drawing' data-name='drawing'>"+
                         "<a class='on selector' data-identifier='drawinglayer1'></a><label>drawing</label>"+
                     "</li>"+
                     "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
@@ -20,7 +20,7 @@ var LayerPalette=function(){
                     "<li data-identifier='guides1' class='child selected guide'  data-name='guides'>"+
                        " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
                     "</li>"+
-                    "<li data-identifier='intersection_points1' class='child'  data-name='intersections'>"+
+                    "<li data-identifier='intersection_points1' class='child intersection'  data-name='intersections'>"+
                      "   <a class='on selector' data-identifier='intersection_points1'></a><label>intersections</label>"+
                      "</li>"+
                  "</ul>"+
@@ -99,6 +99,8 @@ var LayerPalette=function(){
         
      });
     
+    
+    
     $(document).on("click","#newLayer",function(){
         
         //create the automated id for the new layer
@@ -150,6 +152,7 @@ var LayerPalette=function(){
         var intersectionGroup=new Group();
         intersectionGroup.args={
             id:"intersection_points"+c,
+            class:'intersections child',
             parentID:layerName
         };
         intersectionGroup.addGroup();
@@ -161,7 +164,7 @@ var LayerPalette=function(){
             "<a href='#' class='opener closed'><span class='arrow'></span></a></header>"+
             
             "<ul class='childLayers'>"+
-                "<li data-identifier='drawinglayer"+c+"' class='child musical' data-name='drawing'>"+
+                "<li data-identifier='drawinglayer"+c+"' class='child drawing' data-name='drawing'>"+
                     "<a class='on selector' data-identifier='drawinglayer"+c+"'></a><label>drawing</label>"+
                 "</li>"+
                 "<li data-identifier='musicallines"+c+"' class='child musical' data-name='musical'>"+
@@ -170,7 +173,7 @@ var LayerPalette=function(){
                 "<li data-identifier='guides"+c+"' class='child  guide' data-name='guides'>"+
                    " <a class='on selector' data-identifier='guides"+c+"'></a><label>guides</label>"+
                 "</li>"+
-                "<li data-identifier='intersection_points"+c+"' class='child'  data-name='intersections'>"+
+                "<li data-identifier='intersection_points"+c+"' class='child intersection'  data-name='intersections'>"+
                  "   <a class='on selector' data-identifier='intersection_points"+c+"'></a><label>intersections</label>"+
                 "</li>"+
             "</ul>"+
