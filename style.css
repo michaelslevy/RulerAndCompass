@@ -180,7 +180,7 @@ nav#toolbox button.active {
     border:solid 1px #666;
     border-radius:3px;
     overflow: hidden;
-    width:220px;
+    width:238px;
 }    
 
 .palette header.paletteHandle {
@@ -200,6 +200,10 @@ nav#toolbox button.active {
     font-size:12px;
     cursor:default;
 }    
+
+.layerContainer {
+    overflow-y: scroll;
+}
     
 .palette .layers,
 .palette ul{

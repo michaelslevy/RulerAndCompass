@@ -69,12 +69,13 @@ var PathClick=function(mode,current_line){
         var pathID="P"+(parseInt($("#drawinglayer path").length)+1);//count the number of paths to make identifier
         var svgNS = "http://www.w3.org/2000/svg"; 
         var mPath = document.createElementNS(svgNS,"path"); 
+        var groupID=$(".layerGroup.selected .drawing").attr("id");
         mPath.setAttributeNS(null,"d",dimensions);
         mPath.setAttributeNS(null,"data-identifier",pathID);
         mPath.setAttributeNS(null,"class","selected");
         mPath.setAttributeNS(null,"stroke",stroke);
         mPath.setAttributeNS(null,"fill",fill);
-        document.getElementById("drawinglayer").appendChild(mPath);
+        document.getElementById(groupID).appendChild(mPath);
         
        /* 
        * add undo history 

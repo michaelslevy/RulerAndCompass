@@ -279,6 +279,7 @@ var NodeClicks=function(){
                     
                     //restore defaults
                     self.reset_vars();
+                
                 break;   
                                         
 			}

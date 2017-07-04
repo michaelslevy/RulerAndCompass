@@ -2,33 +2,31 @@ var LayerPalette=function(){
     
     var self=this;
     
-    
     var layersHTML="<div id='layerPalette' class='palette'>"+
    "<header class='paletteHandle'>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
-    "<ul id='PaletteWorkingLayers'>"+
-        "<li data-identifier='layerGroup1' class='layerGroup selected heading open' data-index='1'>"+
-            
-           "<header data-identifier='layerGroup1' class='layerHeading'><a class='on selector' data-identifier='layerGroup1' data-name='Layer 1'></a><label>Layer 1</label>"+
-            "<a href='#' class='opener open'><span class='arrow'></span></a></header>"+
-            
-            "<ul class='childLayers'>"+
-                "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
-                    "<a class='on selector' data-identifier='drawinglayer1'></a><label>drawing</label>"+
-                "</li>"+
-                "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
-                    "<a class='on selector' data-identifier='musicallines1'></a><label>musical</label>"+
-                "</li>"+
-                "<li data-identifier='guides1' class='child selected guide'  data-name='guides'>"+
-                   " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
-                "</li>"+
-                "<li data-identifier='intersection_points1' class='child'  data-name='intersections'>"+
-                 "   <a class='on selector' data-identifier='intersection_points1'></a><label>intersections</label>"+
-                "</li>"+
-            "</ul>"+
-           
-        "</li>"+
-    "</ul>"+
+    "<div class='layerContainer'>"+
+        "<ul id='PaletteWorkingLayers'>"+
+            "<li data-identifier='layerGroup1' class='layerGroup selected heading open' data-index='1'>"+
+               "<header data-identifier='layerGroup1' class='layerHeading'><a class='on selector' data-identifier='layerGroup1' data-name='Layer 1'></a><label>Layer 1</label>"+
+                "<a href='#' class='opener open'><span class='arrow'></span></a></header>"+
+                "<ul class='childLayers'>"+
+                    "<li data-identifier='drawinglayer1' class='child musical' data-name='drawing'>"+
+                        "<a class='on selector' data-identifier='drawinglayer1'></a><label>drawing</label>"+
+                    "</li>"+
+                    "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
+                        "<a class='on selector' data-identifier='musicallines1'></a><label>musical</label>"+
+                    "</li>"+
+                    "<li data-identifier='guides1' class='child selected guide'  data-name='guides'>"+
+                       " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
+                    "</li>"+
+                    "<li data-identifier='intersection_points1' class='child'  data-name='intersections'>"+
+                     "   <a class='on selector' data-identifier='intersection_points1'></a><label>intersections</label>"+
+                     "</li>"+
+                 "</ul>"+
+            "</li>"+
+         "</ul>"+
+    "</div>"+
     
     "<footer class='clearfix'>"+
     "    <button id='newLayer'><i class='small material-icons'>note_add</i></button>"+
@@ -51,12 +49,12 @@ var LayerPalette=function(){
                     //make window
                     $(layersHTML).draggable({ handle: "header", containment: "window" }).appendTo($('body')).css("position", "absolute");
              } 
+        
+         var maxHeight=parseInt($(window).height())-200;
+        $(".layerContainer").css({"max-height":maxHeight});
+        
     }
     
-    var init=function(){
-        hideShowLayerPalette();
-    }
-        
      $( ".palette" ).draggable({ handle: ".", containment: "window" });
      $( document ).off('mouseup','.palette .close').on('mouseup','.palette .close',function(){
        hideShowLayerPalette(); 
@@ -184,7 +182,7 @@ var LayerPalette=function(){
         
     });
    
-    
+   //opens layer group 
     $(document).on("click",".layerGroup .opener",function(){
         
         if($(this).hasClass("closed")){
@@ -204,8 +202,12 @@ var LayerPalette=function(){
             $(this).parent().parent().addClass("closed");
             
         }
-        
+                
     });
+     
+    var init=function(){
+        hideShowLayerPalette();
+    }
         
     init();
     return self;    

@@ -1,13 +1,7 @@
 Phase 1
 
-fix drawing line insertions
-fix path line insertions
-fix musical line insertions
-
 Resolve layer group selection
 Delete Layers
-Add scroll bar
-Make palette resizable
 Differentiate non selectable layers
 
 Phase 2
