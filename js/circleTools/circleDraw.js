@@ -11,7 +11,7 @@ $.fn.CircleDraw = function(settings){
         "radius": 100,
         "cx": win_width/2,
         "cy":win_height/2,
-        "css_class":'guide',
+        "css_class":'guides1',
         "strokeWidth":1,  //Variable remembers  value at scale 1. Line width will change according to zoom. 
         "stroke":"#666666",
         "fill":"none"

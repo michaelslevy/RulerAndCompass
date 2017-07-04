@@ -387,6 +387,8 @@ var NodeClicks=function(){
 	self.newCanvasPolygons=function(){
 		
         setLayerIndex();
+        console.log(layerIndex);
+
         var group="#guides"+layerIndex;
 
         $(group).CircleDraw(); //by default draws a centered circle
