@@ -1,7 +1,7 @@
 Phase 1
 
-Create seperate layer selection method.
-Select layers based on tool used.
+Figure out why layer tool is adding multiple layers
+Finish select layers based on tool used.
 
 Delete Layers
 Differentiate non selectable layers

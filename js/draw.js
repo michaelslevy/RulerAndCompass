@@ -185,6 +185,7 @@ var DrawApp = function(){
 	function setMode(m){
 		mode=m;
 		nodeClicks.setShapeMode(m);
+        LayerPalette().autoSelectLayer(m);
 	}
     
     var updateNestClass =function(){
