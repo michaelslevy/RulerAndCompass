@@ -76,32 +76,73 @@ var LayerPalette=function(){
      });
     
     
-    //Selects layer to draw in
+   //register click on label
     $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
             
         var parent=$(this).parent();
-        self.selectLayer(parent);
+        selectLayer(parent);
         
      });
     
+    //switch active layer based on tool mode
+    self.autoSelectLayer=function(mode){
+
+        //find the layerGroup
+        var currentChild=$(".child.selected");//which child layer is currently selected
+        var layerGroup=currentChild.parent();
+        
+        //determine whether child is a standard drawing layer or a specialized layer
+        var hasSpecialChild=0;
+
+        if(currentChild.hasClass("guide") != 1 && currentChild.hasClass("drawing")!=1){
+            hasSpecialChild=1;
+        }
+
+        var selectedLayer; //child layer that will be selected
+
+        //switch selected child based on selections below
+        if(mode== "line" || mode== "circle-center" || mode =="circle-edge" ) {
+            //default to guide layer
+            if(hasSpecialChild==1){
+                selectedLayer=layerGroup.find(".guide");
+            }
+        }
+
+        else if(mode== "draw-curved" || mode== "draw-straight"  ) {
+            selectedLayer=layerGroup.find(".drawing");
+        }
+
+        else if(mode== "musical") {
+            selectedLayer=layerGroup.find(".musical");
+        }
+
+        if(typeof selectedLayer!="undefined"){
+            selectLayer(selectedLayer);
+        }
+    }
+
+    
     //select layer
     //takes layer object as parameter
-    self.selectLayer = function(layer){
+    var selectLayer = function(layer){
+       
         
         var layerId="#"+layer.attr("data-identifier");
         var on=layer.hasClass("selected");
-        
+                
         if(on==true){
             //turn off layer
-            layer.removeClass("selected");
-            $(layerId).removeClass("selected");
+            //layer.removeClass("selected");
+           // $(layerId).removeClass("selected");
         } else {
             //turn on layer
             $("g").removeClass("selected");
             $(".palette li").removeClass("selected");
             layer.addClass("selected");
             $(layerId).addClass("selected");
-            $(layerId).parent().addClass("selected");
+            $(layer).parent().addClass("selected");
+            $("#PaletteWorkingLayers").find("[data-identifier='"+(layer.attr("id"))+"']").addClass("selected");
+            console.log(layer.attr("id"));
         }
     }
     
