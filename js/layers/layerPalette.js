@@ -14,11 +14,11 @@ var LayerPalette=function(){
                     "<li data-identifier='drawinglayer1' class='child drawing' data-name='drawing'>"+
                         "<a class='on selector' data-identifier='drawinglayer1'></a><label>drawing</label>"+
                     "</li>"+
-                    "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
-                        "<a class='on selector' data-identifier='musicallines1'></a><label>musical</label>"+
-                    "</li>"+
                     "<li data-identifier='guides1' class='child selected guide'  data-name='guides'>"+
                        " <a class='on selector' data-identifier='guides1'></a><label>guides</label>"+
+                    "</li>"+
+                    "<li data-identifier='musicallines1' class='child musical' data-name='musical'>"+
+                        "<a class='on selector' data-identifier='musicallines1'></a><label>musical</label>"+
                     "</li>"+
                     "<li data-identifier='intersection_points1' class='child intersectionPoints'  data-name='intersections'>"+
                      "   <a class='on selector' data-identifier='intersection_points1'></a><label>intersections</label>"+
@@ -76,7 +76,7 @@ var LayerPalette=function(){
      });
     
     
-    //register click on label
+   //register click on label
     $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
             
         var parent=$(this).parent();
@@ -86,21 +86,22 @@ var LayerPalette=function(){
     
     //switch active layer based on tool mode
     self.autoSelectLayer=function(mode){
-            
-        //find the layerGroup
-        var layerGroup=$(".layerGroup.selected");  
-        var currentChild=$(".child.selected");//which child layer is currently selected 
 
-        //determine whether child is a standard drawing layer or a specialized layer     
+        //find the layerGroup
+        var currentChild=$(".child.selected");//which child layer is currently selected
+        var layerGroup=currentChild.parent();
+        
+        //determine whether child is a standard drawing layer or a specialized layer
         var hasSpecialChild=0;
 
         if(currentChild.hasClass("guide") != 1 && currentChild.hasClass("drawing")!=1){
-            hasSpecialChild=1; 
+            hasSpecialChild=1;
         }
 
-        var selectedLayer; //child layer that will be selected 
+        var selectedLayer; //child layer that will be selected
 
-        //switch selected child based on selections below    
+        //switch selected child based on selections below
+
         if(mode== "line" || mode== "circle-center" || mode =="circle-edge" ) {
             //default to guide layer
             if(hasSpecialChild==1){
@@ -109,16 +110,18 @@ var LayerPalette=function(){
         }
 
         else if(mode== "draw-curved" || mode== "draw-straight"  ) {
-            selectedLayer=layerGroup.find(".drawing");   
+
+            selectedLayer=layerGroup.find(".drawing");
         }
 
         else if(mode== "musical") {
-            selectedLayer=layerGroup.find(".musical");   
+            selectedLayer=layerGroup.find(".musical");
         }
 
         if(typeof selectedLayer!="undefined"){
             selectLayer(selectedLayer);
-        }    
+
+        }
     }
     
     //select layer
@@ -127,18 +130,20 @@ var LayerPalette=function(){
         
         var layerId="#"+layer.attr("data-identifier");
         var on=layer.hasClass("selected");
-        
+                
         if(on==true){
             //turn off layer
-            layer.removeClass("selected");
-            $(layerId).removeClass("selected");
+            //layer.removeClass("selected");
+           // $(layerId).removeClass("selected");
         } else {
             //turn on layer
             $("g").removeClass("selected");
             $(".palette li").removeClass("selected");
             layer.addClass("selected");
             $(layerId).addClass("selected");
-            $(layerId).parent().addClass("selected");
+            $(layer).parent().addClass("selected");
+            $("#PaletteWorkingLayers").find("[data-identifier='"+(layer.attr("id"))+"']").addClass("selected");
+            console.log(layer.attr("id"));
         }
     }
     
@@ -174,14 +179,6 @@ var LayerPalette=function(){
         };
         drawingGroup.addGroup();
         
-        var musicalGroup=new Group();
-        musicalGroup.args={
-            id:"musicallines"+c,
-            class:'musical child',
-            parentID:layerName,
-        };
-        musicalGroup.addGroup();
-        
         var guidesGroup=new Group();
         guidesGroup.args={
             id:"guides"+c,
@@ -191,6 +188,14 @@ var LayerPalette=function(){
             strokeWidth:1
         };
         guidesGroup.addGroup();
+        
+        var musicalGroup=new Group();
+        musicalGroup.args={
+            id:"musicallines"+c,
+            class:'musical child',
+            parentID:layerName,
+        };
+        musicalGroup.addGroup();
         
         var intersectionGroup=new Group();
         intersectionGroup.args={
@@ -210,12 +215,12 @@ var LayerPalette=function(){
                 "<li data-identifier='drawinglayer"+c+"' class='child drawing' data-name='drawing'>"+
                     "<a class='on selector' data-identifier='drawinglayer"+c+"'></a><label>drawing</label>"+
                 "</li>"+
-                "<li data-identifier='musicallines"+c+"' class='child musical' data-name='musical'>"+
-                    "<a class='on selector' data-identifier='musicallines"+c+"'></a><label>musical"+
-                "</label></li>"+
                 "<li data-identifier='guides"+c+"' class='child  guide' data-name='guides'>"+
                    " <a class='on selector' data-identifier='guides"+c+"'></a><label>guides</label>"+
                 "</li>"+
+                "<li data-identifier='musicallines"+c+"' class='child musical' data-name='musical'>"+
+                    "<a class='on selector' data-identifier='musicallines"+c+"'></a><label>musical"+
+                "</label></li>"+
                 "<li data-identifier='intersection_points"+c+"' class='child intersectionPoints'  data-name='intersections'>"+
                  "   <a class='on selector' data-identifier='intersection_points"+c+"'></a><label>intersections</label>"+
                 "</li>"+
@@ -253,9 +258,3 @@ var LayerPalette=function(){
    
     return self;    
 }
-
-
-
-
-
-

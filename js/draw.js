@@ -10,6 +10,7 @@ var DrawApp = function(){
     var windowZoom=new WindowZoom();
     var windowPan=new WindowPan();
     var nodeClicks=new NodeClicks();
+    var layerPalette=new LayerPalette();
     
     var mode="line";
     setMode("line");
@@ -101,7 +102,7 @@ var DrawApp = function(){
             
             //f7 - Layer pallette
 			case 55:
-				var layers=new LayerPalette().hideShowLayerPalette();
+				layerPalette.hideShowLayerPalette();
 			break;    
                 
 			//-
@@ -185,7 +186,7 @@ var DrawApp = function(){
 	function setMode(m){
 		mode=m;
 		nodeClicks.setShapeMode(m);
-        LayerPalette().autoSelectLayer(m);
+        layerPalette.autoSelectLayer(m);
 	}
     
     var updateNestClass =function(){

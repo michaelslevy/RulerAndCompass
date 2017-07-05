@@ -1,8 +1,6 @@
 Phase 1
-
-Figure out why layer tool is adding multiple layers
-Finish select layers based on tool used.
-
+ 
+Swap order of musical and guide layer in the palette.
 Delete Layers
 Differentiate non selectable layers
 Create layers from opened file
