@@ -39,6 +39,8 @@ var DrawApp = function(){
        
 	  var charCode = e.charCode || e.keyCode, character = String.fromCharCode(charCode);
 	  var keycode=e.keyCode;    
+       
+     //  alert(keycode);
 		
 		switch (keycode){
             //esc    

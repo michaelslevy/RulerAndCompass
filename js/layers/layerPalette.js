@@ -137,13 +137,29 @@ var LayerPalette=function(){
            // $(layerId).removeClass("selected");
         } else {
             //turn on layer
+            
+            //remove existing selection classes
             $("g").removeClass("selected");
             $(".palette li").removeClass("selected");
+            
+            //add selected class to svg layer
             layer.addClass("selected");
             $(layerId).addClass("selected");
             $(layer).parent().addClass("selected");
-            $("#PaletteWorkingLayers").find("[data-identifier='"+(layer.attr("id"))+"']").addClass("selected");
-            console.log(layer.attr("id"));
+            
+            //add selected class to line in palette
+            var paletteItem=$("#PaletteWorkingLayers").find("[data-identifier='"+(layer.attr("data-identifier"))+"']");
+            paletteItem.addClass("selected");
+            //add selected class to parent group
+            var parent=paletteItem.parent().parent();
+            if(parent.length>0){
+                paletteItem.parent().parent().addClass("selected");
+            } else {
+                //add selected class to parent group in palette
+                var paletteChild=layer.attr("id");
+                var identifier="[data-identifier='"+paletteChild+"']";
+                $(identifier).parent().parent().addClass("selected");
+            }
         }
     }
     

@@ -46,9 +46,9 @@ var WindowZoom =function() {
         if(typeof scale=="undefined"){ return false; }
         var nodeRadius=(5/scale);
         var lineWidth= self.getLineWidth();
-        $("#nest #intersection_points circle").attr("r",nodeRadius);
-         $("#nest #guides circle").css("stroke-width",lineWidth);
-         $("#nest #guides line").not("#nest #drawingLayer circle").css("stroke-width",lineWidth);
+        $("#nest .intersections circle").attr("r",nodeRadius);
+         $("#nest g.guide circle").css("stroke-width",lineWidth);
+         $("#nest g.guide line").not("#nest #drawingLayer circle").css("stroke-width",lineWidth);
     }  
      
      

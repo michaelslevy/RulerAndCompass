@@ -1,9 +1,11 @@
 Phase 1
- 
-Swap order of musical and guide layer in the palette.
+
+Verify that the correct SVG groups are selected
+Select Layer 
 Delete Layers
 Differentiate non selectable layers
 Create layers from opened file
+add intersection points to correct group
 
 Phase 2
 
