@@ -91,6 +91,9 @@ var LayerPalette=function(){
         var currentChild=$(".child.selected");//which child layer is currently selected
         var layerGroup=currentChild.parent();
         
+        //select layer group
+        selectLayerGroup(layerGroup);
+        
         //determine whether child is a standard drawing layer or a specialized layer
         var hasSpecialChild=0;
 
@@ -161,6 +164,15 @@ var LayerPalette=function(){
                 $(identifier).parent().parent().addClass("selected");
             }
         }
+    }
+    
+    var selectLayerGroup=function(layerGroup){
+        
+        console.log(layerGroup);
+        
+        $(".layerGroup").removeClass("selectedLayerGroup");
+        $(layerGroup).addClass("selectedLayerGroup");
+        
     }
     
     
@@ -270,7 +282,7 @@ var LayerPalette=function(){
         }
                 
     });
-     
+        
    
     return self;    
 }

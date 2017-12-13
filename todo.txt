@@ -1,11 +1,17 @@
 Phase 1
 
-Verify that the correct SVG groups are selected
-Select Layer 
-Delete Layers
+Select Entire Layer
+
+LAYER DELETION
+-delete layer when confirm = true
+
 Differentiate non selectable layers
 Create layers from opened file
 add intersection points to correct group
+Switching between layers created errors when drawing musical line
+
+
+
 
 Phase 2
 

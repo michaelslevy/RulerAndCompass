@@ -1,4 +1,5 @@
 var PathClick=function(mode,current_line){
+    
     var self=this;
     var mode=mode;//straight or curved
     var selectedPath=$("path.selected");
@@ -57,7 +58,7 @@ var PathClick=function(mode,current_line){
         }
         
         //add a drawing layer if none exists
-        if($(".drawinglayer").length==0){
+        if($(".drawing").length==0){
         	var svgNS = "http://www.w3.org/2000/svg"; 
         	var nest=document.getElementById("nest");
         	var intersectionLayer=document.getElementById("intersection_points");
@@ -69,7 +70,7 @@ var PathClick=function(mode,current_line){
         var pathID="P"+(parseInt($("#drawinglayer path").length)+1);//count the number of paths to make identifier
         var svgNS = "http://www.w3.org/2000/svg"; 
         var mPath = document.createElementNS(svgNS,"path"); 
-        var groupID=$(".layerGroup.selected .drawing").attr("id");
+        var groupID=$(".drawing.selected").attr("id");
         mPath.setAttributeNS(null,"d",dimensions);
         mPath.setAttributeNS(null,"data-identifier",pathID);
         mPath.setAttributeNS(null,"class","selected");
