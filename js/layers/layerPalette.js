@@ -1,7 +1,9 @@
 var LayerPalette=function(){
     
     var self=this;
+    self.index=0;//used to keep track of layer identifiers
     
+    /* Base HTML for Layer Palette */
     var layersHTML="<div id='layerPalette' class='palette'>"+
    "<header class='paletteHandle'>Layers  <a class='close'><i class='tiny material-icons'>clear</i></a></header>"+
     
@@ -59,7 +61,6 @@ var LayerPalette=function(){
        self.hideShowLayerPalette(); 
      });
     
-
     $( document ).off('click','.palette .selector').on('click','.palette .selector',function(){
          var layerId="#"+$(this).parent().attr("data-identifier");
         
@@ -180,8 +181,7 @@ var LayerPalette=function(){
     $(document).on("click","#newLayer",function(){
         
         //create the automated id for the new layer
-        var layerCount=Number($("#workingLayers .layerGroup").length);
-        var c=layerCount+1;
+        var c=getLayerIndex();
         var layerName="layerGroup"+c;
         
         //create the new SVG layer
@@ -258,9 +258,41 @@ var LayerPalette=function(){
         
         $("#PaletteWorkingLayers").append(newPaletteItem);
         
+        
+        
     });
-   
-   //opens layer group 
+    
+    /************************************/
+    /* gets the last layer index value */
+    /***********************************/
+
+    var getLayerIndex = function(){
+        
+        //if index property isn't set sort through all of the layer groups to find the highest index
+        if(self.index<=0) {
+            self.index=findHighestIndex();
+        }
+        
+        //loop through layer groups and find largest index
+        self.index++;
+        return self.index;
+    }
+    
+    var findHighestIndex = function(){
+         var i=0;
+        $("#workingLayers .layerGroup").each(function(){
+            var currentIndex=parseInt($(this).attr("data-index"));
+            if(currentIndex>i){
+                i=currentIndex;
+            }
+        });
+                
+        return i;
+    }
+    
+    /*********************/
+    /* opens layer group */
+    /*********************/
     $(document).on("click",".layerGroup .opener",function(){
         
         if($(this).hasClass("closed")){

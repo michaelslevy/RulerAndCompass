@@ -1,4 +1,4 @@
-//Creates an svg group
+//Creates an svg group from data passed to it
 var Group=function(){
     
     var self=this;
