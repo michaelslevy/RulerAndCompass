@@ -3,7 +3,7 @@ Phase 1
 Select Entire Layer
 
 LAYER DELETION
--delete layer when confirm = true
+-reinstate layer from undo history
 
 Differentiate non selectable layers
 Create layers from opened file
