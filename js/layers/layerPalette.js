@@ -168,9 +168,7 @@ var LayerPalette=function(){
     }
     
     var selectLayerGroup=function(layerGroup){
-        
-        console.log(layerGroup);
-        
+                
         $(".layerGroup").removeClass("selectedLayerGroup");
         $(layerGroup).addClass("selectedLayerGroup");
         

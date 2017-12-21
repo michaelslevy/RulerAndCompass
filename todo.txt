@@ -3,7 +3,9 @@ Phase 1
 Select Entire Layer
 
 LAYER DELETION
+-serialize svg layer 
 -reinstate layer from undo history
+-reinstate layer pallette from undo history
 
 Differentiate non selectable layers
 Create layers from opened file

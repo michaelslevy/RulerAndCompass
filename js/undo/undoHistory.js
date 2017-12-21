@@ -31,6 +31,11 @@ var UndoHistory=function(){
                 $(".preview_line").remove();
             break;
                 
+            case "layerDeletion":
+                reinsertLayer();
+                $(".preview_line").remove();
+            break;    
+                
         }
         
         saveHistory();
@@ -41,6 +46,34 @@ var UndoHistory=function(){
             var elemID= lastStep.content[i];
             $("[data-identifier='"+elemID+"']").remove();
         }    
+    }
+    
+    var reinsertLayer=function(){
+        
+        //retrieve values needed to reinsert variables
+        var svg=lastStep.content;
+        var pos=lastStep.position; //position of svg element
+        var insertAfter=pos-1; // position before the svg element
+                
+        //reinsert svg
+        
+        /*****************************/
+        /* do any layer groups exist */
+        /*****************************/
+        
+        var groupCount=document.getElementById("workingLayers").getElementsByClassName('layerGroup').length;
+        
+        //if not insert into html
+        if(groupCount==0){
+            document.getElementById("workingLayers").innerHTML=svg;
+        }
+
+        //if so insert into position
+        else {
+            var before=document.getElementById("workingLayers").getElementsByClassName('layerGroup')[insertAfter];
+            before.insertAdjacentHTML("afterend", svg);
+        }
+        
     }
     
     var saveHistory=function(){
