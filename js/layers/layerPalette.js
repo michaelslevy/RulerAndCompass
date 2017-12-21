@@ -182,7 +182,7 @@ var LayerPalette=function(){
 
         var index=getLayerIndex();
         var addLayer= new AddLayer();
-        console.log(index);
+
         addLayer.setPos(index);
         addLayer.addNewLayer();
 

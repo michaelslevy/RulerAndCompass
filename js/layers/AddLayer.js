@@ -6,6 +6,7 @@ var AddLayer=function(index){
         
     var self=this;
     self.pos=0;
+    self.insertionPoint=false;
     
     self.setPos=function(p){
         self.pos=p;
@@ -93,29 +94,51 @@ var AddLayer=function(index){
 
         "</li>";
 
-        /**** check i against index ****/
+        /**** check if paletteGroup is being inserted ****/
 
-        if(self.index==0){
-            /* if i is undefined inseet at position*/
-            $("#PaletteWorkingLayers").after(newPaletteItem);
-            var insertionPoint=findPositionToInsert();
+        if(self.insertionPoint!=false){
+            /* if paletteGroup is being inserted */
+            var insertBefore=$("#PaletteWorkingLayers .layerGroup").eq(self.insertionPoint);
+            insertBefore.before(newPaletteItem);
         } else {
             /* else insert at the end */
             $("#PaletteWorkingLayers").append(newPaletteItem);
         }
        
-    }
+    }    
     
     self.addNewLayer=function(){
     //add new layer with a given index
+        self.insertionPoint=false;
         addSVGLayerGroup();
         addNewPaletteItem();
     }
+    
+     /* find element to insert palette item after*/
+    var findPalettePositionToInsert=function(){
+         var i=0;
+        
+        /* loop through group indexes and find highest index less than inserted pos */ 
+        $("#workingLayers .layerGroup").each(function(){
+            var currentIndex=parseInt($(this).attr("data-index"));
+            if(currentIndex>i && i< self.pos ){
+                i=currentIndex;
+            } 
+        });
+        
+        return i;
 
-    self.reinsertLayer=function(pos){
-        pos++;
-        addNewPaletteItem(pos);
     }
+
+    self.reinsertLayer=function(){
+        self.insertionPoint=findPalettePositionToInsert();
+        self.pos++;
+        addNewPaletteItem();
+    }
+    
+   
+    
+    return self;
 
 }
     

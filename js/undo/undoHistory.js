@@ -62,12 +62,12 @@ var UndoHistory=function(){
                 
         //reinsert svg
         
-        /*****************************/
-        /* do any layer groups exist */
-        /*****************************/
+        ////////////////////////////////
+        // do any layer groups exist // 
+        ///////////////////////////////
         
         var groupCount=document.getElementById("workingLayers").getElementsByClassName('layerGroup').length;
-        
+                
         //if not insert into html
         if(groupCount==0){
             document.getElementById("workingLayers").innerHTML=svg;
@@ -76,16 +76,23 @@ var UndoHistory=function(){
         //if so insert into position
         else {
             var before=document.getElementById("workingLayers").getElementsByClassName('layerGroup')[insertAfter];
-            before.insertAdjacentHTML("afterend", svg);
+            
+            if(typeof before == "undefined"){
+                elem=document.getElementById("workingLayers");
+                elem.innerHTML=svg+elem.innerHTML;
+            } else {
+                before.insertAdjacentHTML("afterend", svg);
+            }
+            
         }
         
-        /******************************************/
-        /* Reinsert Layer Pallette representation */
-        /******************************************/
+        /////////////////////////////////////////////
+        // Reinsert Layer Pallette representation //
+        ////////////////////////////////////////////
         
-        var index=pos;
-        var tempLayerPalette=new LayerPalette();
-        tempLayerPalette.reinsertLayer(index);
+        var addLayer=new AddLayer();
+        addLayer.setPos(pos);
+        addLayer.reinsertLayer();
         
     }
     
