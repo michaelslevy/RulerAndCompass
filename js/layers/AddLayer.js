@@ -95,8 +95,11 @@ var AddLayer=function(index){
         "</li>";
 
         /**** check if paletteGroup is being inserted ****/
-
-        if(self.insertionPoint!=false){
+        
+        if(self.insertionPoint=="first"){
+            $("#PaletteWorkingLayers").prepend(newPaletteItem);
+        }
+        else if(self.insertionPoint!=false){
             /* if paletteGroup is being inserted */
             var insertBefore=$("#PaletteWorkingLayers .layerGroup").eq(self.insertionPoint);
             insertBefore.before(newPaletteItem);
@@ -125,6 +128,10 @@ var AddLayer=function(index){
                 i=currentIndex;
             } 
         });
+        
+        if (i==0){
+            i="first";
+        }
         
         return i;
 
