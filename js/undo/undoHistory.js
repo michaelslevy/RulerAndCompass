@@ -83,7 +83,9 @@ var UndoHistory=function(){
         /* Reinsert Layer Pallette representation */
         /******************************************/
         
-         console.log(layerPalette);
+        var index=pos;
+        var tempLayerPalette=new LayerPalette();
+        tempLayerPalette.reinsertLayer(index);
         
     }
     

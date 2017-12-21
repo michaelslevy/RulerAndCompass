@@ -232,31 +232,34 @@ var LayerPalette=function(){
         };
         intersectionGroup.addGroup();
         
+        addNewPaletteItem(c);
         
-        var newPaletteItem="<li data-identifier='layerGroup"+c+"' class='layerGroup  heading closed' data-index='"+c+"'>"+
+    }
+    
+    var addNewPaletteItem=function(i){
+        var newPaletteItem="<li data-identifier='layerGroup"+i+"' class='layerGroup  heading closed' data-index='"+i+"'>"+
             
-           "<header class='layerHeading' data-identifier='layerGroup"+c+"'><a class='on selector' data-identifier='layerGroup"+c+"' data-name='Layer "+c+"'></a><label>Layer "+c+"</label>"+
+           "<header class='layerHeading' data-identifier='layerGroup"+i+"'><a class='on selector' data-identifier='layerGroup"+i+"' data-name='Layer "+i+"'></a><label>Layer "+i+"</label>"+
             "<a href='#' class='opener closed'><span class='arrow'></span></a></header>"+
             
             "<ul class='childLayers'>"+
-                "<li data-identifier='drawinglayer"+c+"' class='child drawing' data-name='drawing'>"+
-                    "<a class='on selector' data-identifier='drawinglayer"+c+"'></a><label>drawing</label>"+
+                "<li data-identifier='drawinglayer"+i+"' class='child drawing' data-name='drawing'>"+
+                    "<a class='on selector' data-identifier='drawinglayer"+i+"'></a><label>drawing</label>"+
                 "</li>"+
-                "<li data-identifier='guides"+c+"' class='child  guide' data-name='guides'>"+
-                   " <a class='on selector' data-identifier='guides"+c+"'></a><label>guides</label>"+
+                "<li data-identifier='guides"+i+"' class='child  guide' data-name='guides'>"+
+                   " <a class='on selector' data-identifier='guides"+i+"'></a><label>guides</label>"+
                 "</li>"+
-                "<li data-identifier='musicallines"+c+"' class='child musical' data-name='musical'>"+
-                    "<a class='on selector' data-identifier='musicallines"+c+"'></a><label>musical"+
+                "<li data-identifier='musicallines"+i+"' class='child musical' data-name='musical'>"+
+                    "<a class='on selector' data-identifier='musicallines"+i+"'></a><label>musical"+
                 "</label></li>"+
-                "<li data-identifier='intersection_points"+c+"' class='child intersectionPoints'  data-name='intersections'>"+
-                 "   <a class='on selector' data-identifier='intersection_points"+c+"'></a><label>intersections</label>"+
+                "<li data-identifier='intersection_points"+i+"' class='child intersectionPoints'  data-name='intersections'>"+
+                 "   <a class='on selector' data-identifier='intersection_points"+i+"'></a><label>intersections</label>"+
                 "</li>"+
             "</ul>"+
            
         "</li>";
         
         $("#PaletteWorkingLayers").append(newPaletteItem);
-        
     }
     
     //Add a New Layer after clicking on layer palette button
@@ -266,6 +269,11 @@ var LayerPalette=function(){
         addLayer(index);
         
     });
+    
+    self.reinsertLayer=function(pos){
+        pos++;
+        addLayer(pos);
+    }
     
     /************************************/
     /* gets the last layer index value */
