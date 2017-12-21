@@ -47,6 +47,11 @@ var UndoHistory=function(){
             $("[data-identifier='"+elemID+"']").remove();
         }    
     }
+   
+    
+    /**********************/
+    /*** Reinsert Layer ***/
+    /**********************/
     
     var reinsertLayer=function(){
         
@@ -73,6 +78,12 @@ var UndoHistory=function(){
             var before=document.getElementById("workingLayers").getElementsByClassName('layerGroup')[insertAfter];
             before.insertAdjacentHTML("afterend", svg);
         }
+        
+        /******************************************/
+        /* Reinsert Layer Pallette representation */
+        /******************************************/
+        
+         console.log(layerPalette);
         
     }
     

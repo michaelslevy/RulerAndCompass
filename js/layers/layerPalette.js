@@ -174,12 +174,13 @@ var LayerPalette=function(){
         
     }
     
+    /*****************************/
+    /******* add a layer ********/
+    /****************************/
     
-    //Add a New Layer
-    $(document).on("click","#newLayer",function(){
-        
+    var addLayer=function(index){
         //create the automated id for the new layer
-        var c=getLayerIndex();
+        var c=index;
         var layerName="layerGroup"+c;
         
         //create the new SVG layer
@@ -256,7 +257,13 @@ var LayerPalette=function(){
         
         $("#PaletteWorkingLayers").append(newPaletteItem);
         
+    }
+    
+    //Add a New Layer after clicking on layer palette button
+    $(document).on("click","#newLayer",function(){
         
+        var index=getLayerIndex();
+        addLayer(index);
         
     });
     
