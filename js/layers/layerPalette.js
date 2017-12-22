@@ -79,10 +79,13 @@ var LayerPalette=function(){
     
    //register click on label
     $( document ).off('click','.palette li.child label').on('click','.palette li.child label',function(){
-            
-        var parent=$(this).parent();
-        selectLayer(parent);
         
+        //intersection layers aren't clickable 
+        if($(this).parent().hasClass("intersectionPoints")!=true ){
+             var parent=$(this).parent();
+            selectLayer(parent);
+        }
+       
      });
     
     //switch active layer based on tool mode

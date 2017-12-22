@@ -249,6 +249,10 @@ background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z
     width:150px;
 }
 
+.palette ul li .child.intersectionPoints label {
+    color: #666;
+}
+
 /*
 .palette ul li:hover,
 .palette ul li.child:hover {
