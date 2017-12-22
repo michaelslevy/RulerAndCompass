@@ -2,18 +2,11 @@ Phase 1
 
 Select Entire Layer
 
-LAYER DELETION
--serialize svg layer 
--reinstate layer from undo history
--reinstate layer pallette from undo history
-
 Differentiate non selectable layers
 Create layers from opened file
-add intersection points to correct group
+??? add intersection points to correct group
+Intersection points should go on a seperate top layer
 Switching between layers created errors when drawing musical line
-
-
-
 
 Phase 2
 

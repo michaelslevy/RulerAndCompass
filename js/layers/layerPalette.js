@@ -218,27 +218,80 @@ var LayerPalette=function(){
     /*********************/
     /* opens layer group */
     /*********************/
+    
     $(document).on("click",".layerGroup .opener",function(){
+        openPaletteLayerGroup(this);
+    });
+    
+    $(document).on("click",".layerGroup label",function(){
+        var opener=$(this).parent().find(".opener");
+        openPaletteLayerGroup(opener);
+    });
+    
+    //* opens layer group based on selection */
+    var openPaletteLayerGroup=function(opener){
         
-        if($(this).hasClass("closed")){
+        var group=$(opener).parent().parent();
+        
+         if($(opener).hasClass("closed")){
             
-            $(this).removeClass("closed");
-            $(this).addClass("open");
+            $(opener).removeClass("closed");
+            $(opener).addClass("open");
             
-            $(this).parent().parent().removeClass("closed");
-            $(this).parent().parent().addClass("open");
+            group.removeClass("closed");
+            group.addClass("open");
+             
+            /* change selected layer */
+            var selectedChild=findSelectedLayer(); 
+            
+            $("#PaletteWorkingLayers .selected").removeClass("selected");
+              
+            group.addClass("selected");  
+            group.find("."+selectedChild).addClass("selected");
+             
+            /* select SVG Layer */ 
+             var index=$(group).attr("data-index");
+             var SVGGroup="#workingLayers .layerGroup[data-index='"+index+"']";
+             var SVGChild=SVGGroup+" ."+selectedChild;
+             
+             console.log(SVGGroup, SVGChild);
+             
+             $("#nest .selected").removeClass("selected selectedLayerGroup");
+             $(SVGGroup).addClass("selected selectedLayerGroup");
+             $(SVGChild).addClass("selected");
             
         } else {
             
-            $(this).removeClass("open");
-            $(this).addClass("closed");
+            $(opener).removeClass("open");
+            $(opener).addClass("closed");
             
-            $(this).parent().parent().removeClass("open");
-            $(this).parent().parent().addClass("closed");
+            $(group).removeClass("open");
+            $(group).addClass("closed");
             
         }
-                
-    });
+        
+        
+    }
+    
+    /* returns class of selected child layer group */
+    var findSelectedLayer=function(){
+        var child = $("#PaletteWorkingLayers .child.selected");
+        if(child.hasClass("drawing")){
+            return "drawing";
+        }
+        
+         if(child.hasClass("guide")){
+            return "guide";
+        }
+        
+        if(child.hasClass("musical")){
+            return "musical";
+        }
+        
+        if(child.hasClass("intersectionPoints")){
+            return "intersectionPoints";
+        }
+    }
         
    
     return self;    
