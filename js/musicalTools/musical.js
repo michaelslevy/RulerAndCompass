@@ -57,6 +57,9 @@ var Musical = function(){
     }
     
     self.playPreviewTone=function(){
+        var layerIndex=$(".selectedLayerGroup").attr("data-index");
+        console.log(layerIndex, "#musicallines"+layerIndex+" line");
+
     	 var current_line=$("#musicallines"+layerIndex+" line").last(); 
          var magnitude=current_line.LineEquation().getMagnitude();
          self.currentLineLength=magnitude;
@@ -89,12 +92,13 @@ var Musical = function(){
         /* apply ratio to base pitch and set the current pitch */
                 
         var absolutePitch=self.basePitch*ratio;
-                            
+        
         var findInterpretted=new ClosestNote;
         findInterpretted.preciseHZ=absolutePitch;
         findInterpretted.findNote();
         self.currentPitch=findInterpretted.interprettedHZ;
         self.currentNote=findInterpretted.interprettedNote;
+        
     }
     
 
@@ -108,7 +112,8 @@ var Musical = function(){
     }  
     
     var playNext=function(){
-    	
+    	var layerIndex=$(".selectedLayerGroup").attr("data-index");
+        console.log(layerIndex);
         var line="#musicallines"+layerIndex+" line";
      
         var toneLine=$(line).eq(self.playPosition);

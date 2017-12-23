@@ -1,9 +1,8 @@
 Phase 1
 
 Create layers from opened file
-??? add intersection points to correct group
+
 Intersection points should go on a seperate top layer
-Switching between layers created errors when drawing musical line
 
 Phase 2
 
