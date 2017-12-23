@@ -14,7 +14,6 @@ var UndoHistory=function(){
     }
         
     self.addStep=function(undoObj){ 
-        console.log(undoObj);
         undoHistory.push(undoObj);
         saveHistory();
     }

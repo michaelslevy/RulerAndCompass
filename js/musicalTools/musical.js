@@ -32,9 +32,15 @@ var Musical = function(){
     self.oscillator.start(0);
     
     self.playTone =function() {
-    	
+        
       var now = audioContext.currentTime;
       self.setCurrentPitch();      
+     
+      if(typeof self.currentPitch=="undefined"){
+        console.error("currentPitch cannot be determined");  
+        return false;
+      }
+       
       self.oscillator.frequency.linearRampToValueAtTime(self.currentPitch,now);
       gainNode.gain.linearRampToValueAtTime(.2,now+.0008);
       
@@ -76,7 +82,7 @@ var Musical = function(){
     self.setCurrentPitch=function(){
             	
     	if(typeof self.baseLineLength == "undefined") {
-    		self.baseLineLength=$("#guides circle").first().attr("r");
+    		self.baseLineLength=$("#workingLayers .guide circle").first().attr("r");
     	}
          /* find ratio of current line length to base line length */
         var ratio=parseFloat(self.baseLineLength/self.currentLineLength);
@@ -89,7 +95,6 @@ var Musical = function(){
         findInterpretted.findNote();
         self.currentPitch=findInterpretted.interprettedHZ;
         self.currentNote=findInterpretted.interprettedNote;
-        
     }
     
 
