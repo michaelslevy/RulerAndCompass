@@ -177,11 +177,18 @@ var DrawApp = function(){
 	}
 
 	$("#toolbox button").click(function(){
-		$("#toolbox button").removeClass("active");
-		setMode($(this).attr('data-mode'));
-		$(this).addClass("active").blur();
         
-        updateNestClass();
+        //play not change mode
+        if($(this).attr('data-mode')=="play"){
+             musicPlayer.play();
+        } else {
+            $("#toolbox button").removeClass("active");
+            setMode($(this).attr('data-mode'));
+            $(this).addClass("active").blur();
+
+            updateNestClass();
+        }
+		
         
 	});
 	

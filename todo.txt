@@ -1,8 +1,5 @@
 Phase 1
 
-Select Entire Layer
-
-Differentiate non selectable layers
 Create layers from opened file
 ??? add intersection points to correct group
 Intersection points should go on a seperate top layer

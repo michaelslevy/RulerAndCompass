@@ -83,6 +83,7 @@ var NodeClicks=function(){
 		var windowZoom=new WindowZoom();
         windowZoom.updateZoomDimension();
         
+        coordDictionary.newNodeList=[];
 	}
 	
 	self.hardReset=function(){
@@ -227,6 +228,7 @@ var NodeClicks=function(){
                     add_line(group);
                     
 				    currentLine=$(group+" line").last(); 
+
                     musicPlayer.playPreviewTone(); //plays a preview tone
                 
                     addUndoStep("add-primitive");
@@ -337,6 +339,9 @@ var NodeClicks=function(){
         jQuery('#preview').Guideline({css_class:"preview_line",x1: mX1, y1:mY1, x2:mX2, y2:mY2}).draw();
         if(mode=="circle-center" || mode=="circle-edge"){
             add_circle("preview_line");
+        } else if (mode=="musical"){
+            var note=musicPlayer.playContinousPreviewTone(); //plays a preview tone
+            $("#noteDisplay").text(note);
         }
         
        	var  windowZoom=new WindowZoom();
